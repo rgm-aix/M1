@@ -20,8 +20,8 @@ nav label{display:block;padding:.65rem .85rem;color:rgba(255,255,255,.82);font-s
 .page-content{display:none}
 #home-content{display:block}
 .nav-radio:not(#r-home):checked~.wrap #home-content{display:none}
-#r-f1:checked~.wrap #page-f1,#r-f2:checked~.wrap #page-f2,#r-f3:checked~.wrap #page-f3,#r-f4:checked~.wrap #page-f4,#r-f5:checked~.wrap #page-f5,#r-fv:checked~.wrap #page-fv{display:block}
-#r-home:checked~.wrap .nav-home,#r-f1:checked~.wrap .nav-f1,#r-f2:checked~.wrap .nav-f2,#r-f3:checked~.wrap .nav-f3,#r-f4:checked~.wrap .nav-f4,#r-f5:checked~.wrap .nav-f5,#r-fv:checked~.wrap .nav-fv{color:#fff!important;background:rgba(255,255,255,.15)!important;border-bottom-color:#fff!important}
+#r-f1:checked~.wrap #page-f1,#r-f2:checked~.wrap #page-f2,#r-f3:checked~.wrap #page-f3,#r-f4:checked~.wrap #page-f4,#r-f5:checked~.wrap #page-f5,#r-fv:checked~.wrap #page-fv,#r-fm:checked~.wrap #page-fm{display:block}
+#r-home:checked~.wrap .nav-home,#r-f1:checked~.wrap .nav-f1,#r-f2:checked~.wrap .nav-f2,#r-f3:checked~.wrap .nav-f3,#r-f4:checked~.wrap .nav-f4,#r-f5:checked~.wrap .nav-f5,#r-fv:checked~.wrap .nav-fv,#r-fm:checked~.wrap .nav-fm{color:#fff!important;background:rgba(255,255,255,.15)!important;border-bottom-color:#fff!important}
 #home{padding:2.5rem 2.5rem 4rem}
 .home-intro{text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--rb)}
 .home-intro h2{font-size:clamp(1.4rem,3.5vw,1.9rem);font-weight:700;margin-bottom:.4rem}
@@ -88,6 +88,12 @@ label.btn-home{display:inline-block;background:transparent;border:1.5px solid rg
 .f-qcm-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.3rem}
 .f-qcm-list li{font-size:.83rem;color:#3d2e00;padding-left:1rem;position:relative;line-height:1.55}
 .f-qcm-list li::before{content:'→';position:absolute;left:0;color:#c9a227;font-weight:700}
+.f-phrase{border:1.5px solid var(--rb);border-left:4px solid var(--en);background:#fff;padding:.6rem 1rem;margin-bottom:.6rem}
+.f-phrase .p-en{font-size:1rem;font-weight:600;color:var(--en)}
+.f-phrase .p-num{display:inline-block;min-width:1.6rem;color:var(--r);font-weight:700}
+.f-phrase details{margin-top:.3rem}
+.f-phrase summary{cursor:pointer;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--rv)}
+.f-phrase .p-fr{font-size:.93rem;color:var(--fr);padding:.3rem 0 0 1.6rem}
 /* flashcards (Quizlet-like) */
 .fc-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
 .fc-btn{background:#fff;border:1.5px solid var(--rb);color:var(--rv);padding:.4rem .9rem;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;font-family:inherit}
@@ -118,6 +124,7 @@ footer span{color:#B22222}
 <input type="radio" name="page" class="nav-radio" id="r-f4">
 <input type="radio" name="page" class="nav-radio" id="r-f5">
 <input type="radio" name="page" class="nav-radio" id="r-fv">
+<input type="radio" name="page" class="nav-radio" id="r-fm">
 
 <div class="wrap">
 <header>
@@ -134,13 +141,14 @@ footer span{color:#B22222}
   <li><label class="nav-f4" for="r-f4">#4 Rock v. Smith</label></li>
   <li><label class="nav-f5" for="r-f5">#5 O.J. Simpson</label></li>
   <li><label class="nav-fv" for="r-fv">★ Flashcards</label></li>
+  <li><label class="nav-fm" for="r-fm">10 phrases</label></li>
 </ul></nav>
 
 <!-- ACCUEIL -->
 <div id="home-content"><div id="home">
   <div class="home-intro">
     <h2>TD d'anglais</h2>
-    <p>5 fiches bilingues (🇬🇧 English + 🇫🇷 Français) + flashcards de vocabulaire · Tort law and compensation culture · O.J. Simpson</p>
+    <p>5 fiches bilingues (🇬🇧 English + 🇫🇷 Français) + flashcards de vocabulaire + mini-fiche des 10 phrases · Tort law and compensation culture · O.J. Simpson</p>
     <p style="margin-top:.5rem;font-size:.82rem">Chaque fiche contient la partie anglaise suivie de sa traduction / fiche de révision française</p>
   </div>
 
@@ -170,6 +178,7 @@ footer span{color:#B22222}
   <div class="home-section-title">Vocabulaire</div>
   <div class="cards-grid">
     <label class="card" for="r-fv"><div class="card-num">Quiz</div><h3>Flashcards</h3><p>Termes des glossaires (tort law, Rock v. Smith, O.J.) · retourner · je sais / à revoir · mélanger · sens EN→FR ou FR→EN</p><span class="bilingual-tag">🇬🇧 EN + 🇫🇷 FR</span></label>
+    <label class="card" for="r-fm"><div class="card-num">Mini-fiche</div><h3>Les 10 phrases à apprendre par cœur</h3><p>Phrases clés du cours (tort, plaintiff, damages, settlement, McDonald's) · bouton « Traduire » pour vérifier</p><span class="bilingual-tag">🇬🇧 EN + 🇫🇷 FR</span></label>
   </div>
 </div></div>
 
@@ -194,6 +203,17 @@ footer span{color:#B22222}
       </ul>
       <div class="f-exemple"><strong>Examples</strong>Negligence: a driver not paying attention drives through a stop sign. Recklessness: a driver under the influence of alcohol and texting drives through a stop sign.</div>
       <p class="f-text">Other torts: battery, false imprisonment, medical malpractice, defamation (libel/slander), wrongful death, trespass, nuisance, fraud, product liability. A company that injures many people can face a <strong>class action</strong>.</p>
+      <div class="f-sous-title" style="margin-top:.8rem">Other torts to know (vocabulary)</div>
+      <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Tort</th><th>Synonyms / related terms</th><th>Simple explanation</th><th>Example</th></tr></thead><tbody>
+      <tr><td>Battery</td><td>physical assault, unlawful touching</td><td>Hitting a person and injuring them</td><td>The victim sued the attacker for battery.</td></tr>
+      <tr><td>False imprisonment</td><td>unlawful detention, illegal confinement</td><td>Locking a person up against their will</td><td>The police officer was accused of false imprisonment.</td></tr>
+      <tr><td>Medical malpractice</td><td>medical negligence, professional negligence</td><td>A doctor makes a mistake in the care given</td><td>The doctor was sued for medical malpractice.</td></tr>
+      <tr><td>Wrongful death</td><td>unlawful death, death caused by negligence</td><td>A death that gives rise to a liability claim</td><td>The family filed a wrongful death lawsuit.</td></tr>
+      <tr><td>Defamation</td><td>libel, slander, character assassination</td><td>Damaging a person's reputation</td><td>The politician sued the newspaper for defamation.</td></tr>
+      <tr><td>Libel</td><td>—</td><td>Spreading defamatory statements <strong>in writing</strong></td><td>—</td></tr>
+      <tr><td>Slander</td><td>—</td><td>Spreading defamatory statements <strong>orally</strong></td><td>—</td></tr>
+    </tbody></table></div>
+      <p class="f-text"><em>Note:</em> the precise legal meaning depends on the context.</p>
     </div>
   </div>
   <div class="f-bloc">
@@ -205,6 +225,7 @@ footer span{color:#B22222}
       <tr><td>Standard of proof</td><td>Beyond a reasonable doubt</td><td>Preponderance of the evidence</td></tr>
     </tbody></table></div>
     <p class="f-text">Some acts are both crimes and torts (battery, assault). Example: O.J. Simpson was acquitted of murder in the criminal case but found liable in the civil case. Even without a criminal case (no witnesses), the victim can still sue.</p>
+    <div class="f-key"><span><strong>Key sentence:</strong> “Only the government has the power to send a wrongdoer to jail.”</span></div>
   </div>
   <div class="f-bloc">
     <div class="f-bloc-title"><span class="f-num">3</span> Burden of proof &amp; the 4 elements of negligence</div>
@@ -226,6 +247,59 @@ footer span{color:#B22222}
     </ul>
     <p class="f-text">Why money? It is the only practical way to repair an injury, and it deters. Limit: a scar or a death cannot really be measured in money, and a rich defendant may simply pay and continue.</p>
     <div class="f-exemple"><strong>Exercise B</strong>Punches someone → battery · amputates the wrong leg → medical malpractice · unsafe conditions kill a worker → wrongful death · spreads vicious lies → defamation · locks someone in a closet → false imprisonment.</div>
+    <div class="f-exemple"><strong>Exercise B — full sentences (course)</strong>
+      A person who punches another person and injures them can be sued for the tort of <em>battery</em>.<br>
+      A doctor who performs surgery on a patient and amputates the wrong leg can be sued for the tort of <em>medical malpractice</em>.<br>
+      A company that makes its employees work in unsafe conditions that result in the death of a worker can be sued for the tort of <em>wrongful death</em>.<br>
+      A person who destroys a rival's reputation by spreading vicious lies can be sued for the tort of <em>defamation</em>.<br>
+      A person who locks someone in a closet and refuses to let them out can be sued for the tort of <em>false imprisonment</em>.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">5</span> Essential vocabulary &amp; torts (EN → FR)</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>English</th><th>Français</th><th>Synonyms / related terms</th></tr></thead><tbody>
+      <tr><td>tort</td><td>délit civil, faute civile</td><td>—</td></tr>
+      <tr><td>wrong</td><td>faute, tort, acte répréhensible</td><td>wrongdoing, misconduct, offense</td></tr>
+      <tr><td>harm</td><td>préjudice, dommage, tort</td><td>damage, injury, loss</td></tr>
+      <tr><td>negligence</td><td>négligence</td><td>carelessness, lack of care, neglect</td></tr>
+      <tr><td>reckless</td><td>imprudent, téméraire, qui agit sans se soucier des conséquences</td><td>careless, heedless, irresponsible</td></tr>
+      <tr><td>callous</td><td>insensible, sans compassion, indifférent à la souffrance</td><td>insensitive, heartless, uncaring</td></tr>
+      <tr><td>liability</td><td>responsabilité juridique / responsabilité civile</td><td>—</td></tr>
+      <tr><td>personal injury</td><td>dommage corporel / préjudice physique</td><td>bodily injury, physical injury</td></tr>
+      <tr><td>punitive damages</td><td>dommages-intérêts punitifs</td><td>exemplary damages</td></tr>
+      <tr><td>to award compensatory damages</td><td>accorder des dommages-intérêts compensatoires</td><td>grant compensation, award compensation</td></tr>
+      <tr><td>to award compensatory and punitive damages</td><td>accorder des dommages-intérêts compensatoires et punitifs</td><td>grant compensatory and punitive damages</td></tr>
+    </tbody></table></div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>English</th><th>Français</th></tr></thead><tbody>
+      <tr><td>tort law</td><td>droit de la responsabilité civile délictuelle</td></tr>
+      <tr><td>a tort</td><td>un fait dommageable / un délit civil</td></tr>
+      <tr><td>wrongful injury</td><td>un préjudice causé par un acte fautif</td></tr>
+      <tr><td>wrongdoer</td><td>l'auteur du dommage</td></tr>
+      <tr><td>injury</td><td>préjudice / blessure</td></tr>
+      <tr><td>to injure</td><td>blesser / causer un préjudice</td></tr>
+      <tr><td>intentional · deliberately</td><td>intentionnel · délibérément</td></tr>
+      <tr><td>negligent · carelessness</td><td>négligent · négligence / manque de précaution</td></tr>
+      <tr><td>reckless</td><td>téméraire / faisant preuve d'une imprudence grave</td></tr>
+      <tr><td>to sue</td><td>poursuivre en justice / intenter une action</td></tr>
+      <tr><td>plaintiff</td><td>demandeur en justice</td></tr>
+      <tr><td>to be liable</td><td>être juridiquement responsable</td></tr>
+      <tr><td>court</td><td>tribunal</td></tr>
+      <tr><td>lawsuit</td><td>procès / action en justice</td></tr>
+      <tr><td>damages</td><td>dommages-intérêts</td></tr>
+      <tr><td>compensation</td><td>indemnisation</td></tr>
+      <tr><td>lost wages</td><td>perte de revenus</td></tr>
+      <tr><td>class action</td><td>action collective</td></tr>
+      <tr><td>settlement</td><td>accord amiable / transaction</td></tr>
+      <tr><td>civil law · criminal law</td><td>droit civil · droit pénal</td></tr>
+      <tr><td>crime</td><td>infraction pénale</td></tr>
+      <tr><td>to be charged with a crime</td><td>être poursuivi pour une infraction</td></tr>
+    </tbody></table></div>
+    <div class="f-sous-title" style="margin-top:1rem">Civil law vs criminal law — phrases to know</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th></th><th>Civil law / Tort law</th><th>Criminal law</th></tr></thead><tbody>
+      <tr><td>Who acts?</td><td>The injured person sues. → La personne lésée intente une action.</td><td>The government prosecutes. → L'État engage des poursuites.</td></tr>
+      <tr><td>Aim</td><td>The aim is compensation. → L'objectif est l'indemnisation.</td><td>The aim is to punish an offence. → L'objectif est de sanctionner l'infraction.</td></tr>
+      <tr><td>Outcome</td><td>The defendant may have to pay damages. → Le défendeur peut devoir payer des dommages-intérêts.</td><td>The defendant may go to prison. → Le défendeur peut être condamné à la prison.</td></tr>
+    </tbody></table></div>
   </div>
 
   <div class="lang-divider"><span class="lang-pill fr">🇫🇷 Partie Française — Traduction &amp; fiche de révision</span></div>
@@ -235,7 +309,7 @@ footer span{color:#B22222}
       <ul class="f-list fr">
         <li>Un <strong>tort</strong> = un préjudice fautif (personnes comme entreprises)</li>
         <li><strong>Intentionnel</strong> : acte délibéré · <strong>Négligent</strong> : préjudice causé par imprudence · <strong>Imprudence grave (reckless)</strong> : comportement extrême, risque très élevé sans intention de nuire</li>
-        <li>Autres torts : coups et blessures (battery), séquestration (false imprisonment), faute médicale, diffamation, décès illicite, intrusion, nuisance, fraude, responsabilité du fait des produits. Plusieurs victimes → <strong>class action</strong> (action de groupe)</li>
+        <li>Autres torts : coups et blessures (battery), séquestration (false imprisonment), faute médicale, diffamation (<em>libel</em> = écrite, <em>slander</em> = orale), décès illicite, intrusion, nuisance, fraude, responsabilité du fait des produits. Plusieurs victimes → <strong>class action</strong> (action de groupe)</li>
       </ul>
     </div>
     <div class="f-sous fr"><div class="f-sous-title">Pénal vs civil</div>
@@ -243,7 +317,18 @@ footer span{color:#B22222}
         <li>Pénal : l'État poursuit (« The People v. … »), peine possible de prison, preuve <strong>au-delà du doute raisonnable</strong></li>
         <li>Tort : la victime (plaintiff) poursuit l'auteur (defendant) pour obtenir de l'<strong>argent</strong>, jamais de prison, preuve par <strong>prépondérance de la preuve</strong> (plus probable qu'improbable)</li>
         <li>Certains actes sont les deux (battery, assault) ; la victime peut agir au civil même sans poursuite pénale</li>
+        <li><strong>Phrase clé :</strong> « Only the government has the power to send a wrongdoer to jail. » = Seul l'État peut faire condamner une personne à une peine de prison dans le cadre d'une procédure pénale.</li>
       </ul>
+    </div>
+    <div class="f-sous fr"><div class="f-sous-title">Autres torts à connaître (traduction)</div>
+      <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Tort</th><th>Traduction</th><th>Exemple traduit</th></tr></thead><tbody>
+      <tr><td>Battery</td><td>violences physiques / voies de fait</td><td>La victime a poursuivi l'agresseur pour violences physiques.</td></tr>
+      <tr><td>False imprisonment</td><td>séquestration / détention illégale</td><td>Le policier a été accusé de détention illégale.</td></tr>
+      <tr><td>Medical malpractice</td><td>faute médicale / erreur médicale</td><td>Le médecin a été poursuivi pour faute médicale.</td></tr>
+      <tr><td>Wrongful death</td><td>décès injustifié / mort causée illégalement</td><td>La famille a intenté une action en justice pour décès injustifié.</td></tr>
+      <tr><td>Defamation</td><td>diffamation</td><td>L'homme politique a poursuivi le journal pour diffamation.</td></tr>
+      <tr><td>Libel / Slander</td><td>diffamation écrite / diffamation orale</td><td>—</td></tr>
+    </tbody></table></div>
     </div>
     <div class="f-sous fr"><div class="f-sous-title">Charge de la preuve et 4 éléments</div>
       <ul class="f-list fr">
@@ -259,6 +344,7 @@ footer span{color:#B22222}
     <li>4 éléments : duty, breach, causation, damages</li>
     <li>Damage (dommage) ≠ damages (dommages-intérêts)</li>
     <li>Compensation, disclosure, deterrence</li>
+    <li>Libel = diffamation écrite · slander = diffamation orale</li>
   </ul></div>
   <div class="fiche-nav"><span></span><label for="r-f2">Fiche #2 : McDonald's →</label></div>
 </div></main></div>
@@ -301,6 +387,66 @@ footer span{color:#B22222}
     <div class="f-exemple"><strong>Vocabulary (fill-in)</strong>The <em>plaintiff</em> was Mrs Liebeck. She <em>sued</em> McDonald's, saying it had been <em>negligent</em>. The jury heard damaging <em>testimony</em> from <em>witnesses</em>, even those called by the <em>defendant</em>, and <em>ruled</em> she should receive <em>compensatory</em> and <em>punitive</em> damages.</div>
   </div>
 
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">B+</span> Liebeck — key figures, settlement &amp; vocabulary</div>
+    <div class="f-sous en"><div class="f-sous-title">Details from the course</div>
+      <ul class="f-list en">
+        <li>In 1992, Stella Liebeck was a 79-year-old <strong>retired department store clerk</strong>. She accidentally spilled McDonald's hot coffee into her lap and suffered severe burns.</li>
+        <li><strong>Sixteen percent of her body</strong> was burned, including third-degree burns. Her injuries required a hospital stay and her medical bills exceeded $10,000.</li>
+        <li>She asked McDonald's to help pay these expenses and warned the company that its coffee was too hot.</li>
+        <li>McDonald's offered her <strong>$800</strong>, but she refused. The parties tried to reach an out-of-court settlement <strong>twice</strong>, without success.</li>
+        <li>The case went to trial. The jury found McDonald's liable and awarded $200,000 in compensatory damages, reduced to $160,000 because Liebeck was partly responsible.</li>
+        <li>The jury also awarded $2.7 million in punitive damages because McDonald's had received numerous complaints about similar incidents. Liebeck eventually received only a fraction of the amount awarded.</li>
+      </ul>
+    </div>
+    <div class="f-sous en"><div class="f-sous-title">Key figures to memorise</div>
+      <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Item</th><th>Figure</th></tr></thead><tbody>
+      <tr><td>Age of Stella Liebeck</td><td>79</td></tr>
+      <tr><td>Year of the accident</td><td>1992</td></tr>
+      <tr><td>Medical bills</td><td>$10,000+</td></tr>
+      <tr><td>McDonald's offer</td><td>$800</td></tr>
+      <tr><td>Compensatory damages awarded</td><td>$200,000 → $160,000</td></tr>
+      <tr><td>Punitive damages awarded by the jury</td><td>$2.7 million</td></tr>
+    </tbody></table></div>
+    </div>
+    <div class="f-sous en"><div class="f-sous-title">Understanding a settlement</div>
+      <p class="f-text">A <strong>settlement</strong> is an agreement between two parties to resolve a dispute and avoid going to court.</p>
+      <ul class="f-list en">
+        <li><strong>To save money</strong> · <strong>to save time</strong> · <strong>to avoid bad publicity</strong> · <strong>to avoid legal fees</strong></li>
+      </ul>
+      <div class="f-alerte"><strong>Attention</strong>The $2.7 million is the punitive amount awarded by the jury, not necessarily the sum Stella Liebeck finally received.</div>
+    </div>
+    <div class="f-sous en"><div class="f-sous-title">Vocabulary (EN → FR)</div>
+      <div class="f-table-wrap"><table class="f-table"><thead><tr><th>English</th><th>Français</th></tr></thead><tbody>
+      <tr><td>to spill</td><td>renverser</td></tr>
+      <tr><td>hot coffee</td><td>café chaud</td></tr>
+      <tr><td>to get burned · burn</td><td>se brûler · brûlure</td></tr>
+      <tr><td>third-degree burns</td><td>brûlures au troisième degré</td></tr>
+      <tr><td>severe injuries</td><td>blessures graves</td></tr>
+      <tr><td>hospital stay</td><td>séjour à l'hôpital</td></tr>
+      <tr><td>medical bills</td><td>factures médicales / frais médicaux</td></tr>
+      <tr><td>retired</td><td>à la retraite</td></tr>
+      <tr><td>department store clerk</td><td>employée de grand magasin</td></tr>
+      <tr><td>corporation</td><td>société / entreprise</td></tr>
+      <tr><td>case</td><td>affaire judiciaire</td></tr>
+      <tr><td>customer complaints</td><td>plaintes des clients</td></tr>
+      <tr><td>to ask for help</td><td>demander de l'aide</td></tr>
+      <tr><td>to refuse · to offer</td><td>refuser · proposer</td></tr>
+      <tr><td>to settle out of court</td><td>régler un litige à l'amiable</td></tr>
+      <tr><td>to reach an agreement</td><td>parvenir à un accord</td></tr>
+      <tr><td>settlement</td><td>accord amiable</td></tr>
+      <tr><td>jury · deliberation · unanimously</td><td>jury · délibération · à l'unanimité</td></tr>
+      <tr><td>to find someone liable</td><td>reconnaître quelqu'un responsable</td></tr>
+      <tr><td>to award damages</td><td>accorder des dommages-intérêts</td></tr>
+      <tr><td>compensatory damages</td><td>dommages-intérêts compensatoires</td></tr>
+      <tr><td>punitive damages · to punish</td><td>dommages-intérêts punitifs · punir / sanctionner</td></tr>
+      <tr><td>reckless conduct</td><td>comportement téméraire</td></tr>
+      <tr><td>remittitur</td><td>réduction judiciaire d'une indemnité accordée par un jury</td></tr>
+      <tr><td>plaintiff</td><td>demandeur / personne qui réclame réparation</td></tr>
+    </tbody></table></div>
+    </div>
+  </div>
+
   <div class="lang-divider"><span class="lang-pill fr">🇫🇷 Partie Française — Traduction &amp; fiche de révision</span></div>
   <div class="f-bloc">
     <div class="f-bloc-title"><span class="f-num">A–B</span> Traduction</div>
@@ -321,9 +467,20 @@ footer span{color:#B22222}
         <li>Vocabulaire : plaignante (plaintiff), poursuivre (sue), négligence, témoignage, témoins, défendeur, a statué (ruled), dommages compensatoires et punitifs</li>
       </ul>
     </div>
+    <div class="f-sous fr"><div class="f-sous-title">Liebeck — détails du cours, chiffres et règlement amiable</div>
+      <ul class="f-list fr">
+        <li>En 1992, Stella Liebeck, 79 ans, employée de grand magasin à la retraite, renverse accidentellement du café chaud de McDonald's sur ses genoux. <strong>16 % de son corps</strong> a été brûlé, notamment au troisième degré. Hospitalisation ; frais médicaux supérieurs à <strong>10 000 $</strong>.</li>
+        <li>Elle demande à McDonald's de l'aider à payer et avertit que son café est trop chaud. McDonald's lui propose <strong>800 $</strong> ; elle refuse. Deux tentatives d'accord amiable échouent.</li>
+        <li>Le jury reconnaît McDonald's responsable : 200 000 $ de dommages compensatoires réduits à 160 000 $ (part de responsabilité de Liebeck) ; 2,7 M$ de dommages punitifs en raison de nombreuses plaintes pour des incidents similaires. Elle n'a finalement perçu qu'une fraction du montant accordé.</li>
+        <li><strong>Règlement amiable (settlement)</strong> : accord entre deux parties pour résoudre un litige et éviter un procès. Pourquoi ? économiser de l'argent · gagner du temps · éviter une mauvaise publicité · éviter les frais d'avocat et de justice.</li>
+        <li><strong>Attention</strong> : les 2,7 M$ correspondent au montant punitif accordé par le jury, pas nécessairement à la somme finalement perçue.</li>
+        <li><strong>Notions à retenir</strong> : compensatory damages = indemniser la victime · punitive damages = sanctionner et dissuader · liability = responsabilité juridique · settlement = accord amiable.</li>
+      </ul>
+    </div>
   </div>
   <div class="f-retenir"><strong>À retenir</strong><ul>
     <li>Liebeck : 80/20, 160 000 $ + 480 000 $ (punitifs ×3), 700 plaintes, 180–190°F</li>
+    <li>Chiffres du cours : 79 ans · 1992 · frais médicaux 10 000 $+ · offre McDonald's 800 $ · 200 000 → 160 000 $ · punitifs 2,7 M$</li>
     <li>Nugget : jury 2023, 800 000 $</li>
     <li>Le café n'était pas « chaud » mais brûlant : l'affaire n'est pas frivole</li>
   </ul></div>
@@ -356,6 +513,28 @@ footer span{color:#B22222}
       <tr><td>Damages cap</td><td>A law limiting the amount of non-economic damages in a case</td></tr>
     </tbody></table></div>
     <div class="f-key">Do you agree with Clinton? (personal opinion, to justify with Liebeck / the nugget case: caps protect companies, not victims; but frivolous suits are also a concern.)</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">C+</span> Tort reform — vocabulary (EN → FR)</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>English</th><th>Français</th></tr></thead><tbody>
+      <tr><td>tort reform</td><td>réforme du droit de la responsabilité civile</td></tr>
+      <tr><td>big corporations</td><td>grandes entreprises</td></tr>
+      <tr><td>lobby</td><td>groupe de pression</td></tr>
+      <tr><td>public relations (PR)</td><td>relations publiques / communication</td></tr>
+      <tr><td>to pass a law</td><td>adopter une loi</td></tr>
+      <tr><td>to veto a bill</td><td>opposer son veto à un projet de loi</td></tr>
+      <tr><td>to set limits</td><td>fixer des limites</td></tr>
+      <tr><td>lawsuit</td><td>action en justice</td></tr>
+      <tr><td>frivolous lawsuit</td><td>action en justice jugée infondée ou frivole</td></tr>
+      <tr><td>consumer rights</td><td>droits des consommateurs</td></tr>
+      <tr><td>damages cap</td><td>plafond des dommages-intérêts</td></tr>
+      <tr><td>economic damages</td><td>préjudices économiques (ex. frais médicaux)</td></tr>
+      <tr><td>non-economic damages</td><td>préjudices non économiques</td></tr>
+      <tr><td>emotional distress</td><td>souffrance psychologique</td></tr>
+      <tr><td>pain and suffering</td><td>douleurs et souffrances</td></tr>
+    </tbody></table></div>
+    <p class="f-text">The course also mentions <strong>punitive damages</strong>, which aim to punish particularly wrongful conduct. → Le cours mentionne également les <em>punitive damages</em>, qui visent à sanctionner un comportement particulièrement répréhensible.</p>
   </div>
 
   <div class="lang-divider"><span class="lang-pill fr">🇫🇷 Partie Française — Traduction &amp; fiche de révision</span></div>
@@ -391,7 +570,7 @@ footer span{color:#B22222}
   <div class="lang-divider"><span class="lang-pill en">🇬🇧 English Part — Study Sheet</span></div>
   <div class="f-bloc">
     <div class="f-bloc-title"><span class="f-num">D</span> Facts &amp; causes of action</div>
-    <p class="f-text">At the 94th Academy Awards, Smith slapped Rock over a joke about his wife's hair; he later said he “just lost it” (“a rage bottled for a long time”) while saying his emotions did not justify it. He won Best Actor (<em>King Richard</em>) that night, resigned from the Academy (banned 10 years) and apologised in July 2022. Rock never sued nor filed a police report.</p>
+    <p class="f-text">At the 94th Academy Awards, Smith slapped Rock over a joke about his wife's hair; he later said he “just lost it” (“a rage bottled for a long time”) while saying his emotions did not justify it. He won Best Actor (<em>King Richard</em>) that night, resigned from the Academy (banned 10 years) and apologised in July 2022. Rock never sued nor filed a police report. The course names the parties as Christopher Rock and Willard Carroll Smith II.</p>
     <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Cause of action</th><th>What Rock must prove</th></tr></thead><tbody>
       <tr><td>Battery</td><td>Intentional touching, harmful or offensive, without consent, causing harm</td></tr>
       <tr><td>Assault</td><td>Conduct making him reasonably apprehend imminent harmful contact; he was aware; damages (no contact needed)</td></tr>
@@ -410,6 +589,21 @@ footer span{color:#B22222}
     </div>
   </div>
 
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">E</span> The Slap — settlement exercise</div>
+    <p class="f-text">The course presents the 2022 Oscars slap as a <strong>settlement exercise</strong>. Students must prepare a settlement for <strong>either the claimant or the defendant</strong>. They must develop a <strong>legal strategy</strong> and <strong>make an offer</strong> to avoid going to court. The document gives the instructions of the exercise but does not state its legal outcome.</p>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>English</th><th>Français</th></tr></thead><tbody>
+      <tr><td>the slap</td><td>la gifle</td></tr>
+      <tr><td>to negotiate</td><td>négocier</td></tr>
+      <tr><td>to reach a settlement</td><td>parvenir à un accord amiable</td></tr>
+      <tr><td>to avoid going to court</td><td>éviter d'aller au tribunal</td></tr>
+      <tr><td>claimant</td><td>demandeur</td></tr>
+      <tr><td>defendant</td><td>défendeur</td></tr>
+      <tr><td>legal strategy</td><td>stratégie juridique</td></tr>
+      <tr><td>to make an offer</td><td>faire une proposition</td></tr>
+    </tbody></table></div>
+  </div>
+
   <div class="lang-divider"><span class="lang-pill fr">🇫🇷 Partie Française — Traduction &amp; fiche de révision</span></div>
   <div class="f-bloc">
     <div class="f-bloc-title"><span class="f-num">D</span> Traduction</div>
@@ -421,6 +615,7 @@ footer span{color:#B22222}
       <li>Pourquoi transiger : plus rapide, moins cher, résultat certain, confidentiel, sans reconnaissance de responsabilité</li>
       <li>L'interview télévisée peut servir de preuve. Des excuses n'effacent pas le droit à réparation. La clause « no admission of liability » protège surtout le défendeur</li>
       <li>Accord type : paiement (ex. 500 000 $ sous 30 jours) · confidentialité · pas d'aveu · renonciation aux recours, <em>dismissal with prejudice</em> (classement définitif) · clauses annexes (excuses) · droit californien</li>
+      <li><strong>Exercice « The Slap »</strong> : le cours propose une activité de négociation amiable entre Christopher Rock et Willard Carroll Smith II. Les étudiants doivent préparer un accord pour le demandeur (<em>claimant</em>) ou le défendeur, élaborer une stratégie juridique et faire une proposition afin d'éviter un procès. Le document donne les consignes de l'exercice mais ne précise pas son issue juridique.</li>
     </ul>
   </div>
   <div class="f-retenir"><strong>À retenir</strong><ul>
@@ -471,6 +666,20 @@ footer span{color:#B22222}
     </tbody></table></div>
   </div>
 
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">V</span> Vocabulary — criminal vs civil (EN → FR)</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>English</th><th>Français</th></tr></thead><tbody>
+      <tr><td>murder</td><td>meurtre</td></tr>
+      <tr><td>criminal case</td><td>affaire pénale</td></tr>
+      <tr><td>civil case</td><td>affaire civile</td></tr>
+      <tr><td>to be acquitted</td><td>être acquitté</td></tr>
+      <tr><td>to be found liable</td><td>être reconnu responsable</td></tr>
+      <tr><td>to seek compensation</td><td>demander une indemnisation</td></tr>
+      <tr><td>assault</td><td>agression / menace d'atteinte physique</td></tr>
+    </tbody></table></div>
+    <p class="f-text">In the O. J. Simpson case, Simpson was acquitted of murder in the criminal case but was found liable in a civil tort case. A person can be acquitted in a criminal case and still be held liable in a civil case.</p>
+  </div>
+
   <div class="lang-divider"><span class="lang-pill fr">🇫🇷 Partie Française — Traduction &amp; fiche de révision</span></div>
   <div class="f-bloc">
     <div class="f-bloc-title"><span class="f-num">Q1–3</span> Traduction</div>
@@ -514,7 +723,27 @@ footer span{color:#B22222}
     <button class="fc-btn fc-yes" onclick="fcYes()">Je sais</button>
     <button class="fc-btn" onclick="fcMove(1)">Suivante →</button>
   </div>
-  <div class="fiche-nav"><label for="r-f5">← Fiche #5</label><span></span></div>
+  <div class="fiche-nav"><label for="r-f5">← Fiche #5</label><label for="r-fm">10 phrases →</label></div>
+</div></main></div>
+
+<div id="page-fm" class="page-content"><main><div class="fiche-page">
+  <div style="margin-bottom:1.5rem"><label class="btn-home" for="r-home">← Accueil</label></div>
+  <div class="fiche-header">
+    <div class="fiche-meta">Mini-fiche · Topics 1 &amp; 2</div>
+    <h2>Les 10 phrases à apprendre par cœur</h2>
+    <div class="fiche-intro">Ces phrases résument les notions les plus importantes des documents du cours. Traduis-les de tête, puis clique sur « Traduire » pour vérifier.</div>
+  </div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">1.</span>A tort is a wrongful injury.</div><details><summary>Traduire</summary><div class="p-fr">Un tort est un préjudice causé par une faute.</div></details></div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">2.</span>There are three main types of torts.</div><details><summary>Traduire</summary><div class="p-fr">Il existe trois principaux types de torts.</div></details></div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">3.</span>The plaintiff sues the defendant.</div><details><summary>Traduire</summary><div class="p-fr">Le demandeur poursuit le défendeur.</div></details></div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">4.</span>Tort law is a branch of civil law.</div><details><summary>Traduire</summary><div class="p-fr">Le droit de la responsabilité civile délictuelle est une branche du droit civil.</div></details></div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">5.</span>Criminal law may lead to imprisonment.</div><details><summary>Traduire</summary><div class="p-fr">Le droit pénal peut conduire à une peine de prison.</div></details></div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">6.</span>Damages compensate the injured person.</div><details><summary>Traduire</summary><div class="p-fr">Les dommages-intérêts indemnisent la personne lésée.</div></details></div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">7.</span>A settlement helps the parties avoid a trial.</div><details><summary>Traduire</summary><div class="p-fr">Un règlement amiable permet aux parties d'éviter un procès.</div></details></div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">8.</span>Economic damages include medical bills.</div><details><summary>Traduire</summary><div class="p-fr">Les préjudices économiques comprennent les frais médicaux.</div></details></div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">9.</span>Punitive damages punish wrongful conduct.</div><details><summary>Traduire</summary><div class="p-fr">Les dommages-intérêts punitifs sanctionnent un comportement fautif.</div></details></div>
+  <div class="f-phrase"><div class="p-en"><span class="p-num">10.</span>The jury found McDonald's liable.</div><details><summary>Traduire</summary><div class="p-fr">Le jury a reconnu McDonald's responsable.</div></details></div>
+  <div class="fiche-nav"><label for="r-fv">← Flashcards</label><span></span></div>
 </div></main></div>
 
 <footer><p>TD d'<span>anglais</span> — Fiches de révision bilingues 2026-2027 · 🇬🇧 EN + 🇫🇷 FR</p></footer>
@@ -588,7 +817,81 @@ miscarriage of justice|A wrongful outcome of a legal proceeding.|erreur judiciai
 wrongful death|A tort: a death caused by another's wrongful act or negligence.|décès causé par la faute d'autrui
 systemic racism|Racism built into institutions such as the police and the justice system.|racisme systémique
 prosecution|The party (the State) bringing criminal charges.|ministère public, accusation
-to be liable|To be legally responsible.|être civilement responsable`;
+to be liable|To be legally responsible.|être civilement responsable
+action|A lawsuit brought to enforce, redress, or protect the rights of private litigants.|action en justice
+wrong|An act that violates another person's rights; wrongdoing, misconduct, an offense.|faute, tort, acte répréhensible
+wrongdoer|The person who commits a wrong or a tort.|l'auteur du dommage
+wrongful injury|An injury caused by a wrongful act.|préjudice causé par un acte fautif
+harm|Damage, injury or loss.|préjudice, dommage
+injury|Harm done to a person's body, feelings or rights.|préjudice, blessure
+to injure|To harm or hurt someone.|blesser, causer un préjudice
+personal injury|Bodily harm; physical injury.|dommage corporel, préjudice physique
+intentional|Done deliberately, on purpose.|intentionnel
+deliberately|On purpose; intentionally.|délibérément
+carelessness|Lack of care or attention; neglect.|négligence, manque de précaution
+tort law|The branch of civil law dealing with wrongful injuries.|droit de la responsabilité civile délictuelle
+civil law|The branch of law dealing with disputes between private parties.|droit civil
+criminal law|The branch of law dealing with offences punishable by the State.|droit pénal
+crime|An act punishable by law.|infraction pénale
+to be charged with a crime|To be formally accused of a criminal offence.|être poursuivi pour une infraction
+court|The place or body where legal cases are heard and decided.|tribunal
+compensation|Money paid to make up for a loss or an injury.|indemnisation
+lost wages|Income a person fails to earn because of an injury.|perte de revenus
+exemplary damages|Another term for punitive damages.|dommages-intérêts punitifs (exemplaires)
+to award compensatory damages|To grant money to compensate for actual losses.|accorder des dommages-intérêts compensatoires
+to award compensatory and punitive damages|To grant money both to compensate and to punish.|accorder des dommages-intérêts compensatoires et punitifs
+false imprisonment|Unlawfully confining a person against their will.|séquestration, détention illégale
+medical malpractice|Professional negligence by a doctor that harms a patient.|faute médicale
+defamation|Damaging someone's reputation with false statements.|diffamation
+libel|Defamation in written form.|diffamation écrite
+slander|Defamation in spoken form.|diffamation orale
+jury|A group of citizens who decide the facts and deliver the verdict.|jury
+to spill|To let a liquid fall by accident.|renverser
+hot coffee|Coffee served at a high temperature.|café chaud
+burn|An injury caused by heat.|brûlure
+to get burned|To be injured by heat or fire.|se brûler
+third-degree burns|The most severe burns, destroying the full thickness of the skin.|brûlures au troisième degré
+severe injuries|Very serious harm to the body.|blessures graves
+hospital stay|Time spent in hospital as a patient.|séjour à l'hôpital
+medical bills|The cost of medical treatment.|factures médicales, frais médicaux
+retired|No longer working.|à la retraite
+department store clerk|An employee working in a department store.|employée de grand magasin
+customer complaints|Reports from customers about a problem.|plaintes des clients
+corporation|A large company treated by law as a single entity.|société, entreprise
+case|A legal dispute or action to be decided in court.|affaire judiciaire
+reckless conduct|Behaviour that ignores a known serious risk.|comportement téméraire
+to ask for help|To request assistance, for example to pay expenses.|demander de l'aide
+to refuse|To say no to an offer or request.|refuser
+to offer|To propose something to someone.|proposer
+to settle out of court|To resolve a dispute by agreement without a trial.|régler un litige à l'amiable
+to reach an agreement|To arrive at a deal acceptable to both parties.|parvenir à un accord
+to find someone liable|To decide that someone is legally responsible.|reconnaître quelqu'un responsable
+to be found liable|To be held legally responsible by a court.|être reconnu responsable
+to award damages|To grant a sum of money as damages.|accorder des dommages-intérêts
+to punish|To impose a penalty for wrongdoing.|punir, sanctionner
+unanimously|With everyone in agreement.|à l'unanimité
+big corporations|Very large companies.|grandes entreprises
+lobby|A group that tries to influence lawmakers.|groupe de pression
+public relations (PR)|Managing the public image and communication of an organisation.|relations publiques, communication
+to pass a law|To officially adopt a law.|adopter une loi
+to set limits|To fix limits on something.|fixer des limites
+consumer rights|The legal rights of buyers and users of goods and services.|droits des consommateurs
+economic damages|Specific costs such as medical bills and repair of damaged property.|préjudices économiques
+non-economic damages|Compensation for emotional distress, pain and suffering.|préjudices non économiques
+emotional distress|Psychological suffering.|souffrance psychologique
+pain and suffering|Physical pain and mental anguish caused by an injury.|douleurs et souffrances
+the slap|The 2022 Oscars incident between Will Smith and Chris Rock.|la gifle
+claimant|The person who brings a claim (plaintiff).|demandeur
+to negotiate|To discuss in order to reach an agreement.|négocier
+legal strategy|A plan of legal arguments and actions to win or settle a case.|stratégie juridique
+to make an offer|To propose terms, for example in a settlement.|faire une proposition
+to reach a settlement|To arrive at an agreement that ends a dispute.|parvenir à un accord amiable
+to avoid going to court|To resolve a dispute without a trial.|éviter d'aller au tribunal
+murder|The unlawful killing of a person with intent.|meurtre
+criminal case|A case in which the State prosecutes an offence.|affaire pénale
+civil case|A case between private parties, usually about compensation.|affaire civile
+to be acquitted|To be declared not guilty.|être acquitté
+to seek compensation|To ask for money for a loss or injury.|demander une indemnisation`;
 var ALL=RAW.split('\n').map(function(l){var p=l.split('|');return{en:p[0],def:p[1],fr:p[2]}});
 var deck,idx,dir=0,known=0,flipped=false;
 function fcReset(){deck=ALL.slice();idx=0;known=0;fcShow()}
