@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCT — Droit des collectivités territoriales — Cours de TD</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap');
+:root{
+  --r:#8B0000;--rv:#B22222;--rp:#fdf0f0;--rb:#e8c8c8;
+  --n:#1a1a1a;--gf:#2d2d2d;--g:#555;--gc:#f6f8fb;--b:#fefefe;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'EB Garamond',Georgia,serif;background:var(--b);color:var(--n);font-size:17px;line-height:1.75}
+header{background:var(--n);color:#fff;padding:1.8rem 2rem 1.4rem;border-bottom:4px solid var(--r);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
+header h1{font-size:clamp(1.3rem,4vw,2rem);font-weight:600}
+header h1 span{color:#B22222}
+header small{color:#aaa;font-size:.82rem;letter-spacing:.06em;display:block;margin-top:.2rem}
+nav{background:var(--r);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav ul{list-style:none;display:flex;flex-wrap:nowrap;min-width:max-content}
+.nav-radio{display:none}
+nav label{display:block;padding:.65rem .85rem;color:rgba(255,255,255,.82);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer}
+.page-content{display:none}
+#home-content{display:block}
+
+#r-home:checked~.wrap #home-content,
+#r-plan:checked~.wrap #home-content,
+#r-f1:checked~.wrap #home-content,
+#r-f2:checked~.wrap #home-content,
+#r-f3:checked~.wrap #home-content,
+#r-f4:checked~.wrap #home-content,
+#r-f5:checked~.wrap #home-content,
+#r-f6:checked~.wrap #home-content,
+#r-f7:checked~.wrap #home-content,
+#r-f8:checked~.wrap #home-content,
+#r-f9:checked~.wrap #home-content,
+#r-f10:checked~.wrap #home-content,
+#r-f11:checked~.wrap #home-content,
+#r-f12:checked~.wrap #home-content{display:none}
+#r-home:checked~.wrap #home-content{display:block}
+#r-plan:checked~.wrap #page-plan{display:block}
+#r-f1:checked~.wrap #page-f1{display:block}
+#r-f2:checked~.wrap #page-f2{display:block}
+#r-f3:checked~.wrap #page-f3{display:block}
+#r-f4:checked~.wrap #page-f4{display:block}
+#r-f5:checked~.wrap #page-f5{display:block}
+#r-f6:checked~.wrap #page-f6{display:block}
+#r-f7:checked~.wrap #page-f7{display:block}
+#r-f8:checked~.wrap #page-f8{display:block}
+#r-f9:checked~.wrap #page-f9{display:block}
+#r-f10:checked~.wrap #page-f10{display:block}
+#r-f11:checked~.wrap #page-f11{display:block}
+#r-f12:checked~.wrap #page-f12{display:block}
+
+#r-home:checked~.wrap .nav-home,
+#r-plan:checked~.wrap .nav-plan,
+#r-f1:checked~.wrap .nav-f1,
+#r-f2:checked~.wrap .nav-f2,
+#r-f3:checked~.wrap .nav-f3,
+#r-f4:checked~.wrap .nav-f4,
+#r-f5:checked~.wrap .nav-f5,
+#r-f6:checked~.wrap .nav-f6,
+#r-f7:checked~.wrap .nav-f7,
+#r-f8:checked~.wrap .nav-f8,
+#r-f9:checked~.wrap .nav-f9,
+#r-f10:checked~.wrap .nav-f10,
+#r-f11:checked~.wrap .nav-f11,
+#r-f12:checked~.wrap .nav-f12{color:#fff!important;background:rgba(255,255,255,.15)!important;border-bottom-color:#fff!important}
+
+#home{padding:2.5rem 2.5rem 4rem}
+.home-intro{text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--rb)}
+.home-intro h2{font-size:clamp(1.4rem,3.5vw,1.9rem);font-weight:700;margin-bottom:.4rem}
+.home-intro p{color:var(--g);font-size:.95rem;max-width:620px;margin:0 auto}
+.home-section-title{font-size:.73rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin:2rem 0 .9rem;padding-bottom:.3rem;border-bottom:1px solid var(--rb)}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+label.card{display:block;background:var(--b);border:1.5px solid var(--rb);border-top:4px solid var(--r);padding:1.2rem 1.1rem 1rem;cursor:pointer;color:inherit;transition:box-shadow .15s}
+label.card:hover{box-shadow:0 4px 18px rgba(139,0,0,.13)}
+label.card .card-num{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:.3rem}
+label.card h3{font-size:.95rem;font-weight:700;color:var(--r);margin-bottom:.2rem;line-height:1.35}
+label.card p{font-size:.8rem;color:var(--g);line-height:1.4}
+label.card-plan{display:block;background:var(--n);border-top:4px solid var(--r);padding:1.2rem 1.1rem 1rem;cursor:pointer;color:#fff;transition:opacity .15s}
+label.card-plan:hover{opacity:.9}
+label.card-plan .card-num{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-bottom:.3rem}
+label.card-plan h3{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+label.card-plan p{font-size:.8rem;color:#aaa;line-height:1.4}
+
+main{max-width:100%;margin:0 auto;padding:2.2rem 2.5rem 5rem}
+label.btn-home{display:inline-block;background:transparent;border:1.5px solid rgba(139,0,0,.3);color:var(--rv);padding:.4rem 1rem;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;font-family:inherit}
+
+.mindmap-container{width:100%;overflow-x:auto;padding:1.5rem 0}
+.mindmap-scroll{min-width:900px}
+.root-node{display:flex;align-items:center;justify-content:center;margin-bottom:2rem}
+.root-node .node-box{background:var(--n);color:#fff;padding:.9rem 2rem;font-size:1.1rem;font-weight:700;letter-spacing:.04em;text-align:center;border-bottom:3px solid var(--r)}
+.root-node .node-box small{display:block;color:#aaa;font-size:.72rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem}
+.single-col{display:flex;flex-direction:column;gap:1.5rem;align-items:stretch}
+.partie-block{border:2px solid var(--r);background:#fff}
+.partie-header{background:var(--r);color:#fff;padding:.6rem 1rem;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.partie-body{padding:.8rem;display:flex;flex-direction:column;gap:.7rem}
+.chap-block{border:1px solid var(--rb);background:#fff}
+.chap-header{background:var(--gc);border-bottom:1px solid var(--rb);padding:.35rem .7rem;font-size:.73rem;font-weight:700;color:var(--r);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;list-style:none}
+.chap-header::-webkit-details-marker{display:none}
+.chap-toggle::after{content:'▸';color:var(--r);font-size:.8rem}
+details[open] .chap-toggle::after{content:'▾'}
+.chap-body{padding:.55rem .7rem;display:flex;flex-direction:column;gap:.3rem}
+.section-item{padding:.28rem .5rem .28rem .85rem;border-left:2px solid var(--rb);font-size:.82rem;color:var(--gf);display:flex;flex-direction:column;gap:.18rem}
+.section-label{font-weight:700;color:var(--rv);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.section-name{font-size:.84rem;color:var(--gf);font-weight:600}
+.para-list{margin-top:.22rem;padding-left:.7rem;display:flex;flex-direction:column;gap:.12rem}
+.para-item{font-size:.78rem;color:var(--g);position:relative;padding-left:.9rem;line-height:1.4}
+.para-item::before{content:'§';position:absolute;left:0;color:var(--r);font-weight:700;font-size:.7rem}
+.plan-fiche-link{display:inline-block;margin-top:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--r);padding:.18rem .55rem;cursor:pointer;border:none;font-family:inherit}
+
+/* FICHES */
+.fiche-page{max-width:840px;margin:0 auto}
+.fiche-header{margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid var(--r)}
+.fiche-meta{font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--g);margin-bottom:.35rem}
+.fiche-header h2{font-size:clamp(1.2rem,3vw,1.6rem);font-weight:700;color:var(--n)}
+.fiche-intro{margin-top:.9rem;font-size:.93rem;color:var(--g);line-height:1.65;font-style:italic;padding:.7rem 1rem;background:var(--gc);border-left:3px solid var(--rb)}
+
+.f-bloc{margin-bottom:2.4rem}
+.f-bloc-title{font-size:1.05rem;font-weight:700;color:#fff;background:var(--n);padding:.5rem .9rem;margin-bottom:1.1rem;display:flex;align-items:center;gap:.7rem}
+.f-bloc-title .f-num{background:var(--r);padding:.1rem .5rem;font-size:.75rem;letter-spacing:.07em;white-space:nowrap}
+.f-sous{margin-bottom:1.5rem;padding-left:1.1rem;border-left:3px solid var(--r)}
+.f-sous-title{font-size:.98rem;font-weight:700;color:var(--r);margin-bottom:.6rem;padding-bottom:.25rem;border-bottom:1px dotted var(--rb)}
+.f-sous2{margin-bottom:1rem;padding-left:.9rem;border-left:2px solid var(--rb)}
+.f-sous2-title{font-size:.9rem;font-weight:700;color:var(--gf);margin-bottom:.4rem}
+.f-text{font-size:.92rem;color:var(--gf);line-height:1.75;margin-bottom:.55rem}
+.f-list{list-style:none;padding:0;margin:.3rem 0 .6rem .1rem}
+.f-list li{font-size:.91rem;color:var(--gf);line-height:1.65;padding:.15rem 0 .15rem 1.1rem;position:relative}
+.f-list li::before{content:'—';position:absolute;left:0;color:var(--r);font-weight:700}
+.f-list li strong{color:var(--r)}
+.f-alerte{background:#fffbf0;border-left:4px solid #c47900;padding:.75rem 1rem;margin:.5rem 0 .9rem;font-size:.88rem;line-height:1.65;color:var(--gf)}
+.f-alerte strong:first-child{color:#9a5e00;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.25rem}
+.f-exemple{background:var(--gc);border-left:3px solid #888;padding:.7rem 1rem;margin:.5rem 0 .9rem;font-size:.88rem;line-height:1.65;color:var(--g)}
+.f-exemple strong:first-child{color:var(--gf);font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;display:block;margin-bottom:.2rem}
+.f-comp{background:#f2f5fa;border-left:4px solid #4a6a8a;padding:.75rem 1rem;margin:.5rem 0 .9rem;font-size:.88rem;line-height:1.65;color:var(--gf)}
+.f-comp strong:first-child{color:#2f4a66;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.25rem}
+.f-key{background:var(--rp);border:1.5px solid var(--rb);padding:.65rem 1rem;margin:.5rem 0 .9rem;font-size:.91rem;line-height:1.65;color:var(--gf);display:flex;align-items:baseline;gap:.6rem}
+.f-key::before{content:'→';color:var(--r);font-weight:700;flex-shrink:0;font-size:1rem}
+.f-table-wrap{overflow-x:auto;margin:.6rem 0 .9rem}
+.f-table{width:100%;border-collapse:collapse;font-size:.86rem}
+.f-table thead tr{background:var(--n);color:#fff}
+.f-table thead th{padding:.5rem .8rem;text-align:left;font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.f-table tbody tr:nth-child(even){background:var(--gc)}
+.f-table tbody td{padding:.45rem .8rem;border-bottom:1px solid var(--rb);vertical-align:top}
+.f-table tbody td:first-child{font-weight:700;color:var(--r)}
+.f-retenir{background:var(--rp);border-left:4px solid var(--r);padding:.9rem 1.1rem;margin-top:1.8rem;font-size:.91rem;line-height:1.7;color:var(--gf)}
+.f-retenir strong{color:var(--r);font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:.5rem}
+.f-retenir ul{list-style:none;padding:0;margin:.3rem 0}
+.f-retenir ul li{padding:.1rem 0 .1rem 1rem;position:relative;font-size:.9rem}
+.f-retenir ul li::before{content:'✓';position:absolute;left:0;color:var(--r);font-weight:700;font-size:.78rem}
+.fiche-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--rb)}
+.fiche-nav label{color:var(--rv);cursor:pointer;font-size:.85rem}
+.f-vs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.5rem 0 1rem}
+.f-vs-col{padding:.7rem .9rem;font-size:.86rem;border:1.5px solid var(--rb)}
+.f-vs-col-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--r);margin-bottom:.4rem}
+.f-steps{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0}
+.f-step{background:var(--r);color:#fff;padding:.3rem .7rem;font-size:.8rem;font-weight:600}
+.f-quote{border-left:3px solid var(--r);padding:.5rem 1rem;margin:.5rem 0 .9rem;font-size:.88rem;font-style:italic;color:var(--g);background:var(--rp)}
+.f-quote cite{display:block;font-style:normal;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--r);margin-top:.3rem}
+.syl{margin:.4rem 0 1rem;border:1.5px solid var(--rb)}
+.syl div{padding:.5rem .9rem;font-size:.88rem;line-height:1.65;border-bottom:1px solid var(--rb)}
+.syl div:last-child{border-bottom:none}
+.syl b{display:inline-block;min-width:6.5rem;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--r)}
+.syl .q{background:var(--n);color:#fff;font-weight:600}
+.syl .q b{color:#e8a0a0}
+.syl .c{background:var(--rp)}
+
+footer{background:var(--n);color:#777;text-align:center;padding:1.2rem;font-size:.78rem;letter-spacing:.05em;border-top:3px solid var(--r);margin-top:2rem}
+footer span{color:#B22222}
+
+@media(max-width:900px){
+  .mindmap-scroll{min-width:unset}
+  main{padding:1.4rem .9rem 4rem}
+  header{padding:1.2rem 1rem 1rem}
+  nav label{padding:.55rem .5rem;font-size:.68rem}
+  #home{padding:1.8rem 1rem 3rem}
+  .cards-grid{grid-template-columns:1fr 1fr}
+  .f-vs{grid-template-columns:1fr}
+}
+@media(max-width:480px){.cards-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<input type="radio" name="page" class="nav-radio" id="r-home" checked>
+<input type="radio" name="page" class="nav-radio" id="r-plan">
+<input type="radio" name="page" class="nav-radio" id="r-f1">
+<input type="radio" name="page" class="nav-radio" id="r-f2">
+<input type="radio" name="page" class="nav-radio" id="r-f3">
+<input type="radio" name="page" class="nav-radio" id="r-f4">
+<input type="radio" name="page" class="nav-radio" id="r-f5">
+<input type="radio" name="page" class="nav-radio" id="r-f6">
+<input type="radio" name="page" class="nav-radio" id="r-f7">
+<input type="radio" name="page" class="nav-radio" id="r-f8">
+<input type="radio" name="page" class="nav-radio" id="r-f9">
+<input type="radio" name="page" class="nav-radio" id="r-f10">
+<input type="radio" name="page" class="nav-radio" id="r-f11">
+<input type="radio" name="page" class="nav-radio" id="r-f12">
+
+<div class="wrap">
+<header>
+  <label for="r-home" style="text-decoration:none;color:inherit;display:block;cursor:pointer">
+    <h1>Droit des <span>Collectivités Territoriales</span></h1>
+    <small>Travaux dirigés · Séances 1 à 4 · 12 fiches de cours · M1 DPU-EPDA · Aix-Marseille Université · 2026-2027</small>
+  </label>
+</header>
+<nav>
+  <ul>
+    <li><label class="nav-home" for="r-home">Accueil</label></li>
+    <li><label class="nav-plan" for="r-plan">Plan du cours</label></li>
+    <li><label class="nav-f1" for="r-f1">#1 Décentralisation</label></li>
+    <li><label class="nav-f2" for="r-f2">#2 Libre administration</label></li>
+    <li><label class="nav-f3" for="r-f3">#3 Cas Corse</label></li>
+    <li><label class="nav-f4" for="r-f4">#4 Outils de démocratie locale</label></li>
+    <li><label class="nav-f5" for="r-f5">#5 Valdouze 1-2</label></li>
+    <li><label class="nav-f6" for="r-f6">#6 Valdouze 3</label></li>
+    <li><label class="nav-f7" for="r-f7">#7 Resp. financière</label></li>
+    <li><label class="nav-f8" for="r-f8">#8 Resp. pénale</label></li>
+    <li><label class="nav-f9" for="r-f9">#9 Gestion de fait &amp; émeutes</label></li>
+    <li><label class="nav-f10" for="r-f10">#10 Photovoltaïque</label></li>
+    <li><label class="nav-f11" for="r-f11">#11 Bornes &amp; mutuelle</label></li>
+    <li><label class="nav-f12" for="r-f12">#12 Méthode &amp; index</label></li>
+  </ul>
+</nav>
+
+<!-- ACCUEIL -->
+<div id="home-content">
+<div id="home">
+  <div class="home-intro">
+    <h2>Droit des collectivités territoriales et de l'action territoriale</h2>
+    <p>Cours reconstitué à partir des 4 séances de TD (rappels de cours + corrections) et des 4 plaquettes · Cours de MM. Lombard et Ferrand · Le cours magistral reste à réviser en parallèle</p>
+  </div>
+
+  <div class="home-section-title">Navigation générale</div>
+  <div class="cards-grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr))">
+    <label class="card-plan" for="r-plan">
+      <div class="card-num">Vue d'ensemble</div>
+      <h3>Plan du cours</h3>
+      <p>Les 4 séances, leurs questions et les fondements clés, avec liens directs vers les fiches</p>
+    </label>
+    <label class="card-plan" for="r-f12">
+      <div class="card-num">Fiche #12</div>
+      <h3>Méthode &amp; index des fondements</h3>
+      <p>Syllogisme exigé · ce qu'il faut connaître par cœur · tableau récapitulatif de tous les textes et arrêts</p>
+    </label>
+  </div>
+
+  <div class="home-section-title">Séance 1 — Les principes directeurs de la décentralisation</div>
+  <div class="cards-grid">
+    <label class="card" for="r-f1">
+      <div class="card-num">Fiche #1</div>
+      <h3>Décentralisation, déconcentration, libre administration</h3>
+      <p>Art. 1er C. · personnalité morale · affaires locales · art. 72 al. 3 · limites (indivisibilité, unité du peuple, égalité)</p>
+    </label>
+    <label class="card" for="r-f2">
+      <div class="card-num">Fiche #2</div>
+      <h3>Les trois composantes de la libre administration</h3>
+      <p>Autonomie institutionnelle (CC 2010) · fonctionnelle (clause générale) · financière (art. 72-2, 5 décisions du CC)</p>
+    </label>
+    <label class="card" for="r-f3">
+      <div class="card-num">Fiche #3</div>
+      <h3>Cas : l'article 72-5 sur la Corse</h3>
+      <p>Communauté « insulaire » · matières exclues · non-régression · consultation des électeurs</p>
+    </label>
+  </div>
+
+  <div class="home-section-title">Séance 2 — La démocratie locale</div>
+  <div class="cards-grid">
+    <label class="card" for="r-f4">
+      <div class="card-num">Fiche #4</div>
+      <h3>Les 5 instruments de participation</h3>
+      <p>Grille comparative : référendum · consultation · pétition · consultation ouverte · vœu · TA Grenoble 2025</p>
+    </label>
+    <label class="card" for="r-f5">
+      <div class="card-num">Fiche #5</div>
+      <h3>Cas Valdouze — médiathèque &amp; école</h3>
+      <p>Référendum mal conçu · seuil de la pétition · droit de demander ≠ droit d'obtenir · électeurs ≠ habitants</p>
+    </label>
+    <label class="card" for="r-f6">
+      <div class="card-num">Fiche #6</div>
+      <h3>Cas Valdouze — le parc éolien</h3>
+      <p>Compétence ≠ intérêt public local · Ventabren, Avrillé · vœu · votation citoyenne (CAA Paris 2026)</p>
+    </label>
+  </div>
+
+  <div class="home-section-title">Séance 3 — La responsabilité des collectivités et des élus</div>
+  <div class="cards-grid">
+    <label class="card" for="r-f7">
+      <div class="card-num">Fiche #7</div>
+      <h3>La responsabilité financière des gestionnaires publics</h3>
+      <p>Ancien régime (CDBF, CRC, RPP) · ordonnance 2022 · 7e chambre de la Cour des comptes · gestion de fait</p>
+    </label>
+    <label class="card" for="r-f8">
+      <div class="card-num">Fiche #8</div>
+      <h3>Responsabilité pénale de l'élu : cas Briocharisse</h3>
+      <p>Prise illégale d'intérêts (loi 22 déc. 2025) · favoritisme · L. 2131-11 · détournement de pouvoir</p>
+    </label>
+    <label class="card" for="r-f9">
+      <div class="card-num">Fiche #9</div>
+      <h3>Gestion de fait &amp; attroupements</h3>
+      <p>Mandat fictif · L. 131-15 CJF · art. L. 211-10 CSI · action récursoire contre la commune</p>
+    </label>
+  </div>
+
+  <div class="home-section-title">Séance 4 — L'interventionnisme économique local</div>
+  <div class="cards-grid">
+    <label class="card" for="r-f10">
+      <div class="card-num">Fiche #10</div>
+      <h3>Le parc photovoltaïque</h3>
+      <p>Compétence · domaine public/privé · gratuité · aides à l'immobilier d'entreprise · aides d'État · bail</p>
+    </label>
+    <label class="card" for="r-f11">
+      <div class="card-num">Fiche #11</div>
+      <h3>Bornes de recharge &amp; mutuelle communale</h3>
+      <p>Art. L. 2224-37 · Nevers 1930 · Ordre des avocats 2006 · SPL/SEM · associations transparentes</p>
+    </label>
+  </div>
+
+  <div class="f-comp" style="margin-top:2rem"><strong>Comment lire les encadrés</strong>Rouge = notion clé · orange = piège ou point de vigilance · gris = exemple, arrêt · <b>bleu = complément</b> : passage que les transcriptions ne couvrent pas (séance manquante) ou précision ajoutée pour éviter une zone d'ombre. Les compléments sont reconstruits à partir des plaquettes et du droit positif ; ils ne viennent pas de la bouche du chargé de TD.</div>
+</div>
+</div>
+
+<!-- PAGE PLAN -->
+<div class="page-content" id="page-plan"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Plan complet du cours</div>
+    <h2>DCT — Les 4 séances de TD</h2>
+  </div>
+
+  <div class="mindmap-container"><div class="mindmap-scroll">
+  <div class="root-node"><div class="node-box">DROIT DES COLLECTIVITÉS TERRITORIALES<small>TD · Séances 1 à 4 · Rappels de cours + cas pratiques</small></div></div>
+  <div class="single-col">
+
+    <div class="partie-block">
+      <div class="partie-header">Séance 1 — Les principes directeurs de la décentralisation</div>
+      <div class="partie-body">
+        <details class="chap-block">
+          <summary class="chap-header">Rappel de cours — Décentralisation et libre administration <span class="chap-toggle"></span></summary>
+          <div class="chap-body">
+            <div class="section-item"><span class="section-label">I</span><span class="section-name">Deux notions distinctes</span><div class="para-list"><div class="para-item">Décentralisation (art. 1er C.) = organisation de l'État · personnes morales distinctes · affaires locales transférées</div><div class="para-item">≠ Déconcentration : une seule personne, l'État (préfet)</div><div class="para-item">Libre administration (art. 72 al. 3) = liberté laissée aux collectivités · seuil protégé contre le législateur</div><div class="para-item">Limites : indivisibilité, unité du peuple français, égalité · pas d'indépendance</div></div></div>
+            <label class="plan-fiche-link" for="r-f1">→ Fiche #1</label>
+            <div class="section-item"><span class="section-label">II</span><span class="section-name">Les 3 composantes de la libre administration</span><div class="para-list"><div class="para-item">Institutionnelle : conseils élus · CC 9 déc. 2010 (conseillers territoriaux)</div><div class="para-item">Fonctionnelle : compétences · clause générale (aujourd'hui communes seules)</div><div class="para-item">Financière : art. 72-2 · CC 1990, 1991, 2003, 2005, 2009 · autonomie financière ≠ fiscale</div></div></div>
+            <label class="plan-fiche-link" for="r-f2">→ Fiche #2</label>
+          </div>
+        </details>
+        <details class="chap-block">
+          <summary class="chap-header">Cas — Projet d'article 72-5 sur la Corse <span class="chap-toggle"></span></summary>
+          <div class="chap-body">
+            <div class="section-item"><span class="section-label">Q1</span><span class="section-name">« Communauté insulaire, historique… » · CC 1982 et 1991 · avis CE 17 juill. 2025</span></div>
+            <div class="section-item"><span class="section-label">Q2</span><span class="section-name">Liste des matières exclues · législateur organique borné · avis CE 15 nov. 2012</span></div>
+            <div class="section-item"><span class="section-label">Q3</span><span class="section-name">Non-régression sociale et environnementale : garantie normative ou clause d'affichage ?</span></div>
+            <div class="section-item"><span class="section-label">Q4</span><span class="section-name">Consultation des électeurs : « peuvent être » → « sont » consultés</span></div>
+            <label class="plan-fiche-link" for="r-f3">→ Fiche #3</label>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="partie-block">
+      <div class="partie-header">Séance 2 — La démocratie locale</div>
+      <div class="partie-body">
+        <details class="chap-block">
+          <summary class="chap-header">Travail préparatoire — Grille des 5 instruments <span class="chap-toggle"></span></summary>
+          <div class="chap-body">
+            <div class="section-item"><span class="section-label">Grille</span><span class="section-name">Référendum local · consultation des électeurs · pétition · consultation ouverte (CRPA) · vœu</span></div>
+            <div class="section-item"><span class="section-label">Pièces</span><span class="section-name">TA Grenoble réf. 13 févr. 2025 (Talloires-Montmin) · article de C. Courbaron</span></div>
+            <label class="plan-fiche-link" for="r-f4">→ Fiche #4</label>
+          </div>
+        </details>
+        <details class="chap-block">
+          <summary class="chap-header">Cas Valdouze — dossiers 1 et 2 <span class="chap-toggle"></span></summary>
+          <div class="chap-body">
+            <div class="section-item"><span class="section-label">D1</span><span class="section-name">Médiathèque : qui décide, quel objet, quelle date, quel quorum</span></div>
+            <div class="section-item"><span class="section-label">D2</span><span class="section-name">École : seuil (1 170 / 610) · obligation du conseil · non-inscrits · pas de référendum d'initiative citoyenne</span></div>
+            <label class="plan-fiche-link" for="r-f5">→ Fiche #5</label>
+          </div>
+        </details>
+        <details class="chap-block">
+          <summary class="chap-header">Cas Valdouze — dossier 3 (parc éolien) <span class="chap-toggle"></span></summary>
+          <div class="chap-body">
+            <div class="section-item"><span class="section-label">D3</span><span class="section-name">Compétence de l'État · intérêt local inopérant · vœu (L. 2121-29) · votation hors de toute catégorie · valeur et risques</span></div>
+            <label class="plan-fiche-link" for="r-f6">→ Fiche #6</label>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="partie-block">
+      <div class="partie-header">Séance 3 — La responsabilité</div>
+      <div class="partie-body">
+        <details class="chap-block">
+          <summary class="chap-header">Rappel de cours — Responsabilité financière (RFGP) <span class="chap-toggle"></span></summary>
+          <div class="chap-body">
+            <div class="section-item"><span class="section-label">Avant 2023</span><span class="section-name">CDBF (ordonnateurs) / CRC (comptables) · remises gracieuses · RPP</span></div>
+            <div class="section-item"><span class="section-label">Depuis 2023</span><span class="section-name">Ord. 23 mars 2022 · régime unifié · 7e chambre « du contentieux » · amende ≤ 6 mois de rémunération</span></div>
+            <div class="section-item"><span class="section-label">Exception</span><span class="section-name">Élus locaux non justiciables… sauf gestion de fait</span></div>
+            <label class="plan-fiche-link" for="r-f7">→ Fiche #7</label>
+          </div>
+        </details>
+        <details class="chap-block">
+          <summary class="chap-header">Cas Briocharisse <span class="chap-toggle"></span></summary>
+          <div class="chap-body">
+            <div class="section-item"><span class="section-label">Q1-Q2</span><span class="section-name">Prise illégale d'intérêts · favoritisme · présence au conseil (L. 2131-11)</span></div>
+            <div class="section-item"><span class="section-label">Q3</span><span class="section-name">Maison de santé : détournement de pouvoir (Pariset 1875 ; CAA Nancy 2024)</span></div>
+            <label class="plan-fiche-link" for="r-f8">→ Fiche #8</label>
+            <div class="section-item"><span class="section-label">Q4-Q5</span><span class="section-name">Toiture : mandat fictif → gestion de fait · Émeutes : L. 211-10 CSI et action récursoire</span></div>
+            <label class="plan-fiche-link" for="r-f9">→ Fiche #9</label>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="partie-block">
+      <div class="partie-header">Séance 4 — L'interventionnisme économique des communes</div>
+      <div class="partie-body">
+        <details class="chap-block">
+          <summary class="chap-header">Cas Saint-Saturnin-lès-Trois-Cyprès <span class="chap-toggle"></span></summary>
+          <div class="chap-body">
+            <div class="section-item"><span class="section-label">Q1</span><span class="section-name">Photovoltaïque : compétence (L. 2251-1) · domanialité · gratuité · aides (L. 1511-3) · TFUE · contrat</span></div>
+            <label class="plan-fiche-link" for="r-f10">→ Fiche #10</label>
+            <div class="section-item"><span class="section-label">Q2</span><span class="section-name">Bornes : L. 2224-37 · offre inexistante, insuffisante ou inadéquate · Nevers / Ordre des avocats</span></div>
+            <div class="section-item"><span class="section-label">Q3</span><span class="section-name">Mutuelle : compétence · carence · véhicule (SPL, SEM, association transparente)</span></div>
+            <label class="plan-fiche-link" for="r-f11">→ Fiche #11</label>
+          </div>
+        </details>
+      </div>
+    </div>
+
+  </div>
+  </div></div>
+
+  <div class="fiche-nav"><label for="r-home">← Accueil</label><label for="r-f1">Fiche #1 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 1 -->
+<div class="page-content" id="page-f1"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #1 — Séance 1 · Rappel de cours</div>
+    <h2>Décentralisation, déconcentration et libre administration</h2>
+    <div class="fiche-intro">La Constitution emploie deux mots qu'il ne faut jamais confondre : « décentralisation » et « libre administration ». Ils sont liés, mais ils ne désignent pas la même chose et n'ont pas les mêmes conséquences juridiques. La décentralisation décrit la manière dont l'État s'organise. La libre administration décrit la liberté dont disposent les collectivités ainsi créées, et la limite que le législateur ne peut pas franchir.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">§ 1</span> La décentralisation, forme d'organisation de l'État</div>
+    <div class="f-quote">« La France est une République indivisible, laïque, démocratique et sociale. […] Son organisation est décentralisée. »<cite>Article 1er de la Constitution (dernière phrase ajoutée par la révision du 28 mars 2003)</cite></div>
+    <div class="f-text"><strong>La portée symbolique.</strong> Inscrire la décentralisation dès l'article 1er, c'est la placer au même rang que les caractères fondamentaux de la République. C'est aussi la « graver dans le marbre » : le législateur ne peut plus revenir à un État centralisé sans réviser la Constitution.</div>
+    <div class="f-key">Décentralisation = forme d'organisation de l'État, qui s'oppose à la centralisation. Il y a décentralisation quand l'État transfère la gestion des affaires locales à des entités dotées de la personnalité morale, juridiquement distinctes de lui.</div>
+    <div class="f-text">Deux éléments sont donc nécessaires :</div>
+    <ul class="f-list">
+      <li><strong>Une personnalité morale propre</strong> : la commune d'Aix n'est pas l'État, c'est la commune d'Aix. Elle s'inscrit dans l'État français mais elle est une personne juridique distincte (patrimoine, budget, contentieux propres).</li>
+      <li><strong>Des affaires locales</strong> : l'État lui transfère la gestion d'affaires qui concernent la population locale.</li>
+    </ul>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">§ 2</span> Décentralisation ≠ déconcentration</div>
+    <div class="f-vs">
+      <div class="f-vs-col"><div class="f-vs-col-title">Déconcentration</div>Une seule personne juridique en face de soi : <strong>l'État</strong>. L'État délègue un pouvoir de décision à ses propres agents placés sur le territoire (le préfet, les directions départementales, la douane…). Ces agents restent soumis au pouvoir hiérarchique de l'État.</div>
+      <div class="f-vs-col"><div class="f-vs-col-title">Décentralisation</div><strong>Plusieurs personnes</strong> juridiques en face de soi : l'État et les collectivités territoriales. Ces dernières ont leur personnalité morale et leurs organes élus. L'État ne les commande pas : il exerce sur elles un simple <em>contrôle</em> (contrôle de légalité, art. 72 al. 6).</div>
+    </div>
+    <div class="f-text">Le critère de distinction n'est donc pas le transfert d'affaires locales en lui-même. C'est l'<strong>existence d'une autonomie juridique</strong> (une personne morale distincte de l'État).</div>
+    <div class="f-text">Dans l'État français, les deux coexistent. Pour le chargé de TD, la déconcentration est « quasiment un passage obligé » pour un État : il ne peut pas tout faire depuis Paris et doit être présent sur tout le territoire.</div>
+    <div class="f-exemple"><strong>Application dans les cas pratiques</strong>L'autorisation environnementale d'un parc éolien est délivrée par le <em>préfet au nom de l'État</em> : c'est de la déconcentration. La commune, collectivité décentralisée, n'a aucune décision à prendre dans cette procédure (→ fiche #6).</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">§ 3</span> La libre administration</div>
+    <div class="f-text">Avec la libre administration, on ne se demande plus comment l'État est organisé. On se demande quel est le <strong>rôle</strong> des autorités décentralisées et de quelle <strong>liberté</strong> elles disposent pour s'administrer.</div>
+    <div class="f-quote">« Dans les conditions prévues par la loi, ces collectivités s'administrent librement par des conseils élus et disposent d'un pouvoir réglementaire pour l'exercice de leurs compétences. »<cite>Article 72, alinéa 3, de la Constitution</cite></div>
+    <div class="f-key">La libre administration est la « ligne rouge » que le législateur ne doit jamais franchir lorsqu'il intervient sur les collectivités territoriales. C'est un seuil minimal d'autonomie protégé par la Constitution et garanti par le Conseil constitutionnel.</div>
+    <div class="f-alerte"><strong>Paradoxe à bien comprendre</strong>La libre administration s'exerce « dans les conditions prévues par la loi ». Le législateur organise donc cette liberté (art. 34 C. : la loi détermine les principes fondamentaux de la libre administration des collectivités, de leurs compétences et de leurs ressources). Mais il ne peut pas la vider de sa substance. Le contrôle du Conseil constitutionnel porte sur ce point : la loi a-t-elle franchi le seuil ?</div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">Les limites de la libre administration</div>
+      <div class="f-text">La libre administration doit être conciliée avec les autres principes constitutionnels. Elle ne peut pas les écarter.</div>
+      <ul class="f-list">
+        <li><strong>L'indivisibilité de la République</strong> (art. 1er) : la libre administration n'est pas une <em>indépendance</em>. L'État garde un contrôle sur les collectivités. Une commune qui ferait « ce qu'elle veut », sans tenir compte de la Constitution ni des lois nationales, sortirait de la libre administration.</li>
+        <li><strong>L'unité du peuple français</strong> : il n'y a qu'un peuple. La libre administration ne peut pas servir à reconnaître des peuples distincts (→ cas Corse, fiche #3).</li>
+        <li><strong>L'égalité</strong> : la libre administration ne doit pas créer de ruptures d'égalité injustifiées entre citoyens selon la collectivité où ils vivent. C'est ce que la péréquation cherche à corriger (→ fiche #2).</li>
+      </ul>
+      <div class="f-comp"><strong>Complément — les garde-fous de l'article 72</strong>Le même article prévoit aussi : l'interdiction de toute <em>tutelle</em> d'une collectivité sur une autre (al. 5), avec la possibilité de désigner une collectivité « chef de file » ; et le rôle du <em>représentant de l'État</em> (préfet), chargé des intérêts nationaux, du contrôle administratif et du respect des lois (al. 6). Sur la question posée en séance (« où est le seuil de l'indépendance ? ») : recevoir une compétence ne rend pas une collectivité indépendante dans cette matière. Elle l'exerce dans le cadre de la loi, sous le contrôle de légalité du préfet et du juge administratif, et son pouvoir réglementaire reste subordonné à la loi et au pouvoir réglementaire national (→ fiche #3, avis CE 2012).</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Synthèse</span> Tableau comparatif</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Notion</th><th>Question à laquelle elle répond</th><th>Fondement</th><th>Conséquence</th></tr></thead><tbody>
+      <tr><td>Déconcentration</td><td>Comment l'État agit-il sur le territoire ?</td><td>Pouvoir hiérarchique (préfet)</td><td>Une seule personne : l'État</td></tr>
+      <tr><td>Décentralisation</td><td>Comment l'État est-il organisé ?</td><td>Art. 1er C.</td><td>Des personnes morales distinctes gèrent des affaires locales</td></tr>
+      <tr><td>Libre administration</td><td>Quelle liberté pour ces collectivités ?</td><td>Art. 72 al. 3 C.</td><td>Seuil d'autonomie opposable au législateur, sans aller jusqu'à l'indépendance</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Décentralisation (art. 1er) et libre administration (art. 72 al. 3) : liées mais juridiquement différentes</li>
+      <li>Critère de la décentralisation : une personnalité morale distincte de l'État qui gère des affaires locales</li>
+      <li>Déconcentration : une seule personne (l'État), qui agit par ses agents locaux comme le préfet</li>
+      <li>Libre administration = ligne rouge du législateur, protégée par le Conseil constitutionnel</li>
+      <li>Elle se concilie avec l'indivisibilité, l'unité du peuple français et l'égalité : liberté ≠ indépendance</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-plan">← Plan du cours</label><label for="r-f2">Fiche #2 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 2 -->
+<div class="page-content" id="page-f2"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #2 — Séance 1 · Rappel de cours</div>
+    <h2>Les trois composantes de la libre administration</h2>
+    <div class="fiche-intro">On présente classiquement la libre administration à travers trois autonomies. L'autonomie institutionnelle concerne les élus. L'autonomie fonctionnelle concerne les compétences. L'autonomie financière concerne l'argent. Chacune a été précisée par le Conseil constitutionnel.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">I</span> L'autonomie institutionnelle</div>
+    <div class="f-key">La collectivité s'administre librement par des conseils élus par les citoyens. Elle est libre parce qu'elle est gérée par des représentants que ses propres citoyens ont choisis (art. 72 al. 3 : « par des conseils élus »).</div>
+    <div class="f-sous">
+      <div class="f-sous-title">L'épreuve de la loi RCT de 2010 : les conseillers territoriaux</div>
+      <div class="f-text"><strong>Contexte.</strong> Le droit des collectivités est très souvent réformé. En 2010, le débat porte sur le « millefeuille territorial » : faut-il supprimer un échelon ? La loi de réforme des collectivités territoriales (RCT) du 16 décembre 2010 choisit de garder tous les échelons mais de les rapprocher. Elle crée le <strong>conseiller territorial</strong> : les <em>mêmes élus</em> siègent au conseil départemental et au conseil régional. Le conseil régional devient la réunion de tous les élus siégeant dans les départements de la région.</div>
+      <div class="f-text"><strong>Le problème.</strong> Ce dispositif ne crée-t-il pas une forme de dépendance, voire une <em>tutelle</em> d'une collectivité sur l'autre ? Cette tutelle est interdite par la Constitution (art. 72 al. 5).</div>
+      <div class="f-exemple"><strong>CC, décision n° 2010-618 DC du 9 décembre 2010, Loi de réforme des collectivités territoriales</strong>Le Conseil constitutionnel valide le dispositif. L'autonomie institutionnelle n'exige pas que chaque collectivité ait un conseil élu qui lui soit propre. Le mode d'élection n'est pas ce qui compte. Ce qui compte pour l'article 72 al. 3, c'est que les décisions de l'assemblée délibérante soient prises par des <strong>représentants élus</strong>, peu importe qu'ils siègent aussi ailleurs.</div>
+      <div class="f-comp"><strong>Complément</strong>Le conseiller territorial n'a jamais été mis en place : la loi du 17 mai 2013 l'a supprimé avant sa première élection et a créé le binôme de conseillers départementaux. La décision de 2010 reste la référence sur le contenu de l'autonomie institutionnelle.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">II</span> L'autonomie fonctionnelle</div>
+    <div class="f-key">C'est l'existence de compétences attribuées à la collectivité et effectivement exercées par elle. Une collectivité sans compétences n'aurait aucune liberté réelle. Elle « s'administre » en exerçant des compétences.</div>
+    <div class="f-sous">
+      <div class="f-sous-title">La clause générale de compétence</div>
+      <div class="f-text">Lorsqu'elle est attribuée à une collectivité, la clause générale de compétence lui donne le droit d'intervenir sur <strong>toutes les affaires qui la concernent</strong>. Il y a une réserve, très importante : ces affaires doivent présenter un <strong>intérêt public local</strong>. Autrement dit, c'est le droit de s'occuper de tout ce qui intéresse la population locale, même sans texte spécial.</div>
+      <div class="f-text">Pour la commune, le fondement est l'article L. 2121-29, al. 1er, du CGCT : « Le conseil municipal règle par ses délibérations les affaires de la commune. »</div>
+      <div class="f-text"><strong>Les deux risques identifiés en TD</strong> lorsque tous les échelons disposent de la clause générale et interviennent sur les mêmes sujets :</div>
+      <ul class="f-list">
+        <li><strong>Le risque de contradiction</strong> dans la mise en œuvre d'une même compétence, ce qui produit peu de clarté (qui fait quoi ?).</li>
+        <li><strong>Le risque des financements croisés</strong> : si chaque collectivité peut financer ce que les autres financent déjà, on aboutit à un excès ou à un gaspillage de l'argent public.</li>
+      </ul>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">Les allers-retours du législateur</div>
+      <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Texte</th><th>Effet sur la clause générale</th></tr></thead><tbody>
+        <tr><td>Loi RCT, 16 déc. 2010</td><td>Supprimée pour les départements et les régions (à compter de 2015)</td></tr>
+        <tr><td>Loi MAPTAM, 27 janv. 2014</td><td>Rétablie pour les départements et les régions</td></tr>
+        <tr><td>Loi NOTRe, 7 août 2015</td><td>De nouveau supprimée pour les départements et les régions, qui deviennent des collectivités <strong>spécialisées</strong></td></tr>
+      </tbody></table></div>
+      <div class="f-key">Aujourd'hui, seules les communes disposent de la clause générale de compétence. Les départements et les régions n'agissent que dans les domaines que la loi leur attribue.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">III</span> L'autonomie financière</div>
+    <div class="f-text">Elle est consacrée par l'<strong>article 72-2 de la Constitution</strong>, issu de la révision constitutionnelle du 28 mars 2003. C'est un article récent : l'autonomie financière s'est d'abord construite par la jurisprudence du Conseil constitutionnel, avant d'être garantie par le texte.</div>
+    <div class="f-comp"><strong>Complément — le contenu de l'article 72-2 (à connaître, la Constitution doit être sue)</strong>
+      Al. 1 : les collectivités bénéficient de ressources dont elles peuvent disposer librement dans les conditions fixées par la loi.<br>
+      Al. 2 : elles peuvent recevoir tout ou partie du produit des impositions de toutes natures ; la loi peut les autoriser à en fixer l'assiette et le taux dans les limites qu'elle détermine.<br>
+      Al. 3 : leurs recettes fiscales et autres ressources propres doivent représenter une <em>part déterminante</em> de l'ensemble de leurs ressources (conditions fixées par la loi organique).<br>
+      Al. 4 : tout transfert de compétences s'accompagne de l'attribution de ressources équivalentes à celles consacrées à leur exercice ; toute création ou extension de compétences qui augmente les dépenses s'accompagne de ressources déterminées par la loi.<br>
+      Al. 5 : la loi prévoit des dispositifs de péréquation destinés à favoriser l'égalité entre collectivités.</div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">A. En matière de dépenses</div>
+      <div class="f-sous2">
+        <div class="f-sous2-title">CC, n° 90-274 DC, 29 mai 1990 (loi Besson sur le droit au logement)</div>
+        <div class="f-text">Le législateur est compétent pour désigner certaines dépenses comme <strong>obligatoires</strong> pour les collectivités. C'est à lui seul que revient le pouvoir de donner ce caractère obligatoire à une dépense. La liste des dépenses obligatoires figure dans le CGCT (ex. pour la commune : art. L. 2321-2).</div>
+        <div class="f-exemple"><strong>Exemples de dépenses obligatoires cités en TD</strong>Les indemnités des élus et la rémunération des agents ; l'entretien du cimetière.</div>
+        <div class="f-comp"><strong>Complément — la limite posée par la décision</strong>Le législateur peut imposer des dépenses obligatoires à condition de définir avec précision leur objet et leur portée, et sans méconnaître la compétence propre des collectivités ni entraver leur libre administration. C'est ici que se situe la « ligne rouge » : trop de dépenses imposées et la collectivité n'a plus de marge de choix.</div>
+      </div>
+      <div class="f-sous2">
+        <div class="f-sous2-title">CC, n° 2003-474 DC, 17 juillet 2003</div>
+        <div class="f-text">Le législateur peut <strong>orienter l'action</strong> des collectivités à travers leurs dépenses, par l'octroi de <strong>subventions dans un but déterminé</strong> (des subventions « fléchées » qui incitent la collectivité à agir dans un sens donné).</div>
+      </div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">B. En matière de ressources</div>
+      <div class="f-sous2">
+        <div class="f-sous2-title">CC, n° 91-291 DC, 6 mai 1991 — la péréquation</div>
+        <div class="f-text">La péréquation consiste à prélever une partie des ressources des collectivités riches pour abonder celles des collectivités moins riches. Le but est de rétablir une certaine égalité entre collectivités. Le Conseil l'admet : c'est un mécanisme qui <strong>concilie liberté et égalité</strong>, à condition que le prélèvement ne restreigne pas les ressources des collectivités contributrices au point d'entraver leur libre administration.</div>
+      </div>
+      <div class="f-sous2">
+        <div class="f-sous2-title">CC, n° 2004-509 DC, 13 janvier 2005</div>
+        <div class="f-text">En cas de transfert de compétences <strong>non obligatoires</strong>, la compensation financière n'est pas obligatoire. L'obligation d'attribuer des ressources (art. 72-2 al. 4) protège la collectivité contre les charges que la loi lui impose. Elle ne joue pas lorsque la collectivité reste libre d'exercer ou non la compétence.</div>
+      </div>
+      <div class="f-sous2">
+        <div class="f-sous2-title">CC, n° 2009-599 DC, 29 décembre 2009, Loi de finances pour 2010 — à noter « en rouge »</div>
+        <div class="f-text">C'est la décision qui marque la <strong>limite</strong> de l'autonomie financière. Elle est rendue à l'occasion de la suppression de la taxe professionnelle. Le Conseil juge que l'article 72-2 ne garantit pas aux collectivités une <strong>autonomie fiscale</strong>. Les collectivités ne disposent d'aucun pouvoir propre de créer un impôt ou d'en fixer l'assiette : la création de l'impôt relève du législateur (art. 34 C.). Une collectivité ne peut donc pas créer une taxe pour récupérer de l'argent.</div>
+      </div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">C. Autonomie financière ≠ autonomie fiscale</div>
+      <div class="f-vs">
+        <div class="f-vs-col"><div class="f-vs-col-title">Autonomie financière (garantie)</div>Pouvoir de disposer librement de ses ressources, de voter son budget et de choisir ses dépenses (hors dépenses obligatoires). Elle est protégée par l'art. 72-2, en particulier par l'exigence que les <strong>ressources propres</strong> représentent une part déterminante des ressources.</div>
+        <div class="f-vs-col"><div class="f-vs-col-title">Autonomie fiscale (non garantie)</div>Pouvoir de créer l'impôt et d'en déterminer les éléments (assiette, taux). Les collectivités ne l'ont pas : seule la loi crée l'impôt. Elles peuvent seulement, quand la loi le prévoit, <em>moduler</em> le taux (ex. : taxes foncières, dont le conseil municipal vote le taux).</div>
+      </div>
+      <div class="f-exemple"><strong>Illustration donnée en séance</strong>La taxe d'habitation sur les résidences principales a été supprimée par l'État. Il compense la perte de recettes, mais la commune perd un levier de décision. À l'inverse, pour les taxes foncières, la commune fixe elle-même le taux, dans les limites légales.</div>
+      <div class="f-comp"><strong>Complément — comment mesure-t-on l'autonomie financière ? (le « seuil » discuté en séance)</strong>Ce n'est pas un calcul « dépenses facultatives moins dépenses obligatoires » (réponse proposée en séance, inexacte). La loi organique n° 2004-758 du 29 juillet 2004 mesure un <strong>ratio d'autonomie financière</strong> : ressources propres / ensemble des ressources, par catégorie de collectivités. Ce ratio ne peut pas descendre sous son niveau de 2003. Les « ressources propres » comprennent notamment le produit des impositions de toutes natures dont la loi autorise les collectivités à fixer l'assiette, le taux ou le tarif, ou dont elle détermine, par collectivité, le taux ou une part locale d'assiette. Comme une imposition dont seul le législateur fixe le taux peut compter comme ressource propre, on comprend que l'autonomie financière soit protégée sans que l'autonomie fiscale le soit.</div>
+    </div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>3 composantes : institutionnelle (élus) · fonctionnelle (compétences) · financière (ressources)</li>
+      <li>CC 2010-618 DC : peu importe que les élus siègent ailleurs, il faut que les décisions soient prises par des élus</li>
+      <li>Clause générale : droit d'agir sur toute affaire d'intérêt public local · aujourd'hui réservée aux communes (NOTRe 2015)</li>
+      <li>Dépenses : le législateur peut en rendre obligatoires (CC 1990) et orienter par des subventions (CC 2003)</li>
+      <li>Ressources : péréquation admise (CC 1991) · pas de compensation pour une compétence non obligatoire (CC 2005)</li>
+      <li>CC 2009-599 DC : autonomie financière garantie, autonomie fiscale non garantie</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f1">← Fiche #1</label><label for="r-f3">Fiche #3 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 3 -->
+<div class="page-content" id="page-f3"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #3 — Séance 1 · Exercice</div>
+    <h2>Cas : le projet d'article 72-5 de la Constitution sur la Corse</h2>
+    <div class="fiche-intro">L'exercice compare deux versions du projet de loi constitutionnelle « pour une Corse autonome au sein de la République » : le texte déposé par le Gouvernement le 27 avril 2026 et le texte adopté par l'Assemblée nationale le 23 juin 2026. Pour chacun des 4 points, il faut repérer l'alinéa, dire précisément ce qui change (ajout, suppression, reformulation, nouvelle limite), puis avancer une explication plausible. Il n'y a pas de plan imposé, mais les réponses doivent être argumentées : ni trois lignes, ni plan en deux parties.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Contexte</span> Pourquoi une révision de la Constitution ?</div>
+    <div class="f-text">L'article 72-5 serait inséré après l'article 72-4. Il doterait la Corse d'un <strong>statut d'autonomie</strong> au sein de la République. Ce statut comprend trois pouvoirs nouveaux : adapter les lois et règlements, fixer elle-même des normes dans ses matières de compétence, et faire adapter la loi par ordonnances gouvernementales.</div>
+    <div class="f-comp"><strong>Complément — pourquoi la loi ordinaire ne suffit pas</strong>Aujourd'hui, la Collectivité de Corse est une collectivité à statut particulier au sens de l'article 72 de la Constitution (art. L. 4421-1 CGCT). Elle s'administre librement dans les conditions prévues pour les départements et les régions, sous réserve de règles propres. Le Conseil constitutionnel a censuré, dans sa décision <strong>n° 2001-454 DC du 17 janvier 2002</strong> (loi relative à la Corse), la possibilité donnée par une simple loi à la Corse de déroger à des dispositions législatives : le législateur ne peut pas déléguer sa compétence (art. 34). Seule une révision constitutionnelle peut lever cet obstacle. C'est l'objet du projet.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Point 1</span> La formule qualifiant la communauté corse</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Version</th><th>Rédaction de l'alinéa 1er</th></tr></thead><tbody>
+      <tr><td>Gouvernement</td><td>Intérêts propres « liés à son <em>insularité méditerranéenne</em> et à sa communauté historique, linguistique, culturelle, ayant développé un lien singulier à <em>sa terre</em> »</td></tr>
+      <tr><td>Assemblée</td><td>Intérêts propres « liés à ses <em>caractéristiques d'île méditerranéenne, au relief montagneux</em> et à sa communauté <em>insulaire</em>, historique, linguistique, culturelle, ayant développé un lien singulier à <em>la terre corse</em> »</td></tr>
+    </tbody></table></div>
+    <div class="f-text"><strong>Ce qui change :</strong> 1° « insularité méditerranéenne » devient « caractéristiques d'île méditerranéenne » ; 2° ajout du « relief montagneux » ; 3° ajout de l'adjectif « insulaire » devant la communauté ; 4° « sa terre » devient « la terre corse ».</div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">La tension avec la jurisprudence du Conseil constitutionnel</div>
+      <div class="f-exemple"><strong>CC, n° 82-138 DC, 25 février 1982 (statut particulier de la Corse)</strong>Le Conseil admet un statut particulier pour la Corse, mais rappelle le caractère <strong>indivisible de la République</strong> et l'<strong>intégrité du territoire national</strong>.</div>
+      <div class="f-exemple"><strong>CC, n° 91-290 DC, 9 mai 1991 (statut de la collectivité territoriale de Corse)</strong>Le Conseil censure la mention du « peuple corse, composante du peuple français ». La Constitution ne connaît qu'<strong>un seul peuple, le peuple français</strong>, composé de tous les citoyens sans distinction d'origine. Il ne peut y avoir de peuple au sein de la collectivité française.</div>
+      <div class="f-key">Reconnaître dans la Constitution une « communauté historique, linguistique, culturelle » liée à « sa terre », c'est s'approcher de la notion de peuple censurée en 1991. Cette communauté serait définie par une identité et non par la citoyenneté. Les deux formulations, celle du Gouvernement comme celle de l'Assemblée, peuvent donc soulever des tensions avec les principes d'unité du peuple français et d'indivisibilité de la République (art. 1er C.).</div>
+      <div class="f-alerte"><strong>Objection soulevée en séance, et sa réponse</strong>Ici, c'est le pouvoir constituant qui écrit, pas le législateur ordinaire. Le Conseil constitutionnel ne contrôle pas une loi constitutionnelle. Le pouvoir constituant est souverain (sous réserve des limites de l'art. 89 al. 4 et 5 : forme républicaine, intégrité du territoire). La « tension » est donc avant tout une tension de <em>cohérence</em> : le nouvel article contredirait la jurisprudence fondée sur l'article 1er et créerait une contradiction interne dans la Constitution. Les mots « peuple » et « communauté » ne sont d'ailleurs définis par aucun texte.</div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">Pourquoi les députés ont-ils modifié la formule ?</div>
+      <div class="f-exemple"><strong>Avis du Conseil d'État, 17 juillet 2025, sur le projet de loi constitutionnelle</strong>Le Conseil d'État relève les risques au regard de l'égalité, de l'indivisibilité et de la souveraineté. Il considère que l'insularité méditerranéenne permet de justifier l'intérêt propre de la Corse, au même titre que la communauté historique, linguistique et culturelle. Il propose de compléter l'expression par une référence à la <strong>montagne</strong> (notion déjà connue du législateur), et de modifier le texte en ce sens. Il suggère aussi de se référer aux personnes qui vivent en Corse plutôt qu'à un lien à « sa » terre.</div>
+      <div class="f-alerte"><strong>Rappel de cours sur le Conseil d'État</strong>Dans sa fonction consultative, le Conseil d'État conseille le <em>Gouvernement</em>, pas le Parlement. Son avis porte donc sur le <em>projet</em> de loi, pas sur le texte adopté par l'Assemblée. L'Assemblée a toutefois repris une partie de ses suggestions (le relief montagneux).</div>
+      <div class="f-text"><strong>Hypothèses retenues en séance :</strong></div>
+      <ul class="f-list">
+        <li><strong>Objectiver la différence</strong> : « insulaire », « île méditerranéenne », « relief montagneux » sont des critères <em>physiques et géographiques</em>, pas identitaires. Ils rattachent la spécificité au territoire et non à un groupe humain. Une différence de traitement fondée sur une situation objective (vivre sur une île montagneuse) se justifie mieux au regard de l'égalité qu'une différence fondée sur l'appartenance à une communauté.</li>
+        <li><strong>Sécuriser le texte</strong> : en mettant en avant la géographie, on cherche à faire passer le texte de manière plus sûre, sans abandonner la reconnaissance de la communauté (qui demeure dans la phrase).</li>
+        <li><strong>Un compromis politique</strong> : on reconnaît une spécificité sans écrire le mot « peuple ». Le passage de « sa terre » à « la terre corse » va dans le même sens : la terre n'« appartient » plus à la communauté, elle désigne un territoire de la République.</li>
+      </ul>
+      <div class="f-alerte"><strong>Limite de l'argument géographique</strong>D'autres territoires sont insulaires (outre-mer) ou montagneux. Si l'insularité justifie l'autonomie, pourquoi pas ailleurs ? D'autres régions (la Bretagne a été citée) pourraient revendiquer un traitement comparable. Il faut noter la différence : les outre-mer ont déjà leurs propres titres constitutionnels (art. 73 et 74, titre XIII pour la Nouvelle-Calédonie), et la Corse dispose déjà d'une assemblée délibérante propre (l'Assemblée de Corse).</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Point 2</span> La liste des matières exclues du pouvoir normatif</div>
+    <div class="f-text"><strong>Version du Gouvernement :</strong> la Collectivité de Corse « peut être habilitée » à adapter les lois et règlements et à fixer des normes « dans les matières, les conditions et sous les réserves prévues par la loi organique ». La seule limite constitutionnelle est celle des conditions essentielles d'exercice d'une liberté publique ou d'un droit constitutionnellement garanti.</div>
+    <div class="f-text"><strong>Version de l'Assemblée :</strong> un nouvel alinéa interdit que les habilitations portent sur <em>la nationalité, les droits civiques, les garanties des libertés publiques, l'état et la capacité des personnes, l'organisation de la justice, le droit pénal, la procédure pénale, la politique étrangère, la défense, la sécurité et l'ordre publics, la monnaie, le crédit et les changes ainsi que le droit électoral</em>. « Cette énumération peut être précisée et complétée par une loi organique. » Un autre alinéa est ajouté : les normes adoptées « assurent l'égalité de tous sans distinction, conformément à l'article 1er ».</div>
+    <div class="f-comp"><strong>Complément — d'où vient cette liste ?</strong>Elle reprend presque mot pour mot la liste de l'<strong>article 73, alinéa 4</strong>, de la Constitution, qui exclut ces mêmes matières du pouvoir normatif habilité des départements et régions d'outre-mer. L'Assemblée a transposé à la Corse un garde-fou constitutionnel qui existe déjà et qui a fait ses preuves. Il s'agit pour l'essentiel des matières <strong>régaliennes</strong>.</div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">Que change juridiquement ce passage ?</div>
+      <div class="f-text"><strong>Quel pouvoir est en jeu ?</strong> « Habiliter » la Corse, c'est lui permettre à la fois d'<em>adapter la loi</em> (domaine législatif) et d'adapter le <em>règlement</em> (domaine réglementaire). On dépasse donc le simple pouvoir réglementaire d'exécution des lois.</div>
+      <div class="f-vs">
+        <div class="f-vs-col"><div class="f-vs-col-title">Texte du Gouvernement</div>Pouvoir d'adaptation dont les limites restent à fixer par une loi organique <em>à venir</em>. La Constitution ne délimite presque rien. Elle aurait permis un transfert de compétences dans n'importe quel domaine, ou du moins dans des domaines qui ne sont ni définis ni délimités.</div>
+        <div class="f-vs-col"><div class="f-vs-col-title">Texte de l'Assemblée</div>Pouvoir déjà <strong>borné par la Constitution elle-même</strong>. Le législateur organique ne pourra intervenir, et étendre le pouvoir normatif, qu'en dehors des matières exclues. Il pourra seulement « préciser et compléter » la liste, donc la rendre plus restrictive, jamais l'alléger.</div>
+      </div>
+      <div class="f-key">Le changement est donc un changement de niveau de la garantie : la protection du domaine régalien passe de la loi organique (que le Parlement peut modifier) à la Constitution (qu'on ne modifie que par révision). Cela rappelle le caractère unitaire et indivisible de la République (une seule Constitution, un seul souverain) et permet, selon les mots de l'avis du Conseil d'État du 17 juillet 2025, de « sécuriser le fonctionnement du régime proposé ».</div>
+      <div class="f-alerte"><strong>Débat en séance : garde-fou ou porte ouverte ?</strong>Certains ont vu dans la liste une limitation forte (la liste est longue et peut encore être complétée). D'autres ont souligné son ambiguïté : « préciser » une notion comme les « garanties des libertés publiques », c'est aussi la définir, donc potentiellement en réduire la portée. Retenez la lecture dominante : la liste est un <em>garde-fou</em> qui limite le législateur organique.</div>
+      <div class="f-exemple"><strong>Raisonnement par analogie (mutatis mutandis) : avis du Conseil d'État, 15 novembre 2012</strong>Le Conseil d'État y rappelle que le pouvoir réglementaire local n'est qu'un pouvoir d'<strong>exécution des lois</strong>. Les collectivités ne peuvent pas déroger, par leur pouvoir réglementaire, au pouvoir réglementaire national. L'avis portait sur le seul pouvoir réglementaire, mais la logique est la même ici : même habilitée à légiférer, la Corse resterait encadrée par la norme nationale.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Point 3</span> La clause de non-régression sociale et environnementale</div>
+    <div class="f-text"><strong>Ce qui change :</strong> la clause n'existe pas dans le texte du Gouvernement. Elle a été ajoutée en séance publique à l'Assemblée : la loi organique « peut également porter sur les modalités de mise en œuvre, par les délibérations de la Collectivité de Corse, d'un principe de <strong>non-régression</strong> par rapport aux normes nationales sociales et environnementales en vigueur ».</div>
+    <div class="f-text"><strong>Le sens de la clause :</strong> la Corse pourrait adapter la règle nationale pour faire <em>mieux</em>, mais pas pour faire <em>moins bien</em> (effet « cliquet »). Le but est d'éviter une course au moins-disant, par exemple une baisse des protections environnementales ou sociales pour attirer des investisseurs.</div>
+    <div class="f-sous">
+      <div class="f-sous-title">Garantie normative ou clause d'affichage ?</div>
+      <div class="f-key">La formule « <em>peut</em> porter sur » crée une <strong>habilitation</strong>, une faculté, et non une injonction. C'est une possibilité et non une obligation. Son inscription dans la Constitution peut créer une garantie normative. Mais l'absence de caractère impératif la rapproche d'une clause d'affichage.</div>
+      <ul class="f-list">
+        <li><strong>Arguments « affichage »</strong> : caractère facultatif ; renvoi à une loi organique future, qui garde la main sur la portée réelle du principe (« une carte dans la manche ») ; flou de la notion de régression. Une prime ponctuelle de 1 200 € remplaçant une augmentation de 100 € par mois, est-ce une amélioration ou une régression ? Ce n'est pas clair.</li>
+        <li><strong>Arguments « normatif »</strong> : une fois la loi organique adoptée, la clause pourrait servir de norme de référence pour contrôler les délibérations corses. Elle rassure aussi : l'Assemblée de Corse s'était elle-même prononcée en faveur de ce principe par une délibération de 2023.</li>
+      </ul>
+      <div class="f-text"><strong>Conclusion proposée en séance :</strong> un peu des deux, mais plutôt normative, surtout du fait du renvoi à la loi organique. L'ajout rappelle la « constitutionnalisation » de la protection de l'environnement (Charte de l'environnement de 2004). Dans un État unitaire et indivisible qui cherche à protéger l'environnement et les droits et libertés sociaux, il paraît difficilement concevable qu'une collectivité territoriale puisse y déroger à la baisse.</div>
+      <div class="f-comp"><strong>Complément — pourquoi l'écrire dans la Constitution ?</strong>Le principe de non-régression existe en droit de l'environnement (art. L. 110-1 du code de l'environnement, loi biodiversité du 8 août 2016). Mais le Conseil constitutionnel a refusé de lui reconnaître une valeur constitutionnelle (CC, n° 2020-809 DC, 10 décembre 2020). Une simple loi peut donc y déroger. L'inscrire à l'article 72-5, même sous forme de faculté, lui donne pour la Corse un ancrage constitutionnel qu'il n'a pas ailleurs.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Point 4</span> La consultation des électeurs corses</div>
+    <div class="f-comp"><strong>Complément — point non corrigé dans les transcriptions disponibles</strong>La séance s'est arrêtée à la question 3 et la suite n'a pas été enregistrée. Voici l'analyse attendue selon la démarche de la plaquette.</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Version</th><th>Rédaction du dernier alinéa</th></tr></thead><tbody>
+      <tr><td>Gouvernement</td><td>Les électeurs inscrits sur les listes électorales de Corse « <em>peuvent être</em> consultés » sur le projet de statut, après avis de l'assemblée délibérante (décret en Conseil d'État délibéré en conseil des ministres)</td></tr>
+      <tr><td>Assemblée</td><td>Les électeurs inscrits sur les listes électorales en Corse « <em>sont</em> consultés » sur le projet de statut, mêmes conditions</td></tr>
+    </tbody></table></div>
+    <div class="f-key">Le passage de « peuvent être » à « sont » transforme une faculté laissée au pouvoir exécutif en obligation constitutionnelle. Le projet de statut ne pourra pas être mis en œuvre sans que les électeurs corses aient été consultés.</div>
+    <ul class="f-list">
+      <li><strong>Portée juridique</strong> : il s'agit d'une <em>consultation</em>, donc d'un avis. Le texte ne dit pas que le résultat lie le Parlement ou le Gouvernement. Mais un vote négatif rendrait la poursuite politiquement très difficile.</li>
+      <li><strong>Hypothèse sur le choix des députés</strong> : donner au statut une <em>légitimité démocratique locale</em> et répondre à l'attente des élus corses. Une autonomie imposée sans l'accord de la population concernée serait fragile. Rendre la consultation obligatoire évite aussi que le Gouvernement choisisse le moment ou renonce à consulter selon les sondages.</li>
+      <li><strong>Cohérence avec la Constitution</strong> : l'article 72-1, al. 3, permet déjà à la loi de consulter les électeurs quand on crée une collectivité à statut particulier ou qu'on modifie son organisation. L'article 72-4 exige le <em>consentement</em> des électeurs pour changer le régime d'un territoire d'outre-mer. Le nouvel article se situe entre les deux : consultation obligatoire, mais pas consentement.</li>
+      <li><strong>Précédent</strong> : le 6 juillet 2003, les électeurs corses consultés sur le fondement de l'article 72-1 ont rejeté de justesse le projet de collectivité unique. La collectivité unique n'a été créée qu'en 2018, par la loi. Ce précédent montre à la fois l'utilité et le risque politique d'une consultation.</li>
+    </ul>
+    <div class="f-alerte"><strong>Ne pas confondre</strong>Cette consultation porte sur le <em>projet de statut</em> (la loi organique et sa mise en œuvre), pas sur la révision constitutionnelle elle-même. La révision suit la procédure de l'article 89 : adoption en termes identiques par les deux assemblées, puis Congrès (3/5) ou référendum national.</div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Méthode : repérer l'alinéa · dire précisément ce qui change · proposer une hypothèse argumentée</li>
+      <li>CC 82-138 DC (indivisibilité, intégrité du territoire) · CC 91-290 DC (un seul peuple, le peuple français)</li>
+      <li>Communauté « insulaire », relief montagneux : critères objectifs et géographiques pour sécuriser le texte (avis CE 17 juill. 2025)</li>
+      <li>Liste des matières exclues = copie de l'art. 73 al. 4 · le législateur organique est désormais borné par la Constitution</li>
+      <li>Non-régression : habilitation (« peut ») → plutôt normative, avec une part d'affichage</li>
+      <li>Consultation : « peuvent être » → « sont » consultés = obligation, mais la consultation reste un avis</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f2">← Fiche #2</label><label for="r-f4">Fiche #4 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 4 -->
+<div class="page-content" id="page-f4"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #4 — Séance 2 · Travail préparatoire</div>
+    <h2>Les cinq instruments de la démocratie locale</h2>
+    <div class="fiche-intro">La démocratie locale repose d'abord sur l'élection des conseils (art. 72 al. 3). Elle est complétée par cinq instruments de participation qui n'ont ni le même fondement, ni les mêmes participants, ni la même portée. Dans un cas pratique, il faut d'abord <strong>qualifier</strong> l'instrument utilisé, car toute la suite du raisonnement en dépend. Deux distinctions reviennent constamment : électeurs ou habitants, et décision ou avis.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Grille</span> Tableau comparatif à savoir restituer</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Instrument</th><th>Fondement</th><th>Qui participe ?</th><th>Sur quel objet ?</th><th>Quel résultat ?</th></tr></thead><tbody>
+      <tr><td>Référendum local</td><td>Art. 72-1 al. 2 C. · art. LO 1112-1 et s. CGCT</td><td>Les <strong>électeurs</strong> de la collectivité · initiative de la <strong>seule collectivité</strong> (assemblée, ou exécutif pour ses propres actes)</td><td>Un <strong>projet de délibération ou d'acte</strong> relevant de la compétence de la collectivité (pas les actes individuels)</td><td><strong>Décision</strong> si participation ≥ 50 % des inscrits <em>et</em> majorité des suffrages exprimés (LO 1112-7)</td></tr>
+      <tr><td>Consultation des électeurs</td><td>Art. L. 1112-15 à L. 1112-22 CGCT</td><td>Les <strong>électeurs</strong> de la collectivité (ou d'une partie de son ressort pour une affaire qui la concerne spécialement)</td><td>Une décision que les autorités envisagent de prendre pour régler une <strong>affaire de leur compétence</strong></td><td><strong>Simple avis</strong> : la délibération doit l'indiquer expressément (L. 1112-17) ; l'autorité décide ensuite (L. 1112-20)</td></tr>
+      <tr><td>Pétition</td><td>Art. 72-1 al. 1 C. · art. L. 1112-16 CGCT</td><td>Les <strong>électeurs</strong> : 1/10 des inscrits dans une commune, 1/20 dans les autres collectivités · un électeur ne peut signer qu'une demande par trimestre auprès d'une même collectivité</td><td>Demander l'inscription à l'ordre du jour de l'organisation d'une <strong>consultation</strong> sur une affaire relevant de l'assemblée</td><td>Obligation d'inscrire et de délibérer · <strong>pas</strong> d'obligation d'organiser la consultation</td></tr>
+      <tr><td>Consultation ouverte</td><td>Art. L. 131-1 CRPA</td><td>Le <strong>public</strong> que l'administration définit (pas seulement les électeurs : mineurs, non-inscrits, étrangers possibles)</td><td>La conception d'une réforme ou l'élaboration d'un <strong>projet ou d'un acte qui est le sien</strong></td><td>Avis · exigences : publicité des modalités, information, délai raisonnable, publicité des résultats · <strong>sincérité</strong> contrôlée par le juge</td></tr>
+      <tr><td>Vœu</td><td>Art. L. 2121-29, dernier al. CGCT</td><td>Le <strong>conseil municipal</strong> lui-même (aucun vote des citoyens)</td><td>« Tous les objets d'intérêt local », y compris hors des compétences de la commune</td><td>Prise de position <strong>politique</strong>, sans effet juridique décisoire, transmissible à l'autorité compétente</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Détail</span> Les règles à maîtriser pour chaque instrument</div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">Le référendum local</div>
+      <ul class="f-list">
+        <li><strong>Initiative</strong> : « à son initiative » (art. 72-1 al. 2). L'assemblée délibérante soumet un projet de délibération (LO 1112-1). L'exécutif peut seul proposer à l'assemblée de soumettre à référendum un projet d'acte relevant de ses propres attributions, sauf les actes individuels (LO 1112-2). C'est toujours l'<strong>assemblée qui décide</strong> d'organiser le scrutin. <strong>Le référendum local d'initiative citoyenne n'existe pas en droit français.</strong></li>
+        <li><strong>Objet</strong> : un <em>projet de délibération</em>, c'est-à-dire un texte qui deviendra la décision. Une simple question d'opinion ne suffit pas (TA Grenoble 2025, ci-dessous).</li>
+        <li><strong>Interdictions de calendrier (LO 1112-6)</strong> : pas de référendum à compter du 1er jour du 6e mois précédant le renouvellement de l'assemblée de la collectivité ; aucun référendum pendant la campagne ou les jours de scrutin des élections locales, législatives, sénatoriales, européennes, <strong>présidentielle</strong> ou d'un référendum national ; pas deux référendums sur le même objet à moins d'un an d'intervalle.</li>
+        <li><strong>Valeur</strong> : le projet est adopté si la moitié au moins des inscrits a voté et s'il réunit la majorité des suffrages exprimés (LO 1112-7). Sinon, il n'est pas adopté et l'assemblée garde la décision.</li>
+      </ul>
+      <div class="f-comp"><strong>Complément — le contrôle du préfet</strong>La délibération qui organise le référendum est transmise au préfet. Celui-ci dispose de 10 jours pour la déférer au tribunal administratif et peut demander sa suspension (art. LO 1112-3). C'est la voie habituelle par laquelle les scrutins illégaux sont arrêtés avant d'avoir lieu.</div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">La consultation des électeurs et la pétition</div>
+      <div class="f-text">La consultation peut être organisée par l'assemblée de sa propre initiative, ou après une pétition. La pétition ne fait que <strong>demander</strong> l'inscription de la question à l'ordre du jour. La décision d'organiser la consultation appartient toujours à l'assemblée délibérante (L. 1112-16, dernier al. du I).</div>
+      <div class="f-alerte"><strong>Les seuils ont changé</strong>Avant la loi « 3DS » du 21 février 2022, il fallait 1/5 des électeurs dans une commune et 1/10 dans les autres collectivités. La loi 3DS a <strong>abaissé</strong> ces seuils à 1/10 et 1/20 : il est devenu plus facile de saisir l'assemblée. Une décision antérieure (ex. CAA Paris, 2005, qui mentionne le cinquième) reste pertinente sur le principe (pas d'obligation d'organiser), mais pas sur le chiffre. Attention : en séance, il a été dit que le seuil avait été « rehaussé » ; c'est l'inverse.</div>
+      <div class="f-exemple"><strong>CAA Nantes, 5 avril 2024, Association Bretagne réunie</strong>Le président du conseil départemental de Loire-Atlantique n'était pas tenu d'organiser une consultation sur le rattachement du département à la région Bretagne, malgré une demande des électeurs. Décision d'espèce, mais utilisable dans la majeure puisqu'elle « colle » au problème.</div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">La consultation ouverte (CRPA) et le vœu</div>
+      <div class="f-text">La <strong>consultation ouverte</strong> permet à toute administration, en dehors des procédures prévues par les textes, d'associer le public à l'élaboration de ses projets. Elle peut être ouverte bien au-delà des électeurs. Elle a deux limites : elle doit porter sur un projet ou un acte <em>de l'administration qui l'organise</em>, et elle doit être <em>sincère</em>.</div>
+      <div class="f-exemple"><strong>CE, 2017, Association citoyenne pour Occitanie Pays catalan</strong>Le Conseil d'État reconnaît à une collectivité (ici la région, pour le choix de son nom) la possibilité d'organiser une consultation ouverte facultative, y compris par vote en ligne ou par correspondance.</div>
+      <div class="f-text">Le <strong>vœu</strong> est l'outil le plus souple : le conseil municipal se prononce lui-même sur tout objet d'intérêt local, même quand la décision appartient à une autre autorité (l'État notamment). Il ne fait voter personne et ne décide de rien.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Pièces</span> Les deux documents à connaître</div>
+    <div class="f-sous">
+      <div class="f-sous-title">TA Grenoble, juge des référés, 13 février 2025, n° 2500764 (Talloires-Montmin)</div>
+      <ul class="f-list">
+        <li><strong>Qui a saisi le juge ?</strong> Plusieurs électeurs de la commune de Talloires-Montmin (Haute-Savoie).</li>
+        <li><strong>Pour obtenir quoi ?</strong> La suspension (référé) de la délibération du 20 décembre 2024 organisant un « référendum local » sur le lieu d'implantation d'une future gendarmerie, prévu le 23 février 2025.</li>
+        <li><strong>Sur quel motif ?</strong> Doute sérieux sur la légalité : un référendum local doit porter sur « un projet de délibération tendant à régler une affaire de la compétence de la commune ». Or le vote envisagé était « une simple question » demandant aux électeurs leur opinion. La suspension a été prononcée.</li>
+      </ul>
+      <div class="f-key">Leçon : on ne « pose pas une question » aux électeurs par référendum. On leur soumet un texte qu'ils adoptent ou rejettent. Une question d'opinion relève au mieux de la consultation (avis).</div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">C. Courbaron, « Le contrôle des consultations et référendums locaux par le juge administratif », RGD, 2026</div>
+      <div class="f-text">L'article recense des scrutins locaux censurés, très souvent parce qu'ils portaient sur des projets relevant de l'État (autoroutes, lignes ferroviaires, grands équipements…). L'auteur se montre <strong>critique</strong> envers un encadrement qu'il juge très restrictif, au point de parler d'une démocratie locale en partie illusoire.</div>
+      <div class="f-alerte"><strong>Comment utiliser la doctrine</strong>Un article critique est fait pour vous faire réfléchir, et c'est le rôle de la doctrine. Mais dans un cas pratique, vous êtes le juriste consulté : vous devez rester <strong>neutre</strong>, exposer toutes les voies juridiquement ouvertes (y compris le vœu ou l'enquête publique), puis donner votre avis sur leur opportunité. Prenez du recul par rapport à la thèse de l'auteur.</div>
+    </div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Référendum = décision · consultation = avis · pétition = simple demande d'inscription · vœu = position du conseil · consultation ouverte = avis du public sur un projet de l'administration</li>
+      <li>Référendum, consultation, pétition : réservés aux <strong>électeurs</strong> et aux <strong>affaires de la compétence</strong> de la collectivité</li>
+      <li>Référendum : initiative de la collectivité seule · projet de délibération, pas une question · quorum de 50 % des inscrits</li>
+      <li>Seuils de la pétition depuis 3DS (2022) : 1/10 (commune) et 1/20 (autres) · une signature par trimestre et par collectivité</li>
+      <li>TA Grenoble 2025 : une simple question d'opinion ne peut pas faire l'objet d'un référendum local</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f3">← Fiche #3</label><label for="r-f5">Fiche #5 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 5 -->
+<div class="page-content" id="page-f5"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #5 — Séance 2 · Cas pratique</div>
+    <h2>Cas Valdouze : la médiathèque et l'école du hameau</h2>
+    <div class="fiche-intro">Valdouze : 8 400 habitants, 6 100 électeurs inscrits. Chaque réponse suit le syllogisme <strong>majeure</strong> (la règle) / <strong>mineure</strong> (la qualification des faits) / <strong>conclusion</strong>. Les questions ne sont pas posées dans l'énoncé : c'est à vous de les dégager, dans un ordre logique.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Dossier 1</span> La médiathèque</div>
+    <div class="f-text"><strong>Les faits.</strong> Le conseil municipal est divisé sur une médiathèque de 4,2 M€. Le maire annonce qu'il va « poser directement la question aux habitants » et « respecter leur choix ». Question envisagée : « Êtes-vous favorable à la construction de la médiathèque des Trois-Rives ? ». Date : le dimanche 2 mai 2027, jour du second tour de l'élection présidentielle. Participation attendue : environ 30 % des inscrits, avec un vote favorable.</div>
+    <div class="f-comp"><strong>Complément — dossier corrigé lors d'une séance non transcrite</strong>Correction reconstruite à partir de la plaquette et des textes du dossier documentaire. Elle suit la méthode exigée.</div>
+
+    <div class="syl">
+      <div class="q"><b>Question 1</b>Le maire peut-il décider seul de « poser la question aux habitants », et sous quelle forme ?</div>
+      <div><b>Majeure</b>Le référendum local est organisé à l'initiative de la collectivité : c'est l'<strong>assemblée délibérante</strong> qui décide de soumettre un <strong>projet de délibération</strong> aux <strong>électeurs</strong> (art. 72-1 al. 2 C. ; LO 1112-1 CGCT). L'exécutif ne peut que proposer à l'assemblée un référendum sur ses propres actes (LO 1112-2). Un vote qui se borne à recueillir une opinion n'est pas un référendum (TA Grenoble, réf., 13 févr. 2025). La consultation (L. 1112-15) est également décidée par l'assemblée (L. 1112-17).</div>
+      <div><b>Mineure</b>La construction d'une médiathèque est bien une affaire de la compétence de la commune. Mais le maire annonce agir seul, dans la presse. Il vise les « habitants » et non les électeurs. Et il formule une question (« Êtes-vous favorable… ? ») au lieu d'un projet de délibération.</div>
+      <div class="c"><b>Conclusion</b>Le maire ne peut pas organiser seul ce scrutin. Il faut une délibération du conseil municipal, un scrutin ouvert aux seuls électeurs et, pour un référendum, un véritable projet de délibération (ex. : « Approuvez-vous le projet de délibération décidant la construction de la médiathèque des Trois-Rives pour un montant de 4,2 M€ ? »). En l'état, la délibération serait exposée à une suspension comme à Talloires-Montmin.</div>
+    </div>
+
+    <div class="syl">
+      <div class="q"><b>Question 2</b>Le scrutin peut-il avoir lieu le 2 mai 2027 ?</div>
+      <div><b>Majeure</b>Aucune collectivité ne peut organiser de référendum local pendant la campagne ou les jours du scrutin prévus pour l'élection du Président de la République (LO 1112-6). Ces interdictions sont étendues à la consultation des électeurs par l'article L. 1112-21 CGCT.</div>
+      <div><b>Mineure</b>Le 2 mai 2027 est le jour du second tour de l'élection présidentielle. La volonté de « profiter du déplacement des électeurs » est précisément ce que le texte interdit : il veut empêcher que l'enjeu national et l'enjeu local se mélangent.</div>
+      <div class="c"><b>Conclusion</b>La date est illégale, que le scrutin soit un référendum ou une consultation. Il faut choisir une date hors de toute période de campagne électorale nationale ou locale.</div>
+    </div>
+
+    <div class="syl">
+      <div class="q"><b>Question 3</b>Quelle sera la valeur du résultat, et que vaut l'engagement du maire à « respecter le choix » des habitants ?</div>
+      <div><b>Majeure</b>Le projet soumis à référendum local n'est adopté que si la moitié au moins des électeurs inscrits a pris part au scrutin et s'il réunit la majorité des suffrages exprimés (LO 1112-7). Le résultat d'une consultation n'est qu'un avis ; l'autorité compétente arrête ensuite sa décision (L. 1112-17 et L. 1112-20).</div>
+      <div><b>Mineure</b>Avec une participation attendue d'environ 30 % des inscrits, le quorum de 50 % ne serait pas atteint, même si le « oui » l'emporte.</div>
+      <div class="c"><b>Conclusion</b>Même régulièrement organisé, le référendum ne produirait pas de décision : le projet ne serait pas adopté et la décision reviendrait au conseil municipal. L'engagement du maire n'a qu'une valeur politique. Il ne lie pas juridiquement le conseil, qui reste l'organe compétent pour décider de la médiathèque.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Dossier 2</span> L'école du hameau de Fages</div>
+    <div class="f-text"><strong>Les faits.</strong> Le 16 novembre 2026, un collectif dépose une pétition demandant « l'organisation d'une consultation des <em>habitants</em> sur le maintien de l'école du hameau de Fages ». 1 750 signatures, dont 180 de non-inscrits (étrangers non européens, habitants inscrits dans une autre commune) et 400 d'électeurs qui avaient déjà signé, le 5 octobre 2026, une demande de consultation sur la piscine municipale. Le collectif affirme que le conseil « est désormais tenu d'organiser la consultation ».</div>
+
+    <div class="syl">
+      <div class="q"><b>Question 1</b>Le seuil légal de la pétition est-il atteint ?</div>
+      <div><b>Majeure</b>Dans une commune, un dixième des électeurs inscrits peut demander l'inscription à l'ordre du jour de l'organisation d'une consultation. Chaque trimestre, un électeur ne peut signer qu'une seule demande auprès d'une même collectivité (L. 1112-16).</div>
+      <div><b>Mineure</b>Seuil : 6 100 / 10 = <strong>610</strong> signatures. Il faut retirer les 180 signataires non inscrits, qui ne sont pas électeurs de la commune. Il faut aussi retirer les 400 signataires qui ont déjà signé le 5 octobre : le 5 octobre et le 16 novembre tombent dans le même trimestre. Signatures valables : 1 750 − 180 − 400 = <strong>1 170</strong>.</div>
+      <div class="c"><b>Conclusion</b>1 170 ≥ 610 : le seuil est atteint, même après les deux déductions. Il fallait quand même faire ces déductions dans la copie, pour montrer qu'on ne les a pas ignorées.</div>
+    </div>
+
+    <div class="syl">
+      <div class="q"><b>Question 2</b>Le seuil étant atteint, le conseil municipal est-il tenu d'organiser la consultation ? À quoi est-il obligé ?</div>
+      <div><b>Majeure</b>« La décision d'organiser la consultation appartient à l'assemblée délibérante de la collectivité territoriale » (L. 1112-16, dernier al. du I). La pétition permet de demander l'inscription de la question à l'ordre du jour, non d'imposer la consultation (art. 72-1 al. 1 C.), conformément au principe d'administration par des conseils élus (art. 72 al. 3 C.). Voir aussi CAA Paris, 2005, et CAA Nantes, 5 avril 2024, Association Bretagne réunie.</div>
+      <div><b>Mineure</b>La pétition valable oblige le conseil municipal de Valdouze à inscrire la demande à son ordre du jour et à en délibérer.</div>
+      <div class="c"><b>Conclusion</b>Le conseil n'est pas tenu d'organiser la consultation. Il est seulement tenu de <strong>se prononcer</strong> sur la demande, et il peut la refuser. Le collectif confond <strong>le droit de demander et le droit d'obtenir</strong>.</div>
+    </div>
+
+    <div class="syl">
+      <div class="q"><b>Question 3</b>Si le conseil décide d'organiser la consultation, les signataires non inscrits pourront-ils y prendre part ? Quelle sera la portée du résultat ?</div>
+      <div><b>Majeure</b>La consultation de l'article L. 1112-15 est ouverte aux « <strong>électeurs</strong> de la collectivité ». La délibération qui l'organise indique expressément qu'elle n'est qu'une demande d'avis (L. 1112-17). L'autorité compétente arrête sa décision après avoir pris connaissance du résultat (L. 1112-20).</div>
+      <div><b>Mineure</b>La pétition réclame une consultation des « habitants ». Or les 180 signataires non inscrits (étrangers non européens, habitants inscrits ailleurs) ne sont pas électeurs de la commune. <em>Électeur ≠ habitant</em> : un étudiant qui vit à Aix mais n'a pas changé d'inscription vote toujours dans la commune de ses parents. Il est habitant d'Aix sans en être électeur.</div>
+      <div class="c"><b>Conclusion</b>Les non-inscrits ne pourront pas voter : la consultation du CGCT est une consultation des électeurs et non des habitants. Le libellé de la pétition devra être corrigé par la délibération. Le résultat ne sera qu'un avis, et le conseil restera libre de maintenir ou non l'école.</div>
+    </div>
+    <div class="f-comp"><strong>Complément — pourquoi l'énoncé précise « non européens »</strong>Pour les scrutins communaux, les ressortissants des autres États membres de l'Union européenne inscrits sur les listes électorales complémentaires sont électeurs (art. 88-3 C. pour les élections municipales). Un ressortissant européen inscrit aurait donc pu signer et voter. C'est pour fermer cette hypothèse que l'énoncé parle d'étrangers <em>non européens</em>.</div>
+
+    <div class="syl">
+      <div class="q"><b>Question 4</b>Le collectif pourrait-il plutôt obtenir un référendum local, qui lierait la commune ?</div>
+      <div><b>Majeure</b>L'initiative du référendum local appartient à la seule collectivité : « à son initiative » (art. 72-1 al. 2 C. ; LO 1112-1 et LO 1112-2 CGCT). La pétition de l'article L. 1112-16 ne peut porter que sur l'organisation d'une <em>consultation</em>.</div>
+      <div><b>Mineure</b>Le collectif est un groupe de citoyens. Il n'a aucun pouvoir d'initiative en matière référendaire, et la voie de la pétition légale ne lui ouvre que la demande de consultation.</div>
+      <div class="c"><b>Conclusion</b>Le collectif ne peut ni provoquer un référendum, ni même le demander par la voie de la pétition légale. Seul le conseil municipal pourrait décider de soumettre à référendum un projet de délibération sur l'école. <strong>Le référendum local d'initiative citoyenne n'existe pas en droit français.</strong></div>
+    </div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Référendum : délibération du conseil + projet de délibération + électeurs + calendrier (pas pendant la présidentielle) + quorum de 50 %</li>
+      <li>Calcul du seuil : déduire les non-inscrits et les doubles signatures du trimestre, puis comparer à 1/10 des inscrits</li>
+      <li>Pétition valable = obligation d'inscrire et de délibérer, pas d'organiser : droit de demander ≠ droit d'obtenir</li>
+      <li>Électeur ≠ habitant · consultation = avis · pas de référendum d'initiative citoyenne</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f4">← Fiche #4</label><label for="r-f6">Fiche #6 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 6 -->
+<div class="page-content" id="page-f6"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #6 — Séance 2 · Cas pratique</div>
+    <h2>Cas Valdouze : le parc éolien</h2>
+    <div class="fiche-intro">Une société projette sept éoliennes sur le plateau qui domine la commune. Le projet relève d'une autorisation environnementale délivrée par le préfet. Le maire, hostile, veut « consulter les électeurs pour peser sur la décision de l'État », car les éoliennes seront visibles de tout le village et le projet « intéresse directement la commune ». L'opposition propose une « votation citoyenne » en ligne, ouverte à tous les habitants dès 16 ans, « comme l'a fait la Ville de Paris pour les trottinettes et les SUV ». Le cœur du dossier est la distinction entre <strong>compétence</strong> et <strong>intérêt public local</strong>.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Notion</span> Compétence ≠ intérêt public local</div>
+    <div class="f-key">Ce sont deux notions différentes, même si elles sont liées. La <strong>compétence</strong> répond à la question : la collectivité a-t-elle le pouvoir juridique de décider dans cette matière ? L'<strong>intérêt public local</strong> répond à une autre question : l'action qu'elle mène dans le cadre de sa compétence générale répond-elle à un besoin de sa population ? Une commune peut être compétente pour une catégorie d'actions, mais une action donnée peut manquer d'intérêt public local. À l'inverse, un objet peut intéresser la commune sans relever de sa compétence.</div>
+    <div class="f-text">Le texte de l'article L. 2121-29 CGCT illustre la distinction. Son premier alinéa fonde la compétence (« Le conseil municipal règle par ses délibérations les affaires de la commune »). Son dernier alinéa vise l'intérêt local (« Le conseil municipal émet des vœux sur tous les objets d'intérêt local »).</div>
+    <div class="f-sous">
+      <div class="f-sous-title">Jurisprudences sur l'intérêt public local citées en séance</div>
+      <div class="f-exemple"><strong>CE, 1995, Commune de Villeneuve-d'Ascq</strong>La commune versait des bourses à des étudiants étrangers. À première vue, il n'y a pas de lien avec la population locale. Mais les étudiants venaient d'une ville <strong>jumelée</strong> avec Villeneuve-d'Ascq : le jumelage crée l'intérêt public local. La dépense est légale.</div>
+      <div class="f-exemple"><strong>CE, 1997, Département de l'Oise</strong>Le président du département de l'Oise avait fait verser une subvention à Colombey-les-Deux-Églises (Haute-Marne), commune du général de Gaulle, par affinité gaulliste. Il n'y a aucun intérêt public local pour les habitants de l'Oise : la subvention relève d'une préférence politique et elle est illégale.</div>
+      <div class="f-exemple"><strong>CE, 1989, Communes de Pierrefitte-sur-Seine, Saint-Ouen et Romainville</strong>L'intérêt public local doit être <strong>politiquement neutre</strong>. Une collectivité ne peut pas prendre parti dans un conflit politique, social, international ou militaire. Exemple donné en séance : une commune ne peut pas verser une aide à l'Ukraine ou à la Russie dans le cadre du conflit qui les oppose.</div>
+      <div class="f-alerte"><strong>Dates à vérifier</strong>Ces décisions ont été citées de mémoire en séance (« 95 », « 97 », « 89 »). Vérifiez le jour et le mois avant de les écrire dans une copie.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q1</span> Qui est compétent, et qu'en déduire pour la consultation du maire ?</div>
+    <div class="syl">
+      <div><b>Majeure</b>Le critère de compétence est d'abord constitutionnel : l'article 72-1 de la Constitution ne vise, pour la pétition comme pour le référendum, que ce qui relève de la compétence de la collectivité. L'article L. 1112-15 CGCT reprend ce critère pour la consultation : elle ne peut porter que sur « les décisions que les autorités de cette collectivité envisagent de prendre pour régler les affaires relevant de la compétence de celle-ci ».</div>
+      <div><b>Mineure</b>L'autorisation environnementale du parc éolien est délivrée par le <strong>préfet, au nom de l'État</strong> (déconcentration, et police spéciale de l'environnement). La commune n'a aucune décision à prendre pour régler cette affaire.</div>
+      <div class="c"><b>Conclusion</b>La consultation envisagée serait illégale pour <strong>incompétence</strong> : la commune ne peut pas la faire, faute de compétence. La délibération qui l'organiserait pourrait être déférée par le préfet ou attaquée, avec de sérieuses chances de succès.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q2</span> L'argument selon lequel le projet « intéresse directement la commune » peut-il sauver la consultation ?</div>
+    <div class="syl">
+      <div><b>Majeure</b>Le Conseil d'État a écarté cet argument sous l'empire de l'ancien article L. 125-1 du code des communes, texte antérieur au CGCT mais de même portée. Sa jurisprudence reste donc actuelle. Est illégale la consultation qui invite les électeurs non à émettre un avis sur une décision que les autorités municipales seraient amenées à prendre, mais à se prononcer sur une décision relevant d'une autre autorité : <strong>CE, 16 décembre 1994, Commune d'Avrillé</strong>, n° 146832 ; <strong>CE, 14 avril 1995, Commune de Ventabren</strong>, n° 150163 (consultation sur le tracé du TGV Méditerranée, qui relève de l'État).</div>
+      <div><b>Mineure</b>Que les éoliennes soient visibles de tout le village est une <strong>conséquence du projet</strong> sur la commune, et non une décision qu'elle aurait à prendre. Comparaison donnée en séance : un immeuble construit en face de votre fenêtre vous concerne, mais cela ne vous donne aucun pouvoir sur le permis.</div>
+      <div class="c"><b>Conclusion</b>L'argument est <strong>inopérant</strong>. L'intérêt que la commune porte au projet ne lui donne pas la compétence qui lui manque. L'article de C. Courbaron recense de nombreux exemples identiques : autoroutes, lignes ferroviaires…</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q3</span> Par quelle voie régulière le conseil municipal peut-il faire connaître sa position à l'État ?</div>
+    <div class="syl">
+      <div><b>Majeure</b>« Le conseil municipal émet des vœux sur tous les objets d'intérêt local » (art. L. 2121-29, dernier al. CGCT).</div>
+      <div><b>Mineure</b>Un parc éolien implanté sur le plateau qui domine la commune est, sans discussion, un <strong>objet d'intérêt local</strong>. Cette fois, c'est le projet lui-même, et pas seulement sa visibilité, qui est en cause.</div>
+      <div class="c"><b>Conclusion</b>Le conseil peut adopter un vœu défavorable au projet et le transmettre au préfet, sans consulter le corps électoral. La procédure d'autorisation offre aussi elle-même un canal d'expression organisé par l'État : l'<strong>enquête publique</strong>, à laquelle la commune et ses habitants peuvent participer. Quand l'État veut consulter sur sa propre décision, il a dû créer un instrument sur mesure : l'<strong>ordonnance du 21 avril 2016</strong> relative à la consultation locale sur les projets susceptibles d'avoir une incidence sur l'environnement (Notre-Dame-des-Landes, validée par le Conseil d'État en 2016).</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q4</span> Comment qualifier la « votation citoyenne » ? L'ouverture aux 16 ans fait-elle obstacle à sa régularité ?</div>
+    <div class="syl">
+      <div><b>Majeure</b>Le référendum local (art. 72-1 al. 2 C. ; LO 1112-1) et la consultation (L. 1112-15) sont réservés aux <strong>électeurs</strong> et aux <strong>affaires de la compétence</strong> de la collectivité. La consultation ouverte de l'article L. 131-1 CRPA permet à l'administration d'associer le <strong>public qu'elle définit</strong>, mais seulement à la conception d'une réforme ou à l'élaboration d'un projet ou d'un acte <strong>qui est le sien</strong>. C'est sur ce fondement que la <strong>CAA de Paris, en formation plénière, le 12 juin 2026</strong> (n° 24PA01604) a validé la votation parisienne sur les véhicules lourds (SUV). Il s'agissait d'une procédure visant à recueillir l'avis du public en vue de l'élaboration de projets de délibération que la maire était susceptible de soumettre au Conseil de Paris. Elle ne constituait ni un référendum local, ni une consultation des électeurs sur un projet de décision.</div>
+      <div><b>Mineure</b>Ouverte à des non-électeurs, la votation ne peut être ni un référendum, ni une consultation du CGCT. Portant sur une décision de l'État, elle ne peut pas davantage être une consultation ouverte du CRPA : la commune n'a aucun projet ni acte à élaborer en la matière.</div>
+      <div class="c"><b>Conclusion</b>La votation n'entre dans <strong>aucune catégorie juridique</strong>. Second point, qui faisait la différence entre les copies : l'ouverture aux 16 ans exclut les instruments du CGCT, mais <strong>ce n'est pas elle qui fait obstacle</strong> à une consultation ouverte, car le CRPA vise « le public » sans le restreindre aux électeurs. Ce qui condamne la votation, c'est son <strong>objet</strong> : une décision qui n'appartient pas à la commune. La comparaison avec Paris est trompeuse, car les votations parisiennes portaient sur des décisions <em>communales</em>.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q5</span> Que vaudrait le résultat, et quels risques la commune prendrait-elle ?</div>
+    <div class="syl">
+      <div><b>Majeure</b>Un vote sans support légal ne produit aucun effet de droit. Une commune n'engage ses moyens que pour les affaires de sa compétence. Toute consultation qu'elle organise reste soumise à une exigence de <strong>sincérité</strong>, que le juge contrôle (CAA Paris, plén., 12 juin 2026).</div>
+      <div><b>Mineure</b>La votation porterait sur une décision de l'État. Elle serait organisée en ligne, auprès d'un public défini par la seule opposition, sans aucune des garanties d'un scrutin (identification des votants, unicité du vote, contrôle des opérations).</div>
+      <div class="c"><b>Conclusion</b>Le résultat ne lierait personne, ni le conseil, ni le préfet : sa valeur serait purement politique. L'organiser ne serait pas anodin pour autant. Risques : engagement de dépenses publiques pour une opération étrangère aux compétences de la commune ; usage éventuel des données du fichier électoral ; absence de toute garantie de sincérité du vote. Mais « un vote qui ne décide pas peut néanmoins peser ».</div>
+    </div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Compétence (L. 2121-29 al. 1) ≠ intérêt public local (L. 2121-29 dernier al.) : ne pas les confondre, même dans un seul syllogisme</li>
+      <li>Éolien = autorisation du préfet au nom de l'État → consultation communale illégale pour incompétence</li>
+      <li>« Le projet nous intéresse » est inopérant (Avrillé 1994, Ventabren 1995) : c'est une conséquence, pas une décision communale</li>
+      <li>Voie régulière : le vœu du conseil municipal + l'enquête publique · ordonnance du 21 avril 2016 pour les consultations de l'État</li>
+      <li>Consultation ouverte CRPA : public libre (même à 16 ans) mais uniquement sur un projet de la commune (CAA Paris, plén., 12 juin 2026)</li>
+      <li>Intérêt public local : jumelage oui (Villeneuve-d'Ascq) · affinité politique non (Oise) · neutralité politique (1989)</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f5">← Fiche #5</label><label for="r-f7">Fiche #7 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 7 -->
+<div class="page-content" id="page-f7"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #7 — Séance 3 · Rappel de cours</div>
+    <h2>La responsabilité financière des gestionnaires publics (RFGP)</h2>
+    <div class="fiche-intro">Le rappel de cours a porté sur la responsabilité financière, qui complète le document de MM. Lombard et Ferrand consacré aux responsabilités pénale et administrative. Il ne le remplace pas : ces deux responsabilités restent à réviser. La responsabilité financière s'explique par la spécificité des deniers publics : la protection de l'argent public justifie un juge à part entière, le juge financier.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Notions</span> Ordonnateurs, comptables et gestionnaires publics</div>
+    <div class="f-vs">
+      <div class="f-vs-col"><div class="f-vs-col-title">L'ordonnateur</div>Il décide de la dépense et de la recette : il engage la dépense, la liquide et émet l'ordre de payer (le mandat) ou de recouvrer (le titre). Dans une commune, l'ordonnateur est le <strong>maire</strong>.</div>
+      <div class="f-vs-col"><div class="f-vs-col-title">Le comptable public</div>Il exécute : il contrôle la régularité des ordres reçus, paie, encaisse et tient les comptes. Il est <strong>seul habilité à manier les deniers publics</strong>. C'est un agent de l'État (DGFiP) même lorsqu'il tient les comptes d'une commune.</div>
+    </div>
+    <div class="f-key">Principe de séparation des ordonnateurs et des comptables : les deux fonctions sont <strong>incompatibles</strong> (art. 9 du décret n° 2012-1246 du 7 novembre 2012 relatif à la gestion budgétaire et comptable publique, dit « GBCP »). Chacun reste maître de sa compétence. On regroupe aujourd'hui ordonnateurs et comptables sous l'appellation commune de <strong>gestionnaires publics</strong>.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Avant 2023</span> Un régime « à deux vitesses »</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Acteur</th><th>Juge (1er ressort)</th><th>Réalité du régime</th></tr></thead><tbody>
+      <tr><td>Ordonnateurs</td><td>Cour de discipline budgétaire et financière (CDBF), créée en 1948</td><td>Juridiction très peu active : 264 arrêts seulement entre 1948 et le 31 décembre 2022</td></tr>
+      <tr><td>Comptables publics</td><td>Chambres régionales des comptes (CRC), Cour des comptes</td><td>Responsabilité personnelle et pécuniaire (RPP) : le comptable remboursait sur ses deniers personnels le déficit ou l'irrégularité constaté (procédure du <em>débet</em>)</td></tr>
+      <tr><td>Élus locaux, ministres</td><td>Aucun, par principe</td><td>Non justiciables du juge financier, sauf exceptions (notamment la gestion de fait)</td></tr>
+    </tbody></table></div>
+    <div class="f-text">Les comptables avaient en théorie plus de chances que les ordonnateurs de voir leur responsabilité engagée. Mais il existait les <strong>remises gracieuses</strong> : le comptable condamné pouvait demander à son ministre (Bercy) une remise de sa dette, accordée dans 90 à 95 % des cas.</div>
+    <div class="f-exemple"><strong>L'anecdote du colloque (Cour des comptes / INSP, 2023)</strong>Une ancienne comptable publique de collectivité a vu sa responsabilité engagée trois fois, pour « seulement » 50 000 € selon elle, avant d'obtenir une remise gracieuse. Retenez que la gravité s'apprécie au regard du budget concerné, et que l'ancien régime manquait d'effectivité.</div>
+    <div class="f-text">Pour reprendre l'expression de Catherine Hirsch, procureure générale honoraire près la Cour des comptes, ce régime était arrivé « à bout de souffle ».</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Depuis 2023</span> La réforme : un régime unifié</div>
+    <div class="f-key">L'<strong>ordonnance n° 2022-408 du 23 mars 2022</strong>, entrée en vigueur le <strong>1er janvier 2023</strong>, réorganise la justice financière. La responsabilité financière des gestionnaires publics est désormais <strong>unifiée</strong> : ordonnateurs et comptables relèvent du même juge et du même régime.</div>
+    <ul class="f-list">
+      <li><strong>Suppression de la CDBF.</strong></li>
+      <li><strong>Suppression de la fonction juridictionnelle des CRC</strong> (et des CTC). Attention : les CRC ne sont pas supprimées. Elles conservent notamment le contrôle des comptes et de la gestion, et le contrôle budgétaire des collectivités (étudié en finances locales au second semestre).</li>
+      <li><strong>Fin de la RPP</strong> des comptables publics.</li>
+      <li><strong>Création de la 7e chambre de la Cour des comptes</strong>, dénommée « chambre du contentieux », qui juge à la fois les ordonnateurs et les comptables. Le nom même dit la volonté de la Cour de s'affirmer comme un véritable juge.</li>
+    </ul>
+    <div class="f-comp"><strong>Complément — l'appel et la cassation</strong>Les arrêts de la chambre du contentieux peuvent faire l'objet d'un appel devant la <strong>Cour d'appel financière</strong>, créée par la même ordonnance, puis d'un pourvoi en cassation devant le Conseil d'État.</div>
+    <div class="f-sous">
+      <div class="f-sous-title">Les infractions et les sanctions</div>
+      <div class="f-text">Le code des juridictions financières (CJF) définit plusieurs infractions, sanctionnées par des <strong>amendes plafonnées à 6 mois de rémunération</strong> pour la plupart. L'infraction emblématique est la <strong>faute grave ayant causé un préjudice financier significatif</strong> (art. L. 131-9 CJF).</div>
+      <div class="f-alerte"><strong>Une effectivité encore discutée</strong>Selon un professeur de l'Université de Lille cité en séance, on a « plus de chances de gagner au loto » que de voir sa responsabilité financière engagée devant la Cour des comptes. Certaines amendes prononcées sont de 1 €. La jurisprudence prend actuellement « son rythme de croisière » : on est dans la 3e année du nouveau régime, et c'est elle qui précise peu à peu les notions de faute grave et de préjudice financier significatif.</div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">La lacune maintenue : les élus</div>
+      <div class="f-text">Malgré la réforme, les <strong>élus locaux</strong> (et les ministres) ne sont toujours pas, par principe, justiciables de la Cour des comptes pour les actes accomplis dans l'exercice de leurs fonctions d'ordonnateur. Le CJF prévoit des exceptions. Celle qui intéresse le cas pratique est la <strong>gestion de fait</strong>.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Gestion de fait</span> Définition et régime</div>
+    <div class="f-key">La gestion de fait est le <strong>maniement sans titre de deniers publics</strong>. Seul le comptable public a ce titre. Quiconque gère des recettes ou des dépenses publiques sans en avoir reçu la compétence (un ordonnateur, un élu, un particulier, une association) devient <strong>gestionnaire de fait</strong> (on dit aussi comptable de fait).</div>
+    <div class="f-quote">Toute personne qui, sans avoir la qualité de comptable public ou sans agir sous contrôle et pour le compte d'un comptable public, s'ingère dans le recouvrement de recettes affectées ou destinées à un organisme public […] est passible des sanctions prévues […] au titre de sa gestion de fait. […] Il en est de même pour toute personne qui reçoit ou manie directement ou indirectement des fonds ou valeurs extraits irrégulièrement de la caisse d'un organisme public […].<cite>Art. L. 131-15 du code des juridictions financières (extraits)</cite></div>
+    <ul class="f-list">
+      <li><strong>Deux hypothèses principales</strong> : l'ingérence dans le <em>recouvrement de recettes</em> publiques ; le maniement de fonds <em>extraits irrégulièrement</em> de la caisse publique (par exemple au moyen d'un mandat fictif, → fiche #9).</li>
+      <li><strong>Conséquence</strong> : le comptable de fait est « en outre comptable de l'emploi des fonds » qu'il a maniés irrégulièrement. Il doit en rendre compte comme un comptable public, et encourt les sanctions du CJF.</li>
+      <li><strong>Articulation avec le pénal</strong> : le texte réserve l'hypothèse de poursuites pour le délit de l'article 433-12 du code pénal (immixtion dans l'exercice d'une fonction publique). Un même fait peut donc avoir un volet pénal.</li>
+    </ul>
+    <div class="f-alerte"><strong>Question posée en séance : et si l'on gère « bien » ?</strong>Peu importe que les comptes aient été bien tenus. La gestion de fait sanctionne l'<strong>irrégularité</strong> (absence de titre), pas la mauvaise gestion. Celui qui n'est pas habilité est en infraction du seul fait qu'il manie des fonds publics.</div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Séparation ordonnateur / comptable : fonctions incompatibles (art. 9 décret GBCP 2012) · seul le comptable manie les fonds</li>
+      <li>Avant 2023 : CDBF (ordonnateurs, 264 arrêts en 75 ans) / CRC (comptables, RPP, remises gracieuses à 90-95 %)</li>
+      <li>Ordonnance du 23 mars 2022, en vigueur le 1er janv. 2023 : régime unifié, 7e chambre « du contentieux », fin de la RPP</li>
+      <li>Amendes plafonnées à 6 mois de rémunération · faute grave + préjudice financier significatif</li>
+      <li>Élus locaux toujours non justiciables… sauf gestion de fait (art. L. 131-15 CJF)</li>
+      <li>Gestion de fait = maniement sans titre de deniers publics, même si les comptes sont bien tenus</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f6">← Fiche #6</label><label for="r-f8">Fiche #8 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 8 -->
+<div class="page-content" id="page-f8"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #8 — Séance 3 · Cas pratique (1/2)</div>
+    <h2>Cas Briocharisse : prise illégale d'intérêts, favoritisme et détournement de pouvoir</h2>
+    <div class="fiche-intro">M. Jet d'Ail est élu maire de Briocharisse (150 000 habitants) en mars 2026. La commune veut construire une résidence étudiante sur un terrain dont <em>il est propriétaire</em>. Il lance un appel d'offres et rédige un cahier des charges taillé pour l'entreprise dont il était salarié (couvreur) et dont le patron est un vieil ami. Son <em>beau-frère</em> siège à la commission d'appel d'offres. Le texte central a été modifié récemment par la <strong>loi n° 2025-1249 du 22 décembre 2025</strong> portant création d'un statut de l'élu local (art. 30 à 32).</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Règle</span> La prise illégale d'intérêts (art. 432-12 C. pén.)</div>
+    <div class="f-quote">Le fait, par une personne […] investie d'un mandat électif public, de prendre, recevoir ou conserver, en connaissance de cause, directement ou indirectement, un intérêt altérant son impartialité, son indépendance ou son objectivité dans une entreprise ou dans une opération dont elle a, au moment de l'acte, en tout ou partie, la charge d'assurer la surveillance, l'administration, la liquidation ou le paiement, est puni de cinq ans d'emprisonnement et d'une amende de 500 000 € […].<cite>Article 432-12, al. 1er, du code pénal (rédaction issue de la loi du 22 décembre 2025)</cite></div>
+    <div class="f-sous">
+      <div class="f-sous-title">Ce qu'a changé la loi du 22 décembre 2025</div>
+      <ul class="f-list">
+        <li><strong>L'intérêt doit désormais être « altérant »</strong> l'impartialité, l'indépendance ou l'objectivité de l'élu. L'ancien texte visait « un intérêt quelconque ».</li>
+        <li><strong>Exclusions</strong> : un <em>intérêt public</em> ne peut pas constituer un intérêt au sens du texte, ni un intérêt dont la prise en compte est exclue par la loi.</li>
+        <li><strong>Clause exonératoire</strong> : l'infraction n'est pas constituée lorsque l'élu ne pouvait agir autrement pour répondre à un <em>motif impérieux d'intérêt général</em>.</li>
+      </ul>
+      <div class="f-key">Conclusion retenue en séance : la nouvelle rédaction est <strong>moins sévère</strong> que les précédentes. C'est une loi pénale plus douce : elle s'applique immédiatement aux faits commis avant son entrée en vigueur et non encore définitivement jugés (rétroactivité in mitius).</div>
+      <div class="f-exemple"><strong>Cass. crim., 14 octobre 2026, n° 25-86.956</strong>Pour des faits antérieurs à la loi de décembre 2025, la Cour de cassation, tenue d'appliquer la loi plus douce, casse et renvoie l'affaire devant la cour d'appel pour qu'elle soit rejugée sur le fondement de la nouvelle définition. Elle raisonne pourtant sur le terrain de la prise illégale d'intérêts dans une affaire où un proche (un membre de la famille) intervenait, ce qui laisse penser qu'elle aurait retenu l'infraction.</div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">Les dérogations des petites communes</div>
+      <div class="f-text">Dans les communes de <strong>3 500 habitants au plus</strong>, les maires, adjoints et conseillers délégués peuvent traiter avec la commune dans la limite de <strong>16 000 € par an</strong>, acquérir une parcelle d'un lotissement communal pour y bâtir leur habitation, conclure un bail d'habitation, ou acquérir un bien pour leur activité professionnelle. Ces opérations exigent une délibération motivée, une estimation par le service des domaines et l'abstention de l'élu intéressé (art. 432-12, al. 4 et s.).</div>
+      <div class="f-alerte"><strong>Réflexe de copie</strong>Vérifiez toujours la population. Briocharisse compte 150 000 habitants : aucune dérogation n'est applicable.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q1</span> Le montage du maire est-il régulier ?</div>
+    <div class="f-text">En séance, le chargé de TD a dégagé trois éléments distincts et deux infractions. Il faut traiter chaque point séparément.</div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">1. Le terrain du maire → prise illégale d'intérêts</div>
+      <div class="syl">
+        <div><b>Majeure</b>Art. 432-12 C. pén. La Cour de cassation juge que la <strong>convocation du conseil municipal sur une seule question à laquelle le maire est personnellement intéressé</strong> suffit à caractériser une intervention, peu important qu'il n'ait ensuite pas participé au débat ni au vote. Pour l'élément moral, « l'intention coupable est caractérisée par le seul fait que l'auteur a accompli sciemment l'acte constituant l'élément matériel du délit reproché » (<strong>Cass. crim., 25 octobre 2017, n° 16-85.248</strong>).</div>
+        <div><b>Mineure</b><em>Élément matériel</em> : la résidence doit être construite sur le terrain du maire, qui a donc un intérêt financier privé (vente ou mise à disposition du terrain). Cet intérêt altère nécessairement son impartialité et son indépendance. Il a la charge de l'opération (il lance l'appel d'offres, il est l'ordonnateur). <em>Élément moral</em> : on sait forcément qu'on est propriétaire d'un terrain, il ne s'agit pas d'une inadvertance. Aucun motif impérieux d'intérêt général ne l'obligeait à utiliser son propre terrain (il n'y a pas d'urgence ni d'absence d'alternative), et aucune dérogation « petite commune » n'est applicable.</div>
+        <div class="c"><b>Conclusion</b>La prise illégale d'intérêts est caractérisée, même dans sa version plus douce de 2025.</div>
+      </div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">2. Le beau-frère à la commission d'appel d'offres → l'argument se retourne contre le maire</div>
+      <div class="f-text">Le maire prétend que la présence de son beau-frère « prouve » son impartialité. C'est l'inverse : la présence d'un proche dans l'organe qui choisit l'attributaire est un indice supplémentaire de conflit d'intérêts. Pour mémoire, la loi n° 2013-907 du 11 octobre 2013 relative à la transparence de la vie publique (art. 2) définit le conflit d'intérêts comme « toute situation d'interférence entre un intérêt public et des intérêts publics ou privés qui est de nature à influencer ou à paraître influencer l'exercice indépendant, impartial et objectif d'une fonction ». L'arrêt de cassation du 14 octobre 2026 cité plus haut porte sur l'intervention d'un proche.</div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">3. Le cahier des charges sur mesure → favoritisme</div>
+      <div class="f-alerte"><strong>Ne pas se tromper d'infraction</strong>Le seul fait que le maire ait été salarié de l'entreprise, ou que le patron soit un ami, ne suffit pas. On ne peut pas exclure d'un marché toutes les entreprises où un élu a travaillé ou dont il connaît le dirigeant. Si le cahier des charges est resté neutre, l'attribution à cette entreprise ne pose pas de problème. Ce qui est fautif, c'est d'avoir <strong>rédigé le cahier des charges pour qu'il coïncide avec cette entreprise</strong>. Et ce comportement ne relève pas de la prise illégale d'intérêts, mais d'une autre infraction.</div>
+      <div class="syl">
+        <div><b>Majeure</b>Les marchés publics respectent les principes de liberté d'accès à la commande publique, d'égalité de traitement des candidats et de transparence des procédures (art. L. 3 du code de la commande publique). L'article 432-14 C. pén. réprime le fait de procurer ou de tenter de procurer à autrui un avantage injustifié par un acte contraire à ces principes : c'est le délit de <strong>favoritisme</strong> (délit d'« atteinte à la liberté d'accès et à l'égalité des candidats dans les marchés publics et les contrats de concession »). Voir <strong>Cass. crim., 19 septembre 2007, n° 06-85.003</strong>.</div>
+        <div><b>Mineure</b>Le maire reconnaît avoir rédigé le cahier des charges « afin qu'il coïncide parfaitement avec les caractéristiques de cette entreprise ». Les autres candidats sont ainsi privés d'une égalité de chances, et l'entreprise obtient un avantage injustifié.</div>
+        <div class="c"><b>Conclusion</b>Le délit de favoritisme est caractérisé, en plus de la prise illégale d'intérêts.</div>
+      </div>
+    </div>
+
+    <div class="f-alerte"><strong>Méthode : un ou plusieurs syllogismes ?</strong>Avec le chargé de TD : un syllogisme par infraction (prise illégale d'intérêts / favoritisme), en traitant les différents faits les uns après les autres. Les professeurs semblent préférer que les points soient bien distingués : dans le doute, distinguez.</div>
+    <div class="f-comp"><strong>Complément — la protection fonctionnelle</strong>Un étudiant a soulevé ce point, qui mérite d'être maîtrisé. La commune doit en principe accorder sa protection au maire poursuivi pénalement pour des faits qui ne sont pas détachables de ses fonctions (art. L. 2123-34 CGCT). Mais une prise illégale d'intérêts, qui révèle des préoccupations d'ordre privé et présente une gravité particulière, constitue une <strong>faute personnelle détachable</strong> : la protection est refusée (CE, 30 décembre 2015, Commune de Roquebrune-sur-Argens). Selon le chargé de TD, le Conseil d'État aurait par ailleurs jugé le 29 janvier 2025 que la protection fonctionnelle n'est pas due aux justiciables du nouveau régime de responsabilité financière (référence citée de mémoire, à vérifier).</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q2</span> La solution serait-elle la même si le maire était présent au conseil d'attribution du marché ?</div>
+    <div class="syl">
+      <div><b>Majeure</b>Sont illégales les délibérations auxquelles ont pris part un ou plusieurs membres du conseil intéressés à l'affaire qui en fait l'objet, soit en leur nom personnel, soit comme mandataires (art. L. 2131-11 CGCT). Depuis la loi du 22 décembre 2025 (art. 32), le texte précise qu'un membre du conseil « ne peut être considéré comme ayant pris part à la délibération du seul fait de sa présence » à la réunion. Selon la jurisprudence administrative antérieure, la participation au vote d'un conseiller intéressé peut entraîner l'illégalité de la délibération. Sa participation aux travaux préparatoires et aux débats peut aussi l'entraîner, même s'il ne vote pas, dès lors qu'il a été en mesure d'exercer une <strong>influence</strong> sur la décision.</div>
+      <div><b>Mineure</b>Il faut distinguer selon le comportement du maire. S'il est simplement présent et reste muet, sans voter, sa seule présence ne suffit plus à vicier la délibération. S'il intervient dans les débats, a fortiori s'il préside, présente le dossier ou vote, il exerce une influence : la délibération est illégale. Sur le plan pénal, la convocation et la présidence de la séance suffisent déjà à caractériser l'intervention (Cass. crim. 2017).</div>
+      <div class="c"><b>Conclusion</b>La présence passive ne change rien sur le terrain administratif, mais toute participation active rend la délibération d'attribution illégale (recours en annulation possible). Sur le terrain pénal, la solution reste la même : la prise illégale d'intérêts est constituée par son intervention dans l'opération. L'élu intéressé doit s'abstenir et, en pratique, sortir de la salle. La loi de 2025 lui impose en outre de déclarer ses intérêts avant le débat et le vote.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q3</span> La maison de santé de la société BOIS</div>
+    <div class="f-text"><strong>Les faits.</strong> Candidat, le maire a publié sur le réseau social « LinkLink » son refus de voir la société BOIS construire une maison de santé. Il veut que la commune rachète le terrain pour y réaliser sa propre maison communale de santé, avec logements et commerces. La question implicite est la suivante : peut-il, une fois maire, refuser le permis de construire de BOIS pour ce motif ?</div>
+    <div class="syl">
+      <div><b>Majeure</b>Une autorité administrative qui use de ses pouvoirs dans un but autre que celui pour lequel ils lui ont été conférés commet un <strong>détournement de pouvoir</strong> (<strong>CE, 26 novembre 1875, Pariset</strong>, GAJA). Le permis de construire ne peut être refusé que pour des motifs tirés du droit de l'urbanisme. Un refus fondé sur un motif étranger à l'urbanisme est entaché de détournement de pouvoir : <strong>CAA Nancy, 3e ch., 21 novembre 2024, n° 22NC02197</strong>. Dans cette affaire, un candidat devenu maire avait contesté publiquement, sur les réseaux sociaux en février 2020, l'opportunité d'un projet de maison de santé porté par une société, avant de refuser le permis une fois élu.</div>
+      <div><b>Mineure</b>Le message publié pendant la campagne révèle le véritable but du maire : écarter un concurrent privé pour réaliser le projet communal. Il n'avance aucun argument propre au droit de l'urbanisme. Les faits sont quasiment identiques à ceux de l'arrêt de Nancy.</div>
+      <div class="c"><b>Conclusion</b>Un refus de permis pour ce motif serait annulé pour détournement de pouvoir. Le maire doit instruire la demande de BOIS sur le seul terrain de l'urbanisme.</div>
+    </div>
+    <div class="f-comp"><strong>Complément — les voies régulières pour mener le projet communal</strong>Le maire peut tenter une acquisition amiable du terrain. Si la commune a institué un droit de préemption urbain, elle peut préempter lors d'une vente, à condition de justifier d'un projet d'action ou d'opération d'aménagement réel (art. L. 210-1 et L. 300-1 du code de l'urbanisme). En dernier recours, il reste l'expropriation pour cause d'utilité publique. Dans tous les cas, l'objectif doit être l'intérêt général poursuivi, et non l'éviction d'un concurrent.</div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Art. 432-12 (loi 22 déc. 2025) : intérêt « altérant » · intérêt public exclu · motif impérieux d'intérêt général · loi plus douce, donc rétroactive</li>
+      <li>Dérogations réservées aux communes ≤ 3 500 hab. (16 000 €/an)</li>
+      <li>Cass. crim. 25 oct. 2017 : convoquer le conseil sur une affaire où l'on est intéressé suffit · élément moral = acte accompli sciemment</li>
+      <li>Cahier des charges sur mesure = favoritisme (432-14 C. pén. + L. 3 CCP), et non prise illégale d'intérêts</li>
+      <li>L. 2131-11 CGCT (loi 2025) : la seule présence ne vaut pas participation · l'influence, oui</li>
+      <li>Refus de permis pour un motif étranger à l'urbanisme = détournement de pouvoir (Pariset 1875 ; CAA Nancy 2024)</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f7">← Fiche #7</label><label for="r-f9">Fiche #9 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 9 -->
+<div class="page-content" id="page-f9"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #9 — Séance 3 · Cas pratique (2/2)</div>
+    <h2>Cas Briocharisse : la toiture « déplacée » et les émeutes</h2>
+    <div class="fiche-intro">Deux questions qui mobilisent deux responsabilités différentes. La première relève de la responsabilité financière : une facture payée pour des travaux non réalisés à l'endroit prévu. La seconde relève de la responsabilité administrative : des dommages causés par des attroupements, à la charge de l'État, et la possibilité pour l'État de se retourner contre la commune.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q4</span> La facture de 7 000 € pour la toiture</div>
+    <div class="f-text"><strong>Les faits.</strong> La commune a payé 7 000 € à une entreprise pour refaire la toiture de la mairie. La toiture de l'école étant en plus mauvais état, les travaux ont été réalisés sur l'école, huit mois après le paiement. La facture servait en réalité à ne pas perdre le reliquat d'une subvention départementale affectée à la toiture de la mairie.</div>
+    <div class="f-alerte"><strong>Le mot qu'il fallait écrire</strong>En séance, plusieurs étudiants ont trouvé le bon texte sans employer la qualification juridique. Le mot central est <strong>gestion de fait</strong>. Le raisonnement passe par trois étapes : mandat fictif → extraction irrégulière de fonds → gestion de fait.</div>
+    <div class="syl">
+      <div><b>Majeure</b>En comptabilité publique, la règle du <strong>service fait</strong> impose qu'une dépense ne soit payée qu'après exécution de la prestation qu'elle rémunère, sauf exceptions prévues par les textes (paiement d'avance). Un mandat qui ne correspond à aucune prestation réelle est un <strong>mandat fictif</strong>. Est comptable de fait toute personne qui manie des fonds extraits irrégulièrement de la caisse d'un organisme public (art. <strong>L. 131-15 CJF</strong>). Illustration : <strong>Cour des comptes, 16 octobre, Commune de Grandchamp(s)</strong>. Une commune avait fait payer une facture pour des travaux de toiture sur la mairie, réalisés en réalité sur une école, afin de conserver le bénéfice d'une subvention. Le maire et le gérant de l'entreprise ont été déclarés gestionnaires de fait, et le gérant a été condamné à une amende de 1 €.</div>
+      <div><b>Mineure</b><em>1° Mandat fictif</em> : le mandat de 7 000 € vise des travaux sur la mairie qui n'ont jamais été réalisés. La dépense est fictive, et elle est payée avant tout service fait. <em>2° Extraction irrégulière</em> : sur la base de ce mandat, le comptable a payé. Des fonds ont été extraits irrégulièrement de la caisse publique et ont été détenus par l'entreprise pendant huit mois, hors de tout contrôle du comptable. Ils ont ensuite été employés à un autre objet. <em>3° Le mobile importe peu</em> : sauver une subvention et réparer une école en plus mauvais état sont des buts louables, mais la régularité n'est pas respectée. La subvention départementale a en outre été détournée de son affectation.</div>
+      <div class="c"><b>Conclusion</b>Ce n'était pas possible. Le maire (ordonnateur), et avec lui le gérant de l'entreprise qui a reçu et manié les fonds, peuvent être déclarés <strong>gestionnaires de fait</strong> par la Cour des comptes. Ils devront rendre compte de l'emploi des fonds et encourent une amende. C'est l'exception qui rend l'élu local justiciable du juge financier (→ fiche #7).</div>
+    </div>
+    <div class="f-alerte"><strong>Qui est gestionnaire de fait : la commune ou le maire ?</strong>C'est une personne physique : celle qui a manié ou fait manier les fonds. Ici, ce sont le maire en tant qu'ordonnateur et le gérant qui a encaissé. On imagine mal une commune, en tant que personne morale, déclarée gestionnaire de fait de ses propres deniers.</div>
+    <div class="f-alerte"><strong>Date de l'arrêt à vérifier</strong>Elle a été donnée tantôt comme le 16 octobre 2006, tantôt comme le 16 octobre 2026. L'orthographe de la commune (Grandchamp ou Grandchamps) est aussi incertaine. Dans une copie, « Cour des comptes, Commune de Grandchamp » avec le mois suffit si vous avez un doute sur l'année.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q5</span> Les émeutes après la conférence du polémiste</div>
+    <div class="f-text"><strong>Les faits.</strong> Après la conférence d'un polémiste dans une salle municipale, un attroupement d'opposants se forme et des heurts éclatent entre partisans et opposants. La police disperse la majorité des personnes, mais de petits groupes affrontent les forces de l'ordre et commettent des dégradations dans la commune. Une pharmacie voisine est pillée puis incendiée. Le pharmacien attaque l'État devant le tribunal administratif sur le fondement de l'article L. 211-10 CSI. Le préfet répond qu'aucune dégradation n'aurait eu lieu si le maire avait interdit la conférence, et annonce qu'en cas de condamnation, il demandera à la commune de rembourser.</div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">Étape 1 — La responsabilité de l'État est-elle engagée ?</div>
+      <div class="f-quote">L'État est civilement responsable des dégâts et dommages résultant des crimes et délits commis, à force ouverte ou par violence, par des attroupements ou rassemblements armés ou non armés, soit contre les personnes, soit contre les biens. […] Il peut exercer une action récursoire contre la commune lorsque la responsabilité de celle-ci se trouve engagée.<cite>Art. L. 211-10 du code de la sécurité intérieure</cite></div>
+      <div class="syl">
+        <div><b>Majeure</b>C'est un régime de <strong>responsabilité sans faute</strong> de l'État. Il suppose des crimes ou délits commis à force ouverte ou par violence, par un attroupement ou un rassemblement, ou dans le <strong>prolongement direct</strong> de celui-ci ou de sa dispersion. Le régime est écarté pour les actions préméditées de groupes constitués dans le seul but de commettre des délits, indépendamment de tout rassemblement. Le Conseil d'État a toutefois admis qu'un incendie, même prémédité, relève du régime s'il s'inscrit dans le prolongement du rassemblement initial et n'est pas le fait d'un groupe constitué à part (CE, 30 décembre 2016).</div>
+        <div><b>Mineure</b>Le pillage et l'incendie (délits et crimes) ont été commis à force ouverte et par violence. Leurs auteurs sont de petits groupes issus de la dispersion de l'attroupement initial. Ces exactions s'inscrivent dans la continuité directe et immédiate du rassemblement et des opérations de dispersion. Rien n'indique des casseurs organisés indépendamment de la manifestation.</div>
+        <div class="c"><b>Conclusion</b>La responsabilité sans faute de l'État est engagée envers le pharmacien.</div>
+      </div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">Étape 2 — L'action récursoire de l'État contre la commune peut-elle aboutir ?</div>
+      <div class="f-alerte"><strong>Le vrai cœur de la question</strong>Selon le chargé de TD, c'est sur l'<strong>action récursoire contre la commune</strong> qu'il fallait concentrer le raisonnement. C'est une question ouverte : il n'existe pas de précédent qui colle exactement. Il faut donc construire la majeure avec ce qui s'en rapproche le plus et soigner la mineure (le chargé conseille des mineures environ deux fois plus longues que la majeure dans ce cas).</div>
+      <div class="syl">
+        <div><b>Majeure</b>L'État ne peut se retourner contre la commune que si « la responsabilité de celle-ci se trouve engagée » (L. 211-10 al. 3). Il doit donc prouver une <strong>faute</strong> de la commune, en pratique une carence du maire dans l'exercice de ses pouvoirs de police municipale (art. L. 2212-2 CGCT). Selon la doctrine (Terry Olson), l'action suppose que la commune ait joué un rôle actif ou passif dans la survenance du dommage. Deux limites encadrent cette faute :<br>
+        — une <strong>interdiction préventive</strong> d'une réunion n'est légale que s'il existe une menace grave de trouble à l'ordre public à laquelle aucune autre mesure de police ne permet de faire face (<strong>CE, 19 mai 1933, Benjamin</strong>). Ne pas interdire n'est donc pas, en soi, une faute ;<br>
+        — dans les communes où la police est <strong>étatisée</strong>, la répression des atteintes à la tranquillité publique et le maintien de l'ordre lors des grands rassemblements incombent à l'<strong>État</strong> (art. L. 2214-4 CGCT).<br>
+        La décision la plus proche, qui ne colle qu'en partie aux faits, est <strong>CAA Versailles, 6 février 2024, n° 22VE01196</strong>.</div>
+        <div><b>Mineure</b>Briocharisse compte 150 000 habitants : elle relève du régime de la police d'État. La charge de disperser l'attroupement et d'empêcher les pillages appartenait donc au préfet. Les forces de l'ordre étaient présentes, ce qui montre que l'État connaissait l'événement. Le préfet n'a lui-même pris aucune mesure d'interdiction alors qu'il en avait le pouvoir. Rien n'indique une menace d'une gravité telle qu'elle aurait imposé au maire d'interdire une conférence, au regard de la liberté de réunion et d'expression (Benjamin).</div>
+        <div class="c"><b>Conclusion</b>Aucune faute de la commune ne paraît établie. L'action récursoire annoncée par le préfet a de faibles chances d'aboutir. La conclusion reste ouverte : un raisonnement contraire, bien argumenté, est acceptable.</div>
+      </div>
+      <div class="f-exemple"><strong>Pour aller plus loin : le projet de loi « casseur-payeur »</strong>Le projet de loi relatif à la réparation des dommages résultant de violences ou de dégradations commises dans l'espace public vise à faire peser l'effort financier sur les auteurs (les « casseurs ») et à faciliter l'indemnisation des victimes. Les débats montrent la difficulté de l'État à exercer ses actions récursoires. Le projet ne dispense pas le préfet de démontrer une faute de la commune.</div>
+      <div class="f-alerte"><strong>Références jugées « hors sujet » en séance</strong>Lemonnier (1918, cumul de responsabilités) et Laruelle / Delville (1951, actions récursoires entre l'administration et ses agents) concernent les rapports entre l'administration et ses agents, pas entre l'État et une commune. Benjamin n'est utile que pour montrer qu'une interdiction aurait elle-même été illégale. Il ne fonde pas l'action récursoire.</div>
+    </div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Toiture : facture sans service fait = mandat fictif → extraction irrégulière de fonds → gestion de fait (L. 131-15 CJF)</li>
+      <li>Le bon motif (sauver une subvention, réparer l'école) n'efface pas l'irrégularité</li>
+      <li>L. 211-10 CSI : responsabilité sans faute de l'État pour les dommages causés par des attroupements, y compris dans le prolongement de leur dispersion</li>
+      <li>Action récursoire contre la commune = faute de la commune à prouver (carence de police)</li>
+      <li>Police étatisée (L. 2214-4) + Benjamin 1933 → pas de faute du maire à ne pas avoir interdit la conférence</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f8">← Fiche #8</label><label for="r-f10">Fiche #10 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 10 -->
+<div class="page-content" id="page-f10"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #10 — Séance 4 · Cas pratique (1/2)</div>
+    <h2>L'interventionnisme économique : le parc photovoltaïque</h2>
+    <div class="fiche-intro">Vous êtes avocat. Le maire de Saint-Saturnin-lès-Trois-Cyprès veut mener une politique économique volontariste. Un investisseur privé, qui a ses autorisations d'urbanisme et environnementales mais ni terrain ni fonds, propose un parc photovoltaïque. Le montage imaginé est le suivant : la commune met gratuitement (ou presque) à disposition l'ancien terrain de sport municipal, aujourd'hui désaffecté, et le producteur fournit en échange de l'électricité aux services municipaux (pas aux habitants). Ce cas mobilise plusieurs matières de M1 droit public : droit des collectivités, droit des biens publics, aides aux entreprises, droit de l'Union, contrats publics. Mettez-vous à jour si l'une d'elles vous manque.</div>
+  </div>
+
+  <div class="f-steps">
+    <div class="f-step">① Compétence</div>
+    <div class="f-step">② Nature du terrain</div>
+    <div class="f-step">③ Gratuité ou rabais</div>
+    <div class="f-step">④ Droit des aides</div>
+    <div class="f-step">⑤ Aides d'État (UE)</div>
+    <div class="f-step">⑥ Contrat à conclure</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">①</span> La commune est-elle compétente pour intervenir ?</div>
+    <div class="f-quote">Sous réserve du respect de la liberté du commerce et de l'industrie et du principe d'égalité des citoyens devant la loi ainsi que des règles de l'aménagement du territoire […], la commune peut intervenir en matière économique et sociale dans les conditions prévues au présent chapitre […].<cite>Art. L. 2251-1 CGCT</cite></div>
+    <div class="f-text">La répartition des compétences en matière d'aides aux entreprises est la suivante :</div>
+    <ul class="f-list">
+      <li><strong>Principe</strong> : la <strong>région</strong> est seule compétente pour définir les régimes d'aides et décider de l'octroi des aides directes aux entreprises (subventions, prêts, avances…) (art. L. 1511-2 CGCT).</li>
+      <li><strong>Exception</strong> : le <strong>bloc communal</strong> (communes et EPCI à fiscalité propre) est seul compétent pour les <strong>aides à l'investissement immobilier des entreprises</strong> et à la <strong>location de terrains ou d'immeubles</strong> (art. L. 1511-3 CGCT).</li>
+    </ul>
+    <div class="f-key">Mettre un terrain à disposition d'une entreprise à des conditions avantageuses entre dans le champ de l'article L. 1511-3. La commune est donc compétente, sous réserve des conditions examinées ci-dessous.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">②-③</span> Le terrain relève-t-il du domaine public ? La gratuité est-elle possible ?</div>
+    <div class="f-text">La question se dédouble selon la nature du terrain : l'ancien terrain de sport est <em>désaffecté</em>, mais rien n'indique qu'il ait été <em>déclassé</em>.</div>
+    <div class="f-alerte"><strong>Désaffectation ≠ sortie du domaine public</strong>Un bien ne sort du domaine public qu'après un acte administratif de <strong>déclassement</strong>, qui constate la désaffectation (art. L. 2141-1 CG3P). Un terrain désaffecté mais non déclassé reste dans le domaine public.</div>
+    <div class="f-sous">
+      <div class="f-sous-title">Hypothèse 1 — Le terrain est resté dans le domaine public</div>
+      <div class="syl">
+        <div><b>Majeure</b>Toute occupation ou utilisation du domaine public donne lieu au paiement d'une <strong>redevance</strong> (art. L. 2125-1 CG3P). Le texte énumère les cas où l'occupation peut être gratuite. Quand l'occupation permet une activité économique, l'autorisation est en outre précédée d'une <strong>procédure de sélection préalable</strong> présentant des garanties d'impartialité et de transparence (art. L. 2122-1-1 CG3P).</div>
+        <div><b>Mineure</b>Aucune des exceptions de l'article L. 2125-1 ne joue pour un producteur privé d'électricité qui exploite le terrain dans un but lucratif. Il faut tout de même les citer pour montrer qu'on les a vérifiées.</div>
+        <div class="c"><b>Conclusion</b>La gratuité n'est pas possible. Une redevance est due, tenant compte des avantages que l'occupant retire de l'occupation, et l'occupant doit être choisi après une procédure de sélection.</div>
+      </div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">Hypothèse 2 — Le terrain a été déclassé : il relève du domaine privé</div>
+      <div class="syl">
+        <div><b>Majeure</b>Les personnes publiques gèrent librement leur domaine privé selon les règles qui leur sont applicables (art. L. 2221-1 CG3P). Mais une personne publique ne peut pas faire de libéralités. Pour une cession, une collectivité ne peut céder un bien à un prix inférieur à sa valeur que pour des <strong>motifs d'intérêt général</strong> et avec des <strong>contreparties suffisantes</strong> (CE, Sect., 3 novembre 1997, <strong>Commune de Fougerolles</strong>). Le Conseil d'État a transposé la règle à la location : une personne publique ne peut louer un bien à une personne poursuivant des fins d'intérêt privé pour un loyer inférieur à sa valeur locative, sauf si cette location est justifiée par des motifs d'intérêt général et comporte des contreparties suffisantes (<strong>CE, 28 septembre 2021, CCAS de P.</strong>, orthographe de la commune à vérifier). Ce sont les locations dites « à vil prix ».</div>
+        <div><b>Mineure</b>Il faut examiner successivement les deux conditions (voir ci-dessous).</div>
+        <div class="c"><b>Conclusion</b>La gratuité ou le rabais sont théoriquement possibles, si les deux conditions sont réunies.</div>
+      </div>
+
+      <div class="f-sous2">
+        <div class="f-sous2-title">Condition 1 : le motif d'intérêt général, le point le plus difficile à démontrer</div>
+        <div class="f-text">Le bailleur public doit démontrer que le contrat répond à une politique d'intérêt général relevant de sa compétence. Les motifs admis par la jurisprudence sont les suivants :</div>
+        <ul class="f-list">
+          <li>la <strong>redynamisation de l'économie locale</strong> : CE 3 nov. 1997, Commune de Fougerolles ; CE 26 juin 1974, Société « La Maison des Isolants de France » ; CE 10 mai 1985, SA Boussac Saint-Frères ;</li>
+          <li>la <strong>mixité sociale</strong> ou l'accession à la propriété de ménages modestes : CAA Nantes, 30 juin 2000, Préfet de la Vendée ;</li>
+          <li>la <strong>construction d'un ouvrage d'utilité publique</strong> : CE, 18 mai 1998, Commune de Castelsarrasin.</li>
+        </ul>
+        <div class="f-text"><em>En l'espèce</em> : l'activité (production d'énergie renouvelable) est probablement d'intérêt général. Elle peut se rattacher à la construction d'un ouvrage d'utilité publique (Castelsarrasin) et répond à un enjeu environnemental.</div>
+      </div>
+      <div class="f-sous2">
+        <div class="f-sous2-title">Condition 2 : des contreparties suffisantes</div>
+        <div class="f-text">Par analogie avec les ventes à prix symbolique, les contreparties doivent être des <strong>obligations annexes et complémentaires</strong> à la charge du preneur, par exemple des engagements chiffrés sur un volume d'activité économique, un maintien ou une création d'emplois. L'essentiel tient moins à leur formulation qu'aux <strong>garanties</strong> qui les accompagnent et aux <strong>conséquences de leur non-respect</strong>.</div>
+        <div class="f-exemple"><strong>CE, 14 octobre 2015, Commune de Châtillon-sur-Seine</strong>Pour la vente d'un bien public, le Conseil d'État indique que l'effectivité des contreparties (des obligations de résultat quant à leur réalisation) n'est pas systématiquement exigée, pas plus que l'existence de mécanismes de garantie au bénéfice de la personne publique. On exige des contreparties, mais pas nécessairement la garantie qu'elles seront réalisées. L'arrêt ne dit pas si la solution vaut aussi pour les locations à loyer modique : c'est une incertitude à signaler au maire.</div>
+        <div class="f-text"><em>En l'espèce</em> : la fourniture d'électricité aux seuls services municipaux paraît une contrepartie <strong>accessoire</strong>. Sans ce projet, la commune serait de toute façon alimentée en électricité. Il faudrait la compléter par des engagements chiffrés (emplois, investissements, durée d'exploitation) assortis de garanties.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">④-⑤</span> Le rabais au regard du droit des aides</div>
+    <div class="f-sous">
+      <div class="f-sous-title">En droit interne</div>
+      <div class="f-text">Les aides aux entreprises sont encadrées par l'article L. 2251-2 et les articles L. 1511-1 et suivants du CGCT. L'article L. 1511-3 autorise les aides communales en matière d'investissement immobilier des entreprises et de location de terrains ou d'immeubles, dans le respect du schéma régional de développement économique (SRDEII). Le <strong>rabais sur un loyer</strong> fait partie des formes d'aide envisagées, y compris pour des terrains nus. Le rabais semble donc possible, à condition d'appliquer la jurisprudence citée plus haut.</div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">En droit de l'Union européenne</div>
+      <div class="f-alerte"><strong>Objection entendue en séance : « situation purement interne »</strong>Elle ne tient pas. Le CGCT lui-même renvoie au droit de l'Union : les aides à l'immobilier et à la location doivent respecter les <strong>articles 107 et 108 TFUE</strong> (art. R. 1511-4-3 CGCT, tel que cité en séance). Le droit des aides d'État s'applique donc, par renvoi du droit interne.</div>
+      <div class="f-exemple"><strong>TPICE, 16 septembre 2004, Valmont Nederland BV</strong>Le Tribunal de première instance (aujourd'hui Tribunal de l'Union européenne) juge qu'il n'y a pas aide d'État lorsque la cession à prix préférentiel d'un terrain communal à une entreprise a pour contrepartie l'obligation d'aménager une partie de ce terrain en parking public.</div>
+      <div class="f-text"><em>En l'espèce</em> : il faut démontrer que le projet est d'intérêt public et que l'avantage consenti est compensé par de véritables contreparties. C'est probablement le cas, sous réserve d'étoffer les contreparties.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">⑥</span> Quel contrat conclure ?</div>
+    <div class="f-sous">
+      <div class="f-sous-title">Ni marché public, ni concession</div>
+      <ul class="f-list">
+        <li><strong>La commune n'est pas à l'initiative</strong> : elle a été saisie d'une proposition d'un investisseur privé. Il n'y a ni appel d'offres, ni définition préalable d'un besoin par la commune.</li>
+        <li><strong>Pas de prix ni de besoin réel</strong> : la commune ne rémunère pas l'entreprise. La fourniture d'électricité aux services est accessoire : sans ce projet, il n'y aurait pas de carence d'électricité.</li>
+      </ul>
+      <div class="f-text">Si la commune avait réellement besoin d'énergie renouvelable, la voie régulière serait de lancer elle-même une mise en concurrence, sans garantie que cette entreprise soit retenue. Le contrat de la commande publique est fait pour répondre à un besoin défini par l'acheteur.</div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">Un contrat immobilier</div>
+      <div class="f-vs">
+        <div class="f-vs-col"><div class="f-vs-col-title">Domaine privé</div>Probablement un <strong>bail emphytéotique</strong> du code rural, très courant dans le secteur de l'énergie. La Cour de cassation a déjà <strong>requalifié</strong> ce type de contrat en <strong>bail emphytéotique administratif</strong> (BEA) en tenant compte du caractère d'intérêt général de l'opération (Cass., 15 juin 2023). Le BEA est prévu par l'article L. 1311-2 CGCT.</div>
+        <div class="f-vs-col"><div class="f-vs-col-title">Domaine public</div>Un titre d'occupation du domaine public (convention d'occupation constitutive ou non de droits réels, ou BEA de l'article L. 1311-2), avec <strong>redevance</strong> obligatoire et <strong>procédure de sélection préalable</strong> (art. L. 2122-1-1 CG3P).</div>
+      </div>
+      <div class="f-comp"><strong>Complément — une autre voie possible</strong>Les communes peuvent, par dérogation, participer au capital d'une société anonyme ou d'une SAS dont l'objet est la production d'énergies renouvelables sur leur territoire (art. L. 2253-1, al. 2, CGCT). Si elle veut tirer profit du projet, la commune pourrait entrer au capital de la société de projet plutôt que de consentir un rabais.</div>
+    </div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Compétence : L. 2251-1 · aides directes = région (L. 1511-2) · immobilier d'entreprise et location = bloc communal (L. 1511-3)</li>
+      <li>Désaffecté ≠ déclassé → reste dans le domaine public → redevance obligatoire (L. 2125-1) + sélection préalable (L. 2122-1-1)</li>
+      <li>Domaine privé : rabais possible si motif d'intérêt général + contreparties suffisantes (Fougerolles 1997 ; CE 2021 ; Châtillon-sur-Seine 2015)</li>
+      <li>Aides d'État : art. 107-108 TFUE applicables par renvoi du CGCT · Valmont Nederland 2004</li>
+      <li>Ni marché ni concession (pas d'initiative, pas de besoin) → bail emphytéotique / BEA (L. 1311-2)</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f9">← Fiche #9</label><label for="r-f11">Fiche #11 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 11 -->
+<div class="page-content" id="page-f11"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #11 — Séance 4 · Cas pratique (2/2)</div>
+    <h2>Bornes de recharge et mutuelle communale</h2>
+    <div class="fiche-intro">Deux projets qui posent la même question de fond : une commune peut-elle créer une activité économique qui concurrence l'initiative privée ? La réponse repose sur une jurisprudence ancienne, Nevers (1930), modernisée par Ordre des avocats au barreau de Paris (2006), et parfois sur un texte spécial qui règle la question à sa place.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Principe</span> Les conditions de l'intervention économique publique</div>
+    <div class="f-exemple"><strong>CE, Sect., 30 mai 1930, Chambre syndicale du commerce en détail de Nevers</strong>Les collectivités ne peuvent ériger des entreprises commerciales en services publics que si des <strong>circonstances particulières de temps et de lieu</strong> font apparaître un <strong>intérêt public</strong>, en pratique une <strong>carence de l'initiative privée</strong>.</div>
+    <div class="f-exemple"><strong>CE, Ass., 31 mai 2006, Ordre des avocats au barreau de Paris</strong>Pour intervenir sur un marché, une personne publique doit d'abord agir dans le cadre de ses compétences. Elle ne peut ensuite prendre en charge une activité économique que si un <strong>intérêt public</strong> le justifie, ce qui peut résulter notamment de la carence de l'initiative privée, qui n'est donc plus une condition exclusive. Enfin, elle doit intervenir de manière à ne pas fausser le libre jeu de la concurrence.</div>
+    <div class="f-steps">
+      <div class="f-step">① Compétence</div>
+      <div class="f-step">② Intérêt public (carence…)</div>
+      <div class="f-step">③ Pas de distorsion de concurrence</div>
+    </div>
+    <div class="f-exemple"><strong>CE, Sect., 20 novembre 1964, Ville de Nanterre</strong>Application en matière de santé : la création d'un cabinet dentaire municipal a été admise en raison d'une carence de l'initiative privée et d'un intérêt public local.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q2</span> Les bornes de recharge électriques</div>
+    <div class="f-text"><strong>Les faits.</strong> Le maire veut installer des bornes de recharge pour véhicules particuliers. Il en existe déjà dans les stations-service de la commune, mais « trop peu » selon lui.</div>
+    <div class="syl">
+      <div><b>Majeure</b>Un texte spécial règle la question : « Sous réserve d'une offre <strong>inexistante, insuffisante ou inadéquate</strong> sur leur territoire, les communes peuvent créer et entretenir des infrastructures de charge nécessaires à l'usage de véhicules électriques ou hybrides rechargeables, ou mettre en place un service comprenant la création, l'entretien et l'exploitation » de ces infrastructures. « L'exploitation peut comprendre l'achat d'électricité » nécessaire (art. <strong>L. 2224-37 CGCT</strong>). Ce texte reprend, pour ce secteur, la logique de Nevers et d'Ordre des avocats. La commune a conservé la clause générale de compétence (loi NOTRe), mais il faut vérifier que cette compétence n'a pas été <strong>transférée</strong> à l'intercommunalité ou à l'autorité organisatrice de la distribution d'électricité, comme le texte le permet.</div>
+      <div><b>Mineure</b>La compétence existe. L'offre n'est pas inexistante (il y a des bornes dans les stations-service). Il faudra donc établir qu'elle est <strong>insuffisante</strong> ou <strong>inadéquate</strong>. Le « trop peu selon lui » ne suffit pas : c'est une appréciation subjective. Il faut objectiver le besoin par une étude : nombre de bornes rapporté au nombre d'habitants et de véhicules électriques, répartition géographique (les stations-service sont souvent en périphérie, près des zones commerciales, et les quartiers centraux sont mal desservis), puissance des bornes, horaires d'accès…</div>
+      <div class="c"><b>Conclusion</b>Le projet est envisageable, à condition de (1) vérifier que la compétence n'a pas été transférée ; (2) démontrer l'insuffisance ou l'inadéquation de l'offre privée par une étude préalable, puis la constater par délibération du conseil municipal (L. 2121-29) ; (3) intervenir sans fausser la concurrence. Le service sera payant, comme les bornes privées.</div>
+    </div>
+    <div class="f-alerte"><strong>Le juridique et le politique</strong>On a objecté en séance que le maire avait été élu sur ce programme, ce qui démontrerait le besoin. L'argument est politique, pas juridique. Une dépense facultative est toujours un choix politique, mais le juge contrôle si l'insuffisance de l'offre est réellement établie. Ne mélangez pas les deux dans la majeure. Vous pouvez en revanche mentionner l'enjeu environnemental (développement des véhicules électriques) comme élément de l'intérêt public.</div>
+    <div class="f-comp"><strong>Complément — ne pas fausser la concurrence</strong>Pour fixer un prix, la jurisprudence exige que la personne publique intègre l'ensemble des coûts de l'activité. Elle ne doit pas bénéficier d'un avantage tiré de ses ressources ou de ses prérogatives de puissance publique qui lui permettrait de pratiquer des prix inférieurs à ceux du marché (CE, avis, 8 novembre 2000, Société Jean-Louis Bernard Consultants). Des bornes communales vendues à perte pour évincer les stations-service seraient irrégulières.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Q3</span> La « mutuelle communale »</div>
+    <div class="f-text"><strong>Les faits.</strong> Le maire veut une « mutuelle communale » pour couvrir les soins des plus démunis, en complément de la sécurité sociale. Il envisage une <strong>société anonyme locale</strong>, financée intégralement par la commune (apports au capital et subventions), qui conclurait elle-même les contrats avec les usagers.</div>
+    <div class="f-sous">
+      <div class="f-sous-title">Le contexte pratique</div>
+      <div class="f-text">Les mutuelles communales se sont multipliées depuis quelques années, car les contrats individuels de complémentaire santé coûtent cher (surtout pour les personnes âgées). Mais dans la quasi-totalité des cas, la commune joue un rôle d'<strong>intermédiaire</strong> : elle négocie un contrat collectif avec une mutuelle existante, auquel les habitants adhèrent. Ici, le maire veut aller plus loin : créer l'organisme lui-même. C'est rare, et il n'existe pas de précédent.</div>
+      <div class="f-text">Définition : les mutuelles sont des <strong>personnes morales de droit privé à but non lucratif</strong> qui mènent une action de prévoyance, de solidarité et d'entraide (art. L. 111-1 du code de la mutualité).</div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">1. La compétence et la carence</div>
+      <div class="syl">
+        <div><b>Majeure</b>La commune dispose de la clause générale de compétence (L. 2121-29) et peut mener une action sociale facultative. Elle peut aussi intervenir en matière sanitaire (Ville de Nanterre, 1964). Mais une activité économique concurrentielle n'est possible que s'il existe un intérêt public, notamment une carence de l'initiative privée (Nevers, 1930 ; Ordre des avocats, 2006).</div>
+        <div><b>Mineure</b>La compétence peut être rattachée à la clause générale. Le secteur de la complémentaire santé est très largement couvert par l'offre privée. Des prix élevés ne caractérisent pas une carence : il existe une offre, même chère. Il n'y aurait carence qu'en cas d'absence d'offre, voire en cas de monopole local abusif.</div>
+        <div class="c"><b>Conclusion</b>La question est <strong>ouverte</strong>. Première lecture : la mutuelle est par nature non lucrative, donc ce ne serait pas une activité économique, et Nevers ne s'appliquerait pas. Lecture la plus probable : le juge retiendra le caractère <strong>concurrentiel du secteur</strong>, puisque les complémentaires santé sont proposées aussi bien par des mutuelles non lucratives que par des sociétés d'assurance lucratives. La jurisprudence Nevers s'applique alors, et, faute de carence, l'intervention est fragile.</div>
+      </div>
+      <div class="f-alerte"><strong>Ne pas se substituer à la sécurité sociale</strong>Couvrir des frais de santé, c'est une <strong>opération d'assurance</strong> : une activité réglementée, réservée aux organismes agréés (mutuelles, assureurs, institutions de prévoyance). Une commune ne peut pas devenir elle-même assureur santé.</div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">2. Le véhicule juridique</div>
+      <div class="syl">
+        <div><b>Majeure</b>Sauf autorisation par décret en Conseil d'État, est exclue toute participation d'une commune au capital d'une société commerciale et de tout autre organisme à but lucratif n'ayant pas pour objet d'exploiter des services communaux ou des activités d'intérêt général dans les conditions de l'article L. 2253-2 (art. <strong>L. 2253-1 CGCT</strong>). Les sociétés anonymes ouvertes aux communes sont limitées : <strong>SEM</strong> (L. 1521-1), <strong>SPL</strong> (L. 1531-1), et quelques sociétés dérogatoires dans le domaine des énergies renouvelables (L. 2253-1 al. 2). Dans tous les cas, le projet doit relever d'une compétence de la commune et d'une activité d'intérêt général.</div>
+        <div><b>Mineure</b>Une SA « ordinaire », détenue à 100 % par la commune, n'entre dans aucune de ces catégories. Une <strong>SPL</strong> doit compter au moins <strong>deux actionnaires</strong> publics : il faudrait associer d'autres collectivités. Surtout, une SPL est une société anonyme, par nature à but lucratif, alors qu'une mutuelle ne peut pas poursuivre de but lucratif (code de la mutualité, L. 111-1). L'incompatibilité est difficile à lever.</div>
+        <div class="c"><b>Conclusion</b>Le montage envisagé (une SA locale financée par la commune) n'est pas conforme aux textes.</div>
+      </div>
+      <div class="f-sous2">
+        <div class="f-sous2-title">Et si la commune créait une association ?</div>
+        <div class="f-text">Le risque est celui de l'<strong>association transparente</strong>. Une association créée à l'initiative de la commune, dont les dirigeants sont des élus et qui vit des subventions municipales, n'est qu'un démembrement de la commune. Le juge la traite comme telle : ses actes sont imputés à la commune, ses fonds restent des deniers publics, et cela ouvre le risque de gestion de fait (→ fiches #7 et #9).</div>
+        <div class="f-exemple"><strong>CE, Sect., 6 avril 2007, Commune d'Aix-en-Provence</strong>Cet arrêt, rendu à propos du festival international d'art lyrique d'Aix-en-Provence, précise quand une personne publique peut confier un service public à un organisme qu'elle a créé et qu'elle contrôle. Il fournit les critères de la transparence : création à l'initiative de la personne publique, contrôle de son organisation et de son fonctionnement, origine publique de l'essentiel des ressources.</div>
+      </div>
+    </div>
+    <div class="f-key">Conseil au maire : (1) établir un besoin et une carence objectivés (étude sur l'accès aux soins des plus démunis) ; (2) privilégier le modèle répandu de la <strong>mutuelle communale « intermédiaire »</strong> : contrat collectif négocié avec un organisme agréé, choisi après mise en concurrence, éventuellement complété par une aide sociale du CCAS ; (3) renoncer à la SA, juridiquement impossible en l'état ; (4) se méfier d'une association transparente.</div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir pour l'examen</strong>
+    <ul>
+      <li>Intervention économique : compétence + intérêt public (carence notamment) + pas de distorsion de concurrence (Nevers 1930 ; Ordre des avocats 2006)</li>
+      <li>Bornes : L. 2224-37 → offre inexistante, insuffisante ou inadéquate · à objectiver par une étude · vérifier un éventuel transfert de compétence</li>
+      <li>Mutuelle : question ouverte · secteur concurrentiel → Nevers s'applique · des prix élevés ≠ carence</li>
+      <li>L. 2253-1 : pas de participation dans une société commerciale sauf SEM, SPL (≥ 2 actionnaires), sociétés d'énergies renouvelables</li>
+      <li>SPL lucrative ≠ mutuelle non lucrative · association = risque de transparence (CE 2007, Commune d'Aix-en-Provence)</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f10">← Fiche #10</label><label for="r-f12">Fiche #12 →</label></div>
+</div>
+</main></div>
+
+<!-- FICHE 12 -->
+<div class="page-content" id="page-f12"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">Fiche #12 — Méthode &amp; synthèse</div>
+    <h2>La méthode du cas pratique et l'index des fondements</h2>
+    <div class="fiche-intro">Les consignes données au fil des séances, et un tableau qui regroupe tous les textes et toutes les décisions du semestre, classés par thème.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Méthode</span> Le syllogisme, exigé à l'oral comme à l'examen</div>
+    <div class="syl">
+      <div class="q"><b>Question</b>Une question de droit précise, que vous dégagez vous-même des faits. Les questions ne sont jamais posées toutes faites, et l'ordre logique compte (ex. : seuil → obligation du conseil → participants → référendum).</div>
+      <div><b>Majeure</b>La règle : texte (Constitution, CGCT, codes) + jurisprudence. Citez tout ce qui « colle » : on ne vous reprochera jamais de trop fonder votre raisonnement. Les décisions d'espèce sont acceptées si elles correspondent au problème.</div>
+      <div><b>Mineure</b>La qualification des faits. Reprenez <em>chacun</em> des fondements cités en majeure et appliquez-les aux faits précis (chiffres, dates, qualité des personnes). Quand la question est ouverte et sans précédent, la mineure doit être environ deux fois plus longue que la majeure.</div>
+      <div class="c"><b>Conclusion</b>Une réponse nette à la question posée, puis les conseils pratiques (vous êtes l'avocat consulté).</div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">Les consignes du chargé de TD</div>
+      <ul class="f-list">
+        <li><strong>Constitution</strong> : les articles doivent être connus avec leur numéro (72, 72-1, 72-2, 34, 1er…). Il n'y en a pas beaucoup.</li>
+        <li><strong>CGCT</strong> : inutile de connaître les numéros par cœur, il suffit de savoir que la règle est dans le CGCT. M. Lombard aurait dit en cours magistral que les articles et arrêts vus en cours et en TD suffisent, et qu'une erreur d'année n'est pas grave.</li>
+        <li><strong>Jurisprudence</strong> : impossible de faire l'impasse, la matière est très jurisprudentielle. Les références citées sont vérifiées par le correcteur : n'en inventez jamais.</li>
+        <li><strong>Droit positif d'abord</strong> : la doctrine est utile pour réfléchir, mais on raisonne sur le droit dur. Restez neutre : exposez toutes les voies possibles, puis donnez votre avis d'opportunité.</li>
+        <li><strong>Distinguer les notions</strong> même dans un seul syllogisme : décentralisation / libre administration ; compétence / intérêt public local ; électeur / habitant ; avis / décision ; prise illégale d'intérêts / favoritisme.</li>
+        <li><strong>Plan apparent</strong> : un grand I par responsabilité ou par dossier seulement s'il y a matière à plusieurs subdivisions.</li>
+        <li><strong>Rappel des faits</strong> : quelques lignes suffisent si c'est le chargé de TD qui corrige.</li>
+        <li><strong>Forme</strong> : définissez les acronymes à leur première occurrence ; bannissez « je », « nous », « selon moi » ; relisez l'orthographe, sur laquelle le chargé de TD est « très tatillon ».</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Index</span> Les fondements du semestre</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Thème</th><th>Textes</th><th>Jurisprudence</th><th>Fiche</th></tr></thead><tbody>
+      <tr><td>Décentralisation, libre administration</td><td>Art. 1er, 34, 72 al. 3, 5 et 6 C.</td><td>—</td><td>#1</td></tr>
+      <tr><td>Autonomie institutionnelle</td><td>Art. 72 al. 3 et 5 C. · loi RCT 2010</td><td>CC 2010-618 DC, 9 déc. 2010</td><td>#2</td></tr>
+      <tr><td>Clause générale</td><td>L. 2121-29 al. 1 CGCT · RCT 2010 / MAPTAM 2014 / NOTRe 2015</td><td>—</td><td>#2</td></tr>
+      <tr><td>Autonomie financière</td><td>Art. 72-2 C. · LO 29 juill. 2004</td><td>CC 90-274 DC · 91-291 DC · 2003-474 DC · 2004-509 DC · 2009-599 DC</td><td>#2</td></tr>
+      <tr><td>Corse</td><td>Art. 72-5 (projet) · art. 73 al. 4 · 72-1 al. 3 · 72-4 · L. 4421-1 CGCT</td><td>CC 82-138 DC · 91-290 DC · 2001-454 DC · 2020-809 DC · avis CE 15 nov. 2012 et 17 juill. 2025</td><td>#3</td></tr>
+      <tr><td>Référendum local</td><td>Art. 72-1 al. 2 C. · LO 1112-1, -2, -3, -6, -7</td><td>TA Grenoble, réf., 13 févr. 2025</td><td>#4-5</td></tr>
+      <tr><td>Consultation, pétition</td><td>Art. 72-1 al. 1 C. · L. 1112-15 à -21 CGCT · loi 3DS 2022</td><td>CAA Paris 2005 · CAA Nantes 5 avr. 2024</td><td>#4-5</td></tr>
+      <tr><td>Consultation ouverte, vœu</td><td>L. 131-1 CRPA · L. 2121-29 dernier al. · ord. 21 avr. 2016</td><td>CE 2017 Occitanie · CAA Paris plén. 12 juin 2026</td><td>#4, #6</td></tr>
+      <tr><td>Compétence / intérêt local</td><td>L. 1112-15 · L. 2121-29 · ancien L. 125-1 C. communes</td><td>CE 16 déc. 1994 Avrillé · CE 14 avr. 1995 Ventabren · Villeneuve-d'Ascq · Dépt de l'Oise · CE 1989 Pierrefitte</td><td>#6</td></tr>
+      <tr><td>Responsabilité financière</td><td>Ord. 23 mars 2022 · décret GBCP art. 9 · L. 131-9 et L. 131-15 CJF</td><td>C. comptes, Commune de Grandchamp</td><td>#7, #9</td></tr>
+      <tr><td>Prise illégale d'intérêts</td><td>Art. 432-12 C. pén. · loi 22 déc. 2025 · loi 11 oct. 2013</td><td>Cass. crim. 25 oct. 2017 · Cass. crim. 14 oct. 2026</td><td>#8</td></tr>
+      <tr><td>Favoritisme</td><td>Art. 432-14 C. pén. · L. 3 CCP</td><td>Cass. crim. 19 sept. 2007</td><td>#8</td></tr>
+      <tr><td>Conseiller intéressé</td><td>L. 2131-11 CGCT (modifié en 2025) · L. 2123-34</td><td>CE 30 déc. 2015 Roquebrune-sur-Argens</td><td>#8</td></tr>
+      <tr><td>Détournement de pouvoir</td><td>—</td><td>CE 26 nov. 1875 Pariset · CAA Nancy 21 nov. 2024</td><td>#8</td></tr>
+      <tr><td>Attroupements</td><td>L. 211-10 CSI · L. 2212-2 et L. 2214-4 CGCT</td><td>CE 19 mai 1933 Benjamin · CE 30 déc. 2016 · CAA Versailles 6 févr. 2024</td><td>#9</td></tr>
+      <tr><td>Biens publics</td><td>L. 2141-1 · L. 2125-1 · L. 2122-1-1 · L. 2221-1 CG3P · L. 1311-2 CGCT</td><td>Fougerolles 1997 · CE 28 sept. 2021 · Châtillon-sur-Seine 2015 · Castelsarrasin 1998 · Cass. 15 juin 2023</td><td>#10</td></tr>
+      <tr><td>Aides aux entreprises</td><td>L. 2251-1, -2 · L. 1511-2, -3 CGCT · art. 107-108 TFUE</td><td>Maison des Isolants 1974 · Boussac 1985 · CAA Nantes 2000 · TPICE 2004 Valmont</td><td>#10</td></tr>
+      <tr><td>Initiative publique</td><td>L. 2224-37 · L. 2253-1 · L. 1521-1 · L. 1531-1 CGCT · C. mutualité L. 111-1</td><td>Nevers 1930 · Nanterre 1964 · Ordre des avocats 2006 · Commune d'Aix-en-Provence 2007</td><td>#11</td></tr>
+    </tbody></table></div>
+    <div class="f-alerte"><strong>Références à vérifier avant l'examen</strong>Certaines références ont été données de mémoire en séance ou se contredisent d'une transcription à l'autre : dates exactes de Villeneuve-d'Ascq (1995), Département de l'Oise (1997) et Pierrefitte (1989) ; nom de la commune dans CE 28 sept. 2021 (« CCAS de P… ») ; année de l'arrêt Commune de Grandchamp (2006 ou 2026) ; CE 29 janv. 2025 sur la protection fonctionnelle ; numéro de l'article R. 1511-4-3 CGCT. Le CM de MM. Lombard et Ferrand fait foi.</div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>Programme de la colle</strong>
+    <ul>
+      <li>Tout le cours magistral vu jusqu'à la colle + tout le TD (séances 1 à 4)</li>
+      <li>Format envisagé : un cas pratique sur le temps de TD (environ 2 h), séance 5, début décembre (modalités de notation encore discutées)</li>
+      <li>Les responsabilités pénale et administrative du document déposé par les professeurs sont aussi au programme</li>
+    </ul>
+  </div>
+
+  <div class="fiche-nav"><label for="r-f11">← Fiche #11</label><label for="r-home">Retour à l'accueil</label></div>
+</div>
+</main></div>
+
+<footer>
+  <p>Droit des <span>Collectivités Territoriales</span> — Cours reconstitué des séances de TD 1 à 4 · M1 DPU-EPDA · 2026-2027</p>
+</footer>
+
+</div><!-- end .wrap -->
+</body>
+</html>
