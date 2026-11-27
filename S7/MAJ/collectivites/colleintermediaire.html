@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCT — Révisions de TD</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap');
+:root{
+  --r:#8B0000;--rv:#B22222;--rp:#fdf0f0;--rb:#e8c8c8;
+  --n:#1a1a1a;--gf:#2d2d2d;--g:#555;--gc:#f6f8fb;--b:#fefefe;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'EB Garamond',Georgia,serif;background:var(--b);color:var(--n);font-size:17px;line-height:1.75}
+header{background:var(--n);color:#fff;padding:1.8rem 2rem 1.4rem;border-bottom:4px solid var(--r);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
+header h1{font-size:clamp(1.3rem,4vw,2rem);font-weight:600}
+header h1 span{color:#B22222}
+header small{color:#aaa;font-size:.82rem;letter-spacing:.06em;display:block;margin-top:.2rem}
+nav{background:var(--r);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav ul{list-style:none;display:flex;flex-wrap:nowrap;min-width:max-content}
+.nav-radio{display:none}
+nav label{display:block;padding:.65rem .85rem;color:rgba(255,255,255,.82);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer}
+.page-content{display:none}
+#r-s1:checked~.wrap #home-content,
+#r-s2:checked~.wrap #home-content,
+#r-s3:checked~.wrap #home-content,
+#r-s4:checked~.wrap #home-content,
+#r-s5:checked~.wrap #home-content,
+#r-s6:checked~.wrap #home-content,
+#r-s7:checked~.wrap #home-content,
+#r-s8:checked~.wrap #home-content,
+#r-s9:checked~.wrap #home-content,
+#r-s10:checked~.wrap #home-content{display:none}
+#r-s1:checked~.wrap #page-s1{display:block}
+#r-s2:checked~.wrap #page-s2{display:block}
+#r-s3:checked~.wrap #page-s3{display:block}
+#r-s4:checked~.wrap #page-s4{display:block}
+#r-s5:checked~.wrap #page-s5{display:block}
+#r-s6:checked~.wrap #page-s6{display:block}
+#r-s7:checked~.wrap #page-s7{display:block}
+#r-s8:checked~.wrap #page-s8{display:block}
+#r-s9:checked~.wrap #page-s9{display:block}
+#r-s10:checked~.wrap #page-s10{display:block}
+#r-home:checked~.wrap .nav-home,
+#r-s1:checked~.wrap .nav-s1,
+#r-s2:checked~.wrap .nav-s2,
+#r-s3:checked~.wrap .nav-s3,
+#r-s4:checked~.wrap .nav-s4,
+#r-s5:checked~.wrap .nav-s5,
+#r-s6:checked~.wrap .nav-s6,
+#r-s7:checked~.wrap .nav-s7,
+#r-s8:checked~.wrap .nav-s8,
+#r-s9:checked~.wrap .nav-s9,
+#r-s10:checked~.wrap .nav-s10{color:#fff!important;background:rgba(255,255,255,.15)!important;border-bottom-color:#fff!important}
+.f-seq{display:flex;flex-direction:column;gap:.6rem;margin:.8rem 0 1rem}
+.f-seq-item{display:flex;gap:.8rem;align-items:flex-start;background:var(--gc);padding:.7rem .9rem;border-left:3px solid var(--r);font-size:.91rem;color:var(--gf);line-height:1.65}
+.f-seq-num{flex:0 0 1.7rem;height:1.7rem;border-radius:50%;background:var(--r);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.82rem;margin-top:.1rem}
+.f-seq-item>div:last-child{flex:1;min-width:0}
+.f-seq-item strong{color:var(--r)}
+ol.f-list{counter-reset:li}
+ol.f-list>li{counter-increment:li}
+ol.f-list>li::before{content:counter(li) '.';font-weight:700}
+.exam-box{border:1.5px solid var(--rb);background:var(--b);padding:1rem 1.2rem;margin-top:1.6rem;font-size:.9rem;color:var(--gf)}
+.exam-box strong.t{display:block;color:var(--r);font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;margin-bottom:.4rem}
+.exam-box ul{list-style:none;padding:0}
+.exam-box li{padding:.12rem 0 .12rem 1rem;position:relative}
+.exam-box li::before{content:'—';position:absolute;left:0;color:var(--r)}
+
+
+
+
+
+
+
+
+
+.part-title{font-size:1.3rem;font-weight:700;color:var(--r);margin:3rem 0 1.2rem;padding-bottom:.4rem;border-bottom:2px solid var(--r)}
+.part-title:first-of-type{margin-top:1rem}
+
+#home{padding:2.5rem 2.5rem 4rem}
+.home-intro{text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--rb)}
+.home-intro h2{font-size:clamp(1.4rem,3.5vw,1.9rem);font-weight:700;margin-bottom:.4rem}
+.home-intro p{color:var(--g);font-size:.95rem;max-width:620px;margin:0 auto}
+.home-section-title{font-size:.73rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin:2rem 0 .9rem;padding-bottom:.3rem;border-bottom:1px solid var(--rb)}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+label.card{display:block;background:var(--b);border:1.5px solid var(--rb);border-top:4px solid var(--r);padding:1.2rem 1.1rem 1rem;cursor:pointer;color:inherit;transition:box-shadow .15s}
+label.card:hover{box-shadow:0 4px 18px rgba(139,0,0,.13)}
+label.card .card-num{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:.3rem}
+label.card h3{font-size:.95rem;font-weight:700;color:var(--r);margin-bottom:.2rem;line-height:1.35}
+label.card p{font-size:.8rem;color:var(--g);line-height:1.4}
+label.card-plan{display:block;background:var(--n);border-top:4px solid var(--r);padding:1.2rem 1.1rem 1rem;cursor:pointer;color:#fff;transition:opacity .15s}
+label.card-plan:hover{opacity:.9}
+label.card-plan .card-num{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-bottom:.3rem}
+label.card-plan h3{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+label.card-plan p{font-size:.8rem;color:#aaa;line-height:1.4}
+
+main{max-width:100%;margin:0 auto;padding:2.2rem 2.5rem 5rem}
+label.btn-home{display:inline-block;background:transparent;border:1.5px solid rgba(139,0,0,.3);color:var(--rv);padding:.4rem 1rem;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;font-family:inherit}
+
+.mindmap-container{width:100%;overflow-x:auto;padding:1.5rem 0}
+.mindmap-scroll{min-width:900px}
+.root-node{display:flex;align-items:center;justify-content:center;margin-bottom:2rem}
+.root-node .node-box{background:var(--n);color:#fff;padding:.9rem 2rem;font-size:1.1rem;font-weight:700;letter-spacing:.04em;text-align:center;border-bottom:3px solid var(--r)}
+.root-node .node-box small{display:block;color:#aaa;font-size:.72rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem}
+.single-col{display:flex;flex-direction:column;gap:1.5rem;align-items:stretch}
+.partie-block{border:2px solid var(--r);background:#fff}
+.partie-header{background:var(--r);color:#fff;padding:.6rem 1rem;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.partie-body{padding:.8rem;display:flex;flex-direction:column;gap:.7rem}
+.chap-block{border:1px solid var(--rb);background:#fff}
+.chap-header{background:var(--gc);border-bottom:1px solid var(--rb);padding:.35rem .7rem;font-size:.73rem;font-weight:700;color:var(--r);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;list-style:none}
+.chap-header::-webkit-details-marker{display:none}
+.chap-toggle::after{content:'▸';color:var(--r);font-size:.8rem}
+details[open] .chap-toggle::after{content:'▾'}
+.chap-body{padding:.55rem .7rem;display:flex;flex-direction:column;gap:.3rem}
+.section-item{padding:.28rem .5rem .28rem .85rem;border-left:2px solid var(--rb);font-size:.82rem;color:var(--gf);display:flex;flex-direction:column;gap:.18rem}
+.section-label{font-weight:700;color:var(--rv);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.section-name{font-size:.84rem;color:var(--gf);font-weight:600}
+.para-list{margin-top:.22rem;padding-left:.7rem;display:flex;flex-direction:column;gap:.12rem}
+.para-item{font-size:.78rem;color:var(--g);position:relative;padding-left:.9rem;line-height:1.4}
+.para-item::before{content:'§';position:absolute;left:0;color:var(--r);font-weight:700;font-size:.7rem}
+.plan-fiche-link{display:inline-block;margin-top:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--r);padding:.18rem .55rem;cursor:pointer;border:none;font-family:inherit}
+
+/* FICHES */
+.fiche-page{max-width:840px;margin:0 auto}
+.fiche-header{margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid var(--r)}
+.fiche-meta{font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--g);margin-bottom:.35rem}
+.fiche-header h2{font-size:clamp(1.2rem,3vw,1.6rem);font-weight:700;color:var(--n)}
+.fiche-intro{margin-top:.9rem;font-size:.93rem;color:var(--g);line-height:1.65;font-style:italic;padding:.7rem 1rem;background:var(--gc);border-left:3px solid var(--rb)}
+
+.f-bloc{margin-bottom:2.4rem}
+.f-bloc-title{font-size:1.05rem;font-weight:700;color:#fff;background:var(--n);padding:.5rem .9rem;margin-bottom:1.1rem;display:flex;align-items:center;gap:.7rem}
+.f-bloc-title .f-num{background:var(--r);padding:.1rem .5rem;font-size:.75rem;letter-spacing:.07em;white-space:nowrap}
+.f-sous{margin-bottom:1.5rem;padding-left:1.1rem;border-left:3px solid var(--r)}
+.f-sous-title{font-size:.98rem;font-weight:700;color:var(--r);margin-bottom:.6rem;padding-bottom:.25rem;border-bottom:1px dotted var(--rb)}
+.f-sous2{margin-bottom:1rem;padding-left:.9rem;border-left:2px solid var(--rb)}
+.f-sous2-title{font-size:.9rem;font-weight:700;color:var(--gf);margin-bottom:.4rem}
+.f-text{font-size:.92rem;color:var(--gf);line-height:1.75;margin-bottom:.55rem}
+.f-list{list-style:none;padding:0;margin:.3rem 0 .6rem .1rem}
+.f-list li{font-size:.91rem;color:var(--gf);line-height:1.65;padding:.15rem 0 .15rem 1.1rem;position:relative}
+.f-list li::before{content:'—';position:absolute;left:0;color:var(--r);font-weight:700}
+.f-list li strong{color:var(--r)}
+.f-alerte{background:#fffbf0;border-left:4px solid #c47900;padding:.75rem 1rem;margin:.5rem 0 .9rem;font-size:.88rem;line-height:1.65;color:var(--gf)}
+.f-alerte strong:first-child{color:#9a5e00;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.25rem}
+.f-exemple{background:var(--gc);border-left:3px solid #888;padding:.7rem 1rem;margin:.5rem 0 .9rem;font-size:.88rem;line-height:1.65;color:var(--g)}
+.f-exemple strong:first-child{color:var(--gf);font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;display:block;margin-bottom:.2rem}
+.f-comp{background:#f2f5fa;border-left:4px solid #4a6a8a;padding:.75rem 1rem;margin:.5rem 0 .9rem;font-size:.88rem;line-height:1.65;color:var(--gf)}
+.f-comp strong:first-child{color:#2f4a66;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.25rem}
+.f-key{background:var(--rp);border:1.5px solid var(--rb);padding:.65rem 1rem;margin:.5rem 0 .9rem;font-size:.91rem;line-height:1.65;color:var(--gf);display:flex;align-items:baseline;gap:.6rem}
+.f-key::before{content:'→';color:var(--r);font-weight:700;flex-shrink:0;font-size:1rem}
+.f-table-wrap{overflow-x:auto;margin:.6rem 0 .9rem}
+.f-table{width:100%;border-collapse:collapse;font-size:.86rem}
+.f-table thead tr{background:var(--n);color:#fff}
+.f-table thead th{padding:.5rem .8rem;text-align:left;font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.f-table tbody tr:nth-child(even){background:var(--gc)}
+.f-table tbody td{padding:.45rem .8rem;border-bottom:1px solid var(--rb);vertical-align:top}
+.f-table tbody td:first-child{font-weight:700;color:var(--r)}
+.f-retenir{background:var(--rp);border-left:4px solid var(--r);padding:.9rem 1.1rem;margin-top:1.8rem;font-size:.91rem;line-height:1.7;color:var(--gf)}
+.f-retenir strong{color:var(--r);font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:.5rem}
+.f-retenir ul{list-style:none;padding:0;margin:.3rem 0}
+.f-retenir ul li{padding:.1rem 0 .1rem 1rem;position:relative;font-size:.9rem}
+.f-retenir ul li::before{content:'✓';position:absolute;left:0;color:var(--r);font-weight:700;font-size:.78rem}
+.fiche-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--rb)}
+.fiche-nav label{color:var(--rv);cursor:pointer;font-size:.85rem}
+.f-vs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.5rem 0 1rem}
+.f-vs-col{padding:.7rem .9rem;font-size:.86rem;border:1.5px solid var(--rb)}
+.f-vs-col-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--r);margin-bottom:.4rem}
+.f-steps{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0}
+.f-step{background:var(--r);color:#fff;padding:.3rem .7rem;font-size:.8rem;font-weight:600}
+.f-quote{border-left:3px solid var(--r);padding:.5rem 1rem;margin:.5rem 0 .9rem;font-size:.88rem;font-style:italic;color:var(--g);background:var(--rp)}
+.f-quote cite{display:block;font-style:normal;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--r);margin-top:.3rem}
+.syl{margin:.4rem 0 1rem;border:1.5px solid var(--rb)}
+.syl div{padding:.5rem .9rem;font-size:.88rem;line-height:1.65;border-bottom:1px solid var(--rb)}
+.syl div:last-child{border-bottom:none}
+.syl b{display:inline-block;min-width:6.5rem;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--r)}
+.syl .q{background:var(--n);color:#fff;font-weight:600}
+.syl .q b{color:#e8a0a0}
+.syl .c{background:var(--rp)}
+
+footer{background:var(--n);color:#777;text-align:center;padding:1.2rem;font-size:.78rem;letter-spacing:.05em;border-top:3px solid var(--r);margin-top:2rem}
+footer span{color:#B22222}
+
+@media(max-width:900px){
+  .mindmap-scroll{min-width:unset}
+  main{padding:1.4rem .9rem 4rem}
+  header{padding:1.2rem 1rem 1rem}
+  nav label{padding:.55rem .5rem;font-size:.68rem}
+  #home{padding:1.8rem 1rem 3rem}
+  .cards-grid{grid-template-columns:1fr 1fr}
+  .f-vs{grid-template-columns:1fr}
+}
+@media(max-width:480px){.cards-grid{grid-template-columns:1fr}}
+
+.f-seq-num.yr{flex:0 0 auto;width:auto;padding:0 .5rem;border-radius:3px}
+</style>
+</head>
+<body>
+<input type="radio" name="page" class="nav-radio" id="r-home" checked>
+<input type="radio" name="page" class="nav-radio" id="r-s1">
+<input type="radio" name="page" class="nav-radio" id="r-s2">
+
+<div class="wrap">
+<header>
+  <label for="r-home" style="display:block;cursor:pointer">
+    <h1>Droit des <span>Collectivités Territoriales</span></h1>
+    <small>Révisions de TD · M1 DPU-EPDA · Aix-Marseille Université · 2026-2027</small>
+  </label>
+</header>
+<nav>
+  <ul>
+    <li><label class="nav-home" for="r-home">Accueil</label></li>
+    <li><label class="nav-s1" for="r-s1">Séance 1</label></li>
+    <li><label class="nav-s2" for="r-s2">Séance 2</label></li>
+  </ul>
+</nav>
+<div id="home-content">
+<div id="home">
+  <div class="home-intro">
+    <h2>Droit des collectivités territoriales — Révisions de TD</h2>
+    <p>Les notions à maîtriser, les textes à citer et la méthode des cas pratiques</p>
+  </div>
+  <div class="home-section-title">Les séances</div>
+  <div class="cards-grid">
+    <label class="card" for="r-s1">
+      <div class="card-num">Séance 1</div>
+      <h3>Décentralisation, libre administration et indivisibilité</h3>
+      <p>Libre administration et contrôle du préfet · clause générale, subsidiarité, chef de file, tutelle · autonomie financière mais pas fiscale · expérimentation · Corse</p>
+    </label>
+    <label class="card" for="r-s2">
+      <div class="card-num">Séance 2</div>
+      <h3>Référendum local et consultation des électeurs</h3>
+      <p>Décider ou donner un avis · conditions d'adoption · interdictions de calendrier · méthode en 5 questions</p>
+    </label>
+  </div>
+  <div class="f-comp" style="margin-top:2rem"><strong>Comment lire les encadrés</strong>Rouge = notion clé · orange = piège · gris = cas pratique · tableau noir et rouge = raisonnement en syllogisme (majeure, mineure, conclusion).</div>
+</div>
+</div>
+
+<div class="page-content" id="page-s1"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">TD · Séance 1</div>
+    <h2>Décentralisation, libre administration et indivisibilité</h2>
+    <div class="fiche-intro">L'idée à garder en tête : les collectivités sont <strong>libres</strong>, mais dans un cadre fixé par l'<strong>État</strong>. Elles sont indépendantes, sans être autonomes. Toute la séance consiste à repérer où passe cette limite : compétences, rapports entre collectivités, argent, pouvoir normatif, territoire.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">I</span> Décentralisation et libre administration : deux notions à ne pas confondre</div>
+    <div class="f-vs">
+      <div class="f-vs-col"><div class="f-vs-col-title">La décentralisation</div>L'État <strong>confie des compétences</strong> à des autorités locales. C'est une façon d'<strong>organiser l'État</strong>.<br><strong>Texte</strong> : article 1er de la Constitution (« son organisation est décentralisée »).</div>
+      <div class="f-vs-col"><div class="f-vs-col-title">La libre administration</div>Les collectivités <strong>« s'administrent librement par des conseils élus »</strong>. L'État crée des personnes morales distinctes de lui, qui s'administrent librement dans le cadre des affaires relevant de leurs compétences.<br><strong>Texte</strong> : article 72 al. 3 de la Constitution.</div>
+    </div>
+    <div class="f-key"><span>Les collectivités bénéficient d'une <strong>indépendance</strong>, qui ne se confond pas avec une <strong>autonomie</strong>. Elles agissent librement, mais seulement dans les compétences que la loi leur donne.</span></div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">Ce que protège la libre administration : trois éléments</div>
+      <div class="f-seq">
+        <div class="f-seq-item"><div class="f-seq-num">1</div><div><strong>Les organes élus</strong> : les conseils élus qui administrent la collectivité.</div></div>
+        <div class="f-seq-item"><div class="f-seq-num">2</div><div><strong>Des compétences effectives</strong> : la collectivité doit avoir de vraies affaires à régler.</div></div>
+        <div class="f-seq-item"><div class="f-seq-num">3</div><div><strong>Des ressources</strong> pour exercer ces compétences.</div></div>
+      </div>
+      <div class="f-text"><strong>Et la loi ?</strong> Le législateur peut encadrer ces trois éléments, à condition de ne pas aller jusqu'à les <strong>vider de leur substance</strong>.</div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">La libre administration n'exclut pas le contrôle de l'État</div>
+      <div class="f-text">Le <strong>préfet</strong> est chargé du contrôle administratif des collectivités (article 72 al. 6 de la Constitution). C'est un <strong>contrôle de légalité</strong> : il vérifie si l'acte est légal, notamment s'il est proportionné. S'il estime l'acte illégal, il saisit le juge administratif : c'est le <strong>déféré préfectoral</strong>, ouvert contre tous les actes des collectivités.</div>
+      <div class="f-table-wrap"><table class="f-table"><thead><tr><th>Collectivité</th><th>Texte du déféré</th></tr></thead><tbody>
+        <tr><td>Commune</td><td>Art. L. 2131-6 CGCT</td></tr>
+        <tr><td>Département</td><td>Art. L. 3132-1 CGCT</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">II</span> Qui est compétent ? Clause générale, subsidiarité, chef de file, tutelle</div>
+    <div class="f-sous">
+      <div class="f-sous-title">1. La clause générale de compétence : seulement pour les communes</div>
+      <div class="f-vs">
+        <div class="f-vs-col"><div class="f-vs-col-title">Communes</div>Elles peuvent traiter <strong>toutes les affaires d'intérêt communal</strong>, sans texte qui leur attribue spécialement la compétence, sous réserve des compétences exclusives (d'autres personnes publiques) et des autres règles.<br><strong>Texte</strong> : art. L. 2121-29 CGCT.</div>
+        <div class="f-vs-col"><div class="f-vs-col-title">Départements et régions</div>Ils sont <strong>spécialisés</strong> depuis la loi NOTRe : ils ne peuvent intervenir que dans les affaires relevant des compétences que le législateur leur a confiées.</div>
+      </div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">2. La subsidiarité</div>
+      <div class="f-text">Article 72 al. 2 de la Constitution : les décisions doivent être prises <strong>à l'échelon où leur mise en œuvre est la plus appropriée</strong>.</div>
+      <div class="f-alerte"><strong>Piège</strong>La subsidiarité <strong>ne confère aucune compétence nouvelle</strong> de plein droit. Ce n'est pas une reconnaissance de compétence autonome. Une commune ne peut pas s'en servir pour modifier la répartition légale des compétences au motif qu'elle est plus proche des habitants.</div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">3. Chef de file et interdiction de la tutelle</div>
+      <div class="f-vs">
+        <div class="f-vs-col"><div class="f-vs-col-title">Le chef de file : autorisé</div>Quand l'exercice d'une compétence nécessite l'intervention de plusieurs collectivités ou groupements, l'une d'elles peut être chargée d'<strong>organiser l'action commune</strong>.<br><strong>Texte</strong> : art. L. 1111-9 CGCT (et art. 72 al. 5 C., qui permet à la loi d'organiser cette action commune).</div>
+        <div class="f-vs-col"><div class="f-vs-col-title">La tutelle : interdite</div><strong>Aucune collectivité ne peut exercer une tutelle sur une autre.</strong> L'interdiction a un fondement constitutionnel : art. 72 al. 5 C.<br>Le chef de file doit donc respecter cette interdiction : il <strong>coordonne</strong>, il ne <strong>commande pas</strong>.</div>
+      </div>
+      <div class="f-key"><span>Le critère pour distinguer : coordonner, c'est permis ; <strong>bloquer</strong> la décision d'une autre collectivité, c'est une tutelle.</span></div>
+    </div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">Cas pratique : le visa départemental sur l'aide sociale communale</div>
+      <div class="f-exemple"><strong>Les faits</strong>Un département adopte une délibération imposant aux communes de lui adresser toute délibération relative à leur aide sociale facultative. Sans visa départemental, les aides ne pourront pas être versées. En retour, une commune prétend que le principe de subsidiarité l'autorise à récupérer unilatéralement les missions sociales du département.</div>
+      <div class="syl">
+        <div class="q"><b>Question 1</b>Le département peut-il imposer son visa ?</div>
+        <div><b>Majeure</b>L'article 72 al. 5 de la Constitution interdit la tutelle d'une collectivité sur une autre, tout en permettant à la loi d'organiser une action commune. L'article L. 1111-9 CGCT organise le chef de file dans certaines matières : il coordonne, sans pouvoir de décision sur les autres.</div>
+        <div><b>Mineure</b>Le visa conditionne le versement des aides communales : sans lui, la commune ne peut pas agir. Il transforme une coordination en <strong>pouvoir de blocage</strong>.</div>
+        <div class="c"><b>Conclusion</b>La situation peut être qualifiée de tutelle. Le département doit renoncer au visa.</div>
+      </div>
+      <div class="syl">
+        <div class="q"><b>Question 2</b>La commune peut-elle récupérer les missions sociales du département au nom de la subsidiarité ?</div>
+        <div><b>Majeure</b>L'article 72 al. 2 exprime le principe de subsidiarité : les décisions doivent être prises au niveau où leur mise en œuvre est la plus appropriée. Il ne confère pas de compétence nouvelle de plein droit.</div>
+        <div><b>Mineure</b>La commune invoque sa proximité avec les habitants pour s'attribuer des compétences que la loi confie au département.</div>
+        <div class="c"><b>Conclusion</b>La subsidiarité ne permet pas de modifier la répartition légale des compétences. La commune n'a pas le droit de s'attribuer les compétences départementales.</div>
+      </div>
+      <div class="f-key"><span>Chacun dans son couloir : le département renonce au visa, la commune renonce aux missions départementales.</span></div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">III</span> Autonomie financière, mais pas autonomie fiscale</div>
+    <div class="f-vs">
+      <div class="f-vs-col"><div class="f-vs-col-title">Autonomie financière : oui</div>Elle protège les <strong>ressources</strong> des collectivités, y compris les dotations de l'État.<br><strong>Texte</strong> : art. 72-2 al. 1 à 3 C. : libre disposition des ressources dans les conditions fixées par la loi, et <strong>part déterminante de ressources propres</strong> par catégorie de collectivités.</div>
+      <div class="f-vs-col"><div class="f-vs-col-title">Autonomie fiscale : non</div>Ce serait la garantie de pouvoir fixer soi-même les impôts. La Constitution l'exclut :<br>— <strong>art. 34 C.</strong> : c'est au Parlement de déterminer les impôts et leur assiette (les collectivités peuvent seulement moduler, dans les limites qu'il fixe) ;<br>— <strong>art. 6 DDHC</strong> : égalité devant la loi, pour que les impôts soient les mêmes pour tous.</div>
+    </div>
+    <div class="f-text">L'article 72-2 <strong>permet</strong> à la loi d'autoriser les collectivités à fixer le taux ou l'assiette d'un impôt, mais ne l'<strong>impose</strong> pas. (Illustration : les taxes foncières ne sont pas les mêmes d'une commune à l'autre, parce que chaque commune module son taux dans les limites légales.)</div>
+
+    <div class="f-sous">
+      <div class="f-sous-title">Cas pratique : la taxe régionale remplacée par une fraction de TVA</div>
+      <div class="f-exemple"><strong>Les faits</strong>Une loi supprime une taxe dont les régions fixaient le taux et la remplace par une fraction de TVA nationale. Le montant initial attribué est équivalent, mais les présidents de région craignent de ne plus maîtriser l'évolution de leurs recettes. Ils affirment que toute suppression d'un pouvoir de taux est contraire à la Constitution.</div>
+      <div class="syl">
+        <div class="q"><b>Question</b>La suppression du pouvoir de taux des régions est-elle inconstitutionnelle ?</div>
+        <div><b>Majeure</b>L'article 72-2 al. 1 à 3 protège la libre disposition des ressources dans les conditions légales et une part déterminante de ressources propres par catégorie de collectivités. Il permet à la loi d'autoriser la fixation du taux ou de l'assiette d'un impôt, sans l'imposer. Les collectivités n'ont pas d'autonomie fiscale (art. 34 C.).</div>
+        <div><b>Mineure</b>La suppression du taux régional diminue une marge de décision fiscale de la région, mais elle garantit l'équivalence du montant initial. La nature des recettes change, leur montant est compensé.</div>
+        <div class="c"><b>Conclusion</b>Rien ne démontre une violation de la libre administration. L'argument des présidents de région (« toute suppression d'un pouvoir de taux est inconstitutionnelle ») est faux.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">IV</span> Pouvoir réglementaire et expérimentation</div>
+    <ul class="f-list">
+      <li><strong>Pouvoir réglementaire local</strong> (art. 72 al. 3 C.) : les collectivités peuvent édicter des règles <strong>dans leur domaine de compétence</strong>, en restant soumises à la loi. Elles n'ont <strong>pas de pouvoir législatif</strong> général.</li>
+      <li><strong>Expérimentation</strong> (art. 72 al. 4 C.) : elle permet des adaptations, des dérogations, à quatre conditions :
+        <ol class="f-list" style="margin-top:.3rem">
+          <li>la loi ou le règlement les <strong>prévoit</strong> ;</li>
+          <li>pour un <strong>objet</strong> et une <strong>durée limités</strong> (c'est temporaire) ;</li>
+          <li>dans le cadre défini par une <strong>loi organique</strong> ;</li>
+          <li>en dehors des <strong>conditions essentielles d'exercice d'une liberté publique</strong> ou d'un droit constitutionnellement garanti.</li>
+        </ol></li>
+    </ul>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">V</span> Le principe d'indivisibilité (article 1er de la Constitution)</div>
+    <div class="f-text">Il a deux faces :</div>
+    <div class="f-sous">
+      <div class="f-sous-title">1. L'intégrité du territoire</div>
+      <div class="f-text">On n'a pas le droit d'aliéner une partie du territoire français (la céder, la vendre) ni de s'en détacher simplement, sauf par un <strong>référendum d'autodétermination</strong>. C'est l'article 53 de la Constitution, garde-fou du droit des peuples à disposer d'eux-mêmes. Il faut :</div>
+      <ul class="f-list">
+        <li>le <strong>consentement des populations intéressées</strong> ;</li>
+        <li>et que le traité soit <strong>approuvé par le Parlement</strong>.</li>
+      </ul>
+      <div class="f-text">Il est en revanche possible d'organiser l'<strong>autonomie</strong> d'un territoire français.</div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">2. L'unicité du peuple français : l'exemple de la Corse</div>
+      <div class="f-seq">
+        <div class="f-seq-item"><div class="f-seq-num yr">1982</div><div><strong>Statut particulier de la Corse.</strong> Le Conseil constitutionnel juge qu'il n'est pas contraire à l'indivisibilité, au regard des spécificités de l'île : territoire <strong>insulaire et montagneux</strong>, ce qui justifie une collectivité à statut particulier.</div></div>
+        <div class="f-seq-item"><div class="f-seq-num yr">1991</div><div><strong>Décision du 9 mai 1991.</strong> La loi mentionnait l'existence du « peuple corse » : <strong>censure</strong>. L'indivisibilité comprend l'unicité du peuple français ; l'existence d'un peuple français a valeur constitutionnelle. On ne peut donc pas reconnaître dans une loi un peuple distinct : la Constitution ne connaît qu'un seul et même peuple.</div></div>
+        <div class="f-seq-item"><div class="f-seq-num yr">2025</div><div><strong>Projet de 2025.</strong> Il évoque l'existence d'une « <strong>communauté corse</strong> », ce qui pose problème au regard de l'unicité du peuple. Il reconnaît une autonomie relative, notamment <strong>normative</strong>, encadrée par un principe de <strong>non-régression</strong> : les lois adoptées en Corse ne peuvent pas prévoir des garanties inférieures à celles des lois françaises.</div></div>
+      </div>
+      <div class="f-key"><span>Statut particulier : oui (1982). Peuple distinct : non (1991).</span></div>
+    </div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir</strong>
+    <ul>
+      <li>Décentralisation (art. 1er) ≠ libre administration (art. 72 al. 3) · indépendance ≠ autonomie</li>
+      <li>Libre administration = organes élus + compétences effectives + ressources ; la loi encadre sans vider de substance</li>
+      <li>Contrôle du préfet (art. 72 al. 6) : déféré, L. 2131-6 (communes), L. 3132-1 (départements)</li>
+      <li>Clause générale pour les seules communes (L. 2121-29) · départements et régions spécialisés (NOTRe)</li>
+      <li>Subsidiarité (72 al. 2) : ne donne aucune compétence · chef de file (L. 1111-9) : coordonne · tutelle (72 al. 5) : interdite = pouvoir de blocage</li>
+      <li>Autonomie financière (72-2) oui, fiscale non (art. 34 C., art. 6 DDHC) · remplacer une taxe par de la TVA à montant équivalent ne viole pas la libre administration</li>
+      <li>Pouvoir réglementaire (72 al. 3), pas législatif · expérimentation (72 al. 4) : prévue, limitée, temporaire, hors libertés essentielles</li>
+      <li>Indivisibilité : intégrité du territoire (art. 53) et unicité du peuple (Corse : statut 1982 oui, peuple 1991 non, projet 2025)</li>
+    </ul>
+  </div>
+  <div class="fiche-nav"><label for="r-home">← Accueil</label><label for="r-s2">Séance 2 →</label></div>
+</div>
+</main></div>
+
+<div class="page-content" id="page-s2"><main>
+<div class="fiche-page">
+  <div class="fiche-header">
+    <div class="fiche-meta">TD · Séance 2</div>
+    <h2>Référendum local et consultation des électeurs</h2>
+    <div class="fiche-intro">Deux outils qui se ressemblent, mais qui n'ont pas du tout la même force. Le <strong>référendum</strong> sert à <strong>décider</strong> : il adopte un acte. La <strong>consultation</strong> sert à <strong>demander un avis</strong> : elle n'adopte rien. Tout le raisonnement part de là.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Vue d'ensemble</span> Référendum ou consultation ?</div>
+    <div class="f-table-wrap"><table class="f-table"><thead><tr><th></th><th>Référendum local</th><th>Consultation des électeurs</th></tr></thead><tbody>
+      <tr><td>But</td><td><strong>Adopter une décision</strong> (acte décisoire)</td><td><strong>Recueillir un avis</strong> (pas un acte décisoire)</td></tr>
+      <tr><td>Fondement</td><td>Art. 72-1 al. 2 C. ; art. LO 1112-1 et s. CGCT</td><td>Art. L. 1112-15 CGCT</td></tr>
+      <tr><td>Objet</td><td>Un <strong>projet de délibération</strong> de la collectivité, arrêté avant le scrutin (pas de décision individuelle)</td><td>Une affaire relevant de la <strong>compétence</strong> de la collectivité</td></tr>
+      <tr><td>Qui vote</td><td>Les électeurs de la collectivité concernée (art. 88-3 C. pour les citoyens européens)</td><td>Les électeurs ; possible pour une partie seulement (un quartier, un périmètre identifié)</td></tr>
+      <tr><td>Effet</td><td>Le projet est <strong>adopté</strong> si les deux conditions de LO 1112-7 sont remplies</td><td>Jamais contraignant : la <strong>décision finale revient à l'autorité compétente</strong></td></tr>
+    </tbody></table></div>
+    <div class="f-key"><span>Référendum = je décide. Consultation = je donne mon avis.</span></div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">I</span> Le référendum local</div>
+    <div class="f-sous">
+      <div class="f-sous-title">1. Initiative et objet</div>
+      <ul class="f-list">
+        <li><strong>Initiative</strong> : l'assemblée délibérante ou l'exécutif.</li>
+        <li><strong>Objet</strong> : un <strong>projet de délibération</strong> de la collectivité. On cherche à adopter un acte décisoire, à l'exclusion des décisions individuelles.</li>
+        <li>Le projet doit être <strong>arrêté avant</strong> le référendum : on ne vote pas sur une simple question, mais sur un texte.</li>
+        <li><strong>Électeurs</strong> : la question est posée aux électeurs locaux, c'est-à-dire aux citoyens électeurs de la commune ou de la collectivité concernée (art. 88-3 C.).</li>
+      </ul>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">2. Deux conditions cumulatives pour que le projet soit adopté (art. LO 1112-7)</div>
+      <div class="f-seq">
+        <div class="f-seq-item"><div class="f-seq-num">1</div><div><strong>Participation</strong> : au moins la <strong>moitié des électeurs inscrits</strong> a voté.</div></div>
+        <div class="f-seq-item"><div class="f-seq-num">2</div><div><strong>Majorité</strong> : <strong>plus de la moitié des suffrages exprimés</strong> en faveur du projet.</div></div>
+      </div>
+      <div class="f-alerte"><strong>Piège</strong>Les deux conditions sont cumulatives. Un « oui » majoritaire ne suffit pas si moins de la moitié des inscrits a voté.</div>
+    </div>
+    <div class="f-sous">
+      <div class="f-sous-title">3. Les interdictions de calendrier (art. LO 1112-6)</div>
+      <div class="f-text">But : éviter la confusion avec un autre scrutin et les répétitions trop rapprochées. Pas de référendum :</div>
+      <ul class="f-list">
+        <li>dans les <strong>6 mois</strong> précédant l'élection de l'assemblée délibérante de la collectivité (principe de neutralité) ;</li>
+        <li>pendant les jours de <strong>campagne</strong> ;</li>
+        <li>pendant les jours de <strong>scrutin</strong>.</li>
+      </ul>
+      <div class="f-text">Et pas de nouveau référendum ayant <strong>le même objet dans un délai d'un an</strong>.</div>
+    </div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">II</span> La consultation des électeurs (art. L. 1112-15 CGCT)</div>
+    <ul class="f-list">
+      <li>Elle permet de <strong>recueillir un avis</strong>, pas d'adopter un acte. Un avis n'est pas un acte décisoire.</li>
+      <li>Il faut vérifier que son objet relève bien d'une <strong>affaire de la compétence</strong> de la collectivité.</li>
+      <li>Elle peut ne viser que les électeurs d'une partie de la commune : un quartier, un périmètre identifié.</li>
+      <li>La <strong>décision finale revient à l'autorité compétente</strong>. Un avis n'est jamais contraignant.</li>
+    </ul>
+    <div class="f-alerte"><strong>Piège</strong>Puisque la consultation ne produit qu'un avis, son résultat ne peut pas servir à obtenir l'annulation d'une délibération qui lui serait contraire.</div>
+  </div>
+
+  <div class="f-bloc">
+    <div class="f-bloc-title"><span class="f-num">Méthode</span> Les questions à se poser dans un cas pratique</div>
+    <div class="f-seq">
+      <div class="f-seq-item"><div class="f-seq-num">1</div><div><strong>Vise-t-on l'adoption d'une décision, ou seulement un avis ?</strong> Décision → référendum ; avis → consultation.</div></div>
+      <div class="f-seq-item"><div class="f-seq-num">2</div><div><strong>Qui l'organise ?</strong> L'initiative vient-elle bien de l'assemblée délibérante ou de l'exécutif ?</div></div>
+      <div class="f-seq-item"><div class="f-seq-num">3</div><div><strong>Sur quoi porte-t-il ?</strong> Pour un référendum, un projet de délibération déterminé et arrêté à l'avance ; pour une consultation, une affaire de la compétence de la collectivité.</div></div>
+      <div class="f-seq-item"><div class="f-seq-num">4</div><div><strong>Tombe-t-il sous une interdiction ?</strong> 6 mois avant l'élection de l'assemblée, campagne, jours de scrutin, même objet dans l'année.</div></div>
+      <div class="f-seq-item"><div class="f-seq-num">5</div><div><strong>Quelle valeur a le résultat ?</strong> Référendum : adopté seulement si ½ des inscrits a voté et > ½ des exprimés pour. Consultation : simple avis, l'autorité compétente décide.</div></div>
+    </div>
+  </div>
+
+  <div class="f-retenir">
+    <strong>À retenir</strong>
+    <ul>
+      <li>Référendum = adopter un acte (72-1 al. 2 C. ; LO 1112-1 et s.) · consultation = recueillir un avis (L. 1112-15)</li>
+      <li>Référendum : projet de délibération arrêté avant le vote, pas de décision individuelle</li>
+      <li>Adoption (LO 1112-7) : ½ des inscrits votent ET > ½ des exprimés pour</li>
+      <li>Calendrier (LO 1112-6) : pas dans les 6 mois avant l'élection de l'assemblée, ni pendant la campagne ou les jours de scrutin · pas le même objet dans l'année</li>
+      <li>Consultation : affaire de la compétence de la collectivité, possible sur un quartier, jamais contraignante, ne permet pas d'annuler une délibération contraire</li>
+    </ul>
+  </div>
+  <div class="fiche-nav"><label for="r-s1">← Séance 1</label><label for="r-home">Accueil →</label></div>
+</div>
+</main></div>
+
+
+<footer>
+  <p>Droit des <span>Collectivités Territoriales</span> — Révisions de TD · M1 DPU-EPDA · 2026-2027</p>
+</footer>
+</div>
+</body>
+</html>
